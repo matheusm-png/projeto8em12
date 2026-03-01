@@ -1958,6 +1958,120 @@
   }
   .modal-back:hover { color: white; }
 
+
+  /* ========== FAQ ========== */
+  .faq-section {
+    padding: 120px 0;
+    background: var(--black);
+    position: relative;
+  }
+  .faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,106,0,0.4), transparent);
+  }
+
+  .faq-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .faq-item {
+    background: var(--graphite-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .faq-item.open {
+    border-color: rgba(255,106,0,0.25);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 28px;
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: color 0.2s;
+    line-height: 1.4;
+  }
+  .faq-question:hover { color: var(--orange); }
+  .faq-item.open .faq-question { color: var(--orange); }
+
+  .faq-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--gray-text);
+    transition: all 0.3s;
+    line-height: 1;
+  }
+  .faq-item.open .faq-icon {
+    background: rgba(255,106,0,0.12);
+    border-color: var(--orange);
+    color: var(--orange);
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+  }
+
+  .faq-answer-inner {
+    padding: 0 28px 24px;
+    font-size: 15px;
+    color: var(--gray-text);
+    line-height: 1.75;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 18px;
+  }
+
+  .faq-answer-inner strong {
+    color: white;
+  }
+
+  .faq-cta {
+    text-align: center;
+    margin-top: 56px;
+  }
+
+  .faq-cta-text {
+    font-size: 15px;
+    color: var(--gray-text);
+    margin-bottom: 20px;
+  }
+
 </style>
 </head>
 <body>
@@ -2566,6 +2680,101 @@
   </div>
 </div>
 
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="faq-header reveal">
+      <div class="section-tag">Dúvidas Frequentes</div>
+      <h2 class="section-title">PERGUNTAS <span class="accent">RESPONDIDAS</span></h2>
+      <p style="color:var(--gray-text); font-size:16px; max-width:500px; margin:0 auto; line-height:1.6">
+        Tudo que você precisa saber antes de garantir sua vaga.
+      </p>
+    </div>
+
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Preciso ter experiência em academia?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Não. O Projeto 8 EM 12 foi desenvolvido para funcionar em qualquer nível — desde quem nunca pisou numa academia até quem já treina há anos e parou de evoluir. O protocolo é adaptado para o seu ponto de partida. <strong>O que você precisa é de disposição e compromisso, não de experiência prévia.</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Quanto tempo por dia preciso treinar?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Os treinos são planejados para durar entre <strong>50 e 70 minutos</strong>, com frequência de 4 a 5 vezes por semana. O protocolo de cardio estratégico é separado e leva em média 20 a 30 minutos. A ideia não é passar horas na academia — é treinar com intensidade certa no tempo certo.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Como recebo o material após a compra?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Após a confirmação do pagamento, você recebe acesso imediato ao <strong>app de treino</strong> com o protocolo completo e é adicionado ao <strong>grupo exclusivo no WhatsApp</strong>. A dieta personalizada em PDF é entregue em até <strong>7 dias úteis</strong>, após o Dionatan avaliar seu perfil.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Posso fazer o protocolo com pouco equipamento?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            O protocolo foi desenhado para academia convencional. Você vai precisar de acesso a equipamentos básicos como barra, halteres, cabos e máquinas. <strong>Não é necessário uma academia de ponta</strong> — qualquer academia com estrutura mínima funciona. Treino em casa sem equipamentos não é suportado por este protocolo.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          E se eu não tiver resultado?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            O método funciona — desde que você siga o protocolo. <strong>Treino, dieta e cardio como prescrito, durante as 12 semanas.</strong> Quem cumpre o protocolo à risca transforma o corpo. Se por qualquer motivo você seguiu tudo e não viu evolução, o Dionatan avalia seu caso individualmente. A garantia é do método, não de milagre — a parte do esforço é com você.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Como funciona o pagamento?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            O investimento é de <strong>R$497 à vista</strong> ou parcelado em até <strong>6x no cartão de crédito</strong>. O pagamento é processado de forma segura. Após a confirmação, seu acesso é liberado imediatamente. Restou alguma dúvida sobre o pagamento? Fale direto com o Dionatan pelo WhatsApp.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="faq-cta reveal">
+      <p class="faq-cta-text">Ainda tem alguma dúvida? Fale diretamente com o Dionatan.</p>
+      <a href="javascript:void(0)" onclick="openModal()" class="btn-primary">💬 Tirar dúvidas no WhatsApp</a>
+    </div>
+
+  </div>
+</section>
+
 <!-- CTA FINAL -->
 <section class="cta-final">
   <div class="cta-final-bg"></div>
@@ -2899,6 +3108,16 @@
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
     closeModal();
+  }
+
+
+
+  // ========== FAQ ==========
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
   }
 
 </script>
