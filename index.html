@@ -2057,6 +2057,10 @@
           <input class="modal-input" id="modal-nome" type="text" placeholder="Ex: João Silva" required>
         </div>
         <div class="modal-field">
+          <label class="modal-label">Seu e-mail</label>
+          <input class="modal-input" id="modal-email" type="email" placeholder="Ex: joao@email.com" required>
+        </div>
+        <div class="modal-field">
           <label class="modal-label">Seu WhatsApp (com DDD)</label>
           <input class="modal-input" id="modal-fone" type="tel" placeholder="Ex: 11999998888" required>
         </div>
@@ -2872,15 +2876,17 @@
 
   function submitModal(e) {
     e.preventDefault();
-    const nome = document.getElementById('modal-nome').value.trim();
-    const fone = document.getElementById('modal-fone').value.trim();
-    if (!nome || !fone) return;
+    const nome  = document.getElementById('modal-nome').value.trim();
+    const email = document.getElementById('modal-email').value.trim();
+    const fone  = document.getElementById('modal-fone').value.trim();
+    if (!nome || !email || !fone) return;
 
     const r = modalCalcResult;
     const objLabel = r.objetivo === 'definicao' ? 'Perda de gordura' : r.objetivo === 'massa' ? 'Ganho de massa' : 'Definição + Massa';
 
     let msg = `Olá Dionatan! Quero garantir minha vaga no Projeto 8 EM 12.%0A%0A`;
     msg += `👤 *Nome:* ${nome}%0A`;
+    msg += `📧 *E-mail:* ${email}%0A`;
     msg += `📱 *WhatsApp:* ${fone}%0A%0A`;
     msg += `📊 *Meu perfil calculado:*%0A`;
     msg += `🎯 Objetivo: ${objLabel}%0A`;
