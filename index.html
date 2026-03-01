@@ -1675,9 +1675,266 @@
     .calc-results { padding: 24px; }
   }
 
+
+  /* ========== POPUP / MODAL ========== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-box {
+    background: #111111;
+    border: 1px solid rgba(255,106,0,0.2);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 520px;
+    padding: 48px 44px;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(255,106,0,0.08);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+  .modal-overlay.active .modal-box {
+    transform: translateY(0);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.3);
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    transition: color 0.2s;
+    font-family: sans-serif;
+  }
+  .modal-close:hover { color: white; }
+
+  .modal-badge {
+    display: inline-block;
+    background: rgba(255,106,0,0.12);
+    border: 1px solid rgba(255,106,0,0.35);
+    color: var(--orange);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: white;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+
+  .modal-subtitle {
+    font-size: 14px;
+    color: var(--gray-text);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .modal-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-text);
+  }
+
+  .modal-input {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 15px;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    font-family: 'Barlow', sans-serif;
+  }
+  .modal-input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(255,106,0,0.1);
+  }
+  .modal-input::placeholder { color: rgba(255,255,255,0.2); }
+
+  .modal-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .modal-select {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 15px;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    font-family: 'Barlow', sans-serif;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+  }
+  .modal-select:focus { border-color: var(--orange); }
+  .modal-select option { background: #1a1a1a; }
+
+  .modal-submit {
+    background: var(--gradient-orange);
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 18px 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 30px rgba(255,106,0,0.3);
+    margin-top: 8px;
+    width: 100%;
+  }
+  .modal-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(255,106,0,0.45);
+  }
+
+  .modal-privacy {
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .modal-vagas {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,106,0,0.06);
+    border: 1px solid rgba(255,106,0,0.15);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+  }
+  .modal-vagas-dot {
+    width: 8px; height: 8px;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+
+  @media (max-width: 560px) {
+    .modal-box { padding: 36px 24px; }
+    .modal-row { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
+
+<!-- MODAL POPUP -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <div class="modal-badge">⚡ Vagas Limitadas</div>
+    <h2 class="modal-title">GARANTA SUA<br><span class="text-orange">VAGA AGORA</span></h2>
+    <p class="modal-subtitle">Preencha abaixo e fale direto com o Dionatan no WhatsApp para confirmar sua inscrição.</p>
+
+    <div class="modal-vagas">
+      <div class="modal-vagas-dot"></div>
+      <span>Apenas <strong style="color:white">50 vagas</strong> disponíveis neste lançamento</span>
+    </div>
+
+    <form class="modal-form" onsubmit="submitModal(event)">
+
+      <div class="modal-field">
+        <label class="modal-label">Seu nome completo</label>
+        <input class="modal-input" id="modal-nome" type="text" placeholder="Ex: João Silva" required>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label">Seu WhatsApp (com DDD)</label>
+        <input class="modal-input" id="modal-fone" type="tel" placeholder="Ex: 11999998888" required>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label">Objetivo principal</label>
+        <select class="modal-select" id="modal-objetivo">
+          <option value="Perder gordura e definir">Perder gordura e definir</option>
+          <option value="Ganhar massa muscular">Ganhar massa muscular</option>
+          <option value="Os dois — definição e massa">Os dois: definição e massa</option>
+        </select>
+      </div>
+
+      <div class="modal-row">
+        <div class="modal-field">
+          <label class="modal-label">Idade</label>
+          <input class="modal-input" id="modal-idade" type="number" placeholder="Ex: 28" min="16" max="70">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Peso (kg)</label>
+          <input class="modal-input" id="modal-peso" type="number" placeholder="Ex: 85" min="40" max="200">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Altura (cm)</label>
+          <input class="modal-input" id="modal-altura" type="number" placeholder="Ex: 175" min="140" max="220">
+        </div>
+      </div>
+
+      <button type="submit" class="modal-submit">💬 FALAR COM DIONATAN NO WHATSAPP</button>
+    </form>
+
+    <p class="modal-privacy">🔒 Seus dados são usados apenas para contato. Sem spam.</p>
+  </div>
+</div>
+
 
 <!-- NAVBAR -->
 <nav>
@@ -2117,7 +2374,7 @@
 
           <div class="calc-motivation" id="calc-motivation"></div>
 
-          <a href="https://teamdiou.com.br" class="calc-cta-btn" id="calc-cta-btn">
+          <a href="javascript:void(0)" onclick="openModal()" class="calc-cta-btn" id="calc-cta-btn">
             🔥 Quero garantir minha transformação
           </a>
 
@@ -2149,7 +2406,7 @@
       <li class="pricing-feature">Suporte durante as 12 semanas</li>
       <li class="pricing-feature">Metodologia de atletas de fisiculturismo</li>
     </ul>
-    <a href="https://teamdiou.com.br" class="btn-primary-lg" style="width: 100%; justify-content: center; font-size: 16px;">
+    <a href="javascript:void(0)" onclick="openModal()" class="btn-primary-lg" style="width: 100%; justify-content: center; font-size: 16px;">
       🔒 Garantir Minha Vaga Agora
     </a>
     <p class="pricing-vagas">⚠️ Apenas <strong>50 vagas disponíveis</strong> neste lançamento. Após o preenchimento, a lista fecha.</p>
@@ -2184,7 +2441,7 @@
       12 semanas. 50 vagas. Um método que realmente funciona. Qual é a sua desculpa dessa vez?
     </p>
     <div class="cta-final-actions">
-      <a href="https://teamdiou.com.br" class="btn-primary-lg">
+      <a href="javascript:void(0)" onclick="openModal()" class="btn-primary-lg">
         ⚡ Quero o Projeto 8 em 12
       </a>
     </div>
@@ -2199,7 +2456,7 @@
       <div class="footer-links">
         <a href="#">Termos</a>
         <a href="#">Privacidade</a>
-        <a href="https://teamdiou.com.br">teamdiou.com.br</a>
+        <a href="javascript:void(0)" onclick="openModal()">teamdiou.com.br</a>
       </div>
     </div>
   </div>
@@ -2348,6 +2605,51 @@
       document.getElementById('bar-gordura').style.width = barGordura + '%';
       document.getElementById('bar-massa').style.width = barMassa + '%';
     }, 50);
+  }
+
+
+
+  // ========== MODAL ==========
+  const WHATSAPP_NUMBER = '5574999531223';
+
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOnOverlay(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  function submitModal(e) {
+    e.preventDefault();
+    const nome    = document.getElementById('modal-nome').value.trim();
+    const fone    = document.getElementById('modal-fone').value.trim();
+    const obj     = document.getElementById('modal-objetivo').value;
+    const idade   = document.getElementById('modal-idade').value;
+    const peso    = document.getElementById('modal-peso').value;
+    const altura  = document.getElementById('modal-altura').value;
+
+    if (!nome || !fone) return;
+
+    let msg = `Olá Dionatan! Quero garantir minha vaga no Projeto 8 EM 12.%0A%0A`;
+    msg += `👤 *Nome:* ${nome}%0A`;
+    msg += `📱 *WhatsApp:* ${fone}%0A`;
+    msg += `🎯 *Objetivo:* ${obj}%0A`;
+    if (idade) msg += `🗓 *Idade:* ${idade} anos%0A`;
+    if (peso)  msg += `⚖️ *Peso:* ${peso}kg%0A`;
+    if (altura) msg += `📏 *Altura:* ${altura}cm%0A`;
+    msg += `%0AEstou pronto(a) para começar! 🔥`;
+
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+    closeModal();
   }
 
 </script>
