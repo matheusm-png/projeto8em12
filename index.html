@@ -1874,6 +1874,90 @@
     .modal-row { grid-template-columns: 1fr; }
   }
 
+
+  /* ── MODAL CALCULATOR EXTRAS ── */
+  .modal-box {
+    max-height: 92vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,106,0,0.3) transparent;
+  }
+
+  .modal-calc-grid { display: flex; flex-direction: column; gap: 4px; }
+  .modal-calc-toggles { display: flex; flex-direction: column; }
+
+  .modal-result {
+    background: rgba(255,106,0,0.06);
+    border: 1px solid rgba(255,106,0,0.2);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    margin-top: 20px;
+    animation: fadeInUp 0.3s ease;
+  }
+
+  .modal-result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .modal-result-card {
+    background: rgba(0,0,0,0.3);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .modal-result-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .modal-result-val.green { color: #4ade80; }
+
+  .modal-result-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-text);
+  }
+
+  .modal-result-msg {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    border-left: 2px solid var(--orange);
+    padding-left: 12px;
+  }
+
+  .modal-result-summary {
+    background: rgba(255,106,0,0.08);
+    border: 1px solid rgba(255,106,0,0.2);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+  }
+
+  .modal-back {
+    background: none;
+    border: none;
+    color: var(--gray-text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 4px;
+    font-family: 'Barlow', sans-serif;
+    transition: color 0.2s;
+  }
+  .modal-back:hover { color: white; }
+
 </style>
 </head>
 <body>
@@ -1883,55 +1967,105 @@
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
 
-    <div class="modal-badge">⚡ Vagas Limitadas</div>
-    <h2 class="modal-title">GARANTA SUA<br><span class="text-orange">VAGA AGORA</span></h2>
-    <p class="modal-subtitle">Preencha abaixo e fale direto com o Dionatan no WhatsApp para confirmar sua inscrição.</p>
+    <!-- STEP 1: CALCULADORA -->
+    <div id="modal-step-1">
+      <div class="modal-badge">⚡ Calcule seu resultado</div>
+      <h2 class="modal-title">SEU POTENCIAL EM<br><span class="text-orange">12 SEMANAS</span></h2>
+      <p class="modal-subtitle">Descubra quanto você pode transformar antes de garantir sua vaga.</p>
 
-    <div class="modal-vagas">
-      <div class="modal-vagas-dot"></div>
-      <span>Apenas <strong style="color:white">50 vagas</strong> disponíveis neste lançamento</span>
+      <div class="modal-vagas">
+        <div class="modal-vagas-dot"></div>
+        <span>Apenas <strong style="color:white">50 vagas</strong> disponíveis neste lançamento</span>
+      </div>
+
+      <div class="modal-calc-grid">
+        <div class="modal-calc-toggles">
+          <div class="modal-field">
+            <label class="modal-label">Sexo</label>
+            <div class="calc-toggle-group">
+              <button class="calc-toggle active" data-group="msexo" data-value="M" onclick="setModalToggle(this,'msexo')">Masculino</button>
+              <button class="calc-toggle" data-group="msexo" data-value="F" onclick="setModalToggle(this,'msexo')">Feminino</button>
+            </div>
+          </div>
+          <div class="modal-field" style="margin-top:14px">
+            <label class="modal-label">Objetivo</label>
+            <div class="calc-toggle-group">
+              <button class="calc-toggle active" data-group="mobjetivo" data-value="definicao" onclick="setModalToggle(this,'mobjetivo')">Definição</button>
+              <button class="calc-toggle" data-group="mobjetivo" data-value="massa" onclick="setModalToggle(this,'mobjetivo')">Massa</button>
+              <button class="calc-toggle" data-group="mobjetivo" data-value="ambos" onclick="setModalToggle(this,'mobjetivo')">Os dois</button>
+            </div>
+          </div>
+          <div class="modal-field" style="margin-top:14px">
+            <label class="modal-label">Nível</label>
+            <div class="calc-toggle-group">
+              <button class="calc-toggle active" data-group="mnivel" data-value="iniciante" onclick="setModalToggle(this,'mnivel')">Iniciante</button>
+              <button class="calc-toggle" data-group="mnivel" data-value="intermediario" onclick="setModalToggle(this,'mnivel')">Intermediário</button>
+              <button class="calc-toggle" data-group="mnivel" data-value="avancado" onclick="setModalToggle(this,'mnivel')">Avançado</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-row" style="margin-top:14px">
+          <div class="modal-field">
+            <label class="modal-label">Idade</label>
+            <input class="modal-input" id="m-idade" type="number" min="16" max="70" placeholder="28" oninput="calcModal()">
+          </div>
+          <div class="modal-field">
+            <label class="modal-label">Peso (kg)</label>
+            <input class="modal-input" id="m-peso" type="number" min="40" max="200" placeholder="85" oninput="calcModal()">
+          </div>
+          <div class="modal-field">
+            <label class="modal-label">Altura (cm)</label>
+            <input class="modal-input" id="m-altura" type="number" min="140" max="220" placeholder="175" oninput="calcModal()">
+          </div>
+        </div>
+      </div>
+
+      <!-- resultado da calculadora -->
+      <div class="modal-result" id="modal-result" style="display:none">
+        <div class="modal-result-grid">
+          <div class="modal-result-card">
+            <div class="modal-result-val" id="mr-gordura">—</div>
+            <div class="modal-result-label">Gordura a perder</div>
+          </div>
+          <div class="modal-result-card">
+            <div class="modal-result-val green" id="mr-massa">—</div>
+            <div class="modal-result-label">Massa muscular</div>
+          </div>
+        </div>
+        <div class="modal-result-msg" id="mr-msg"></div>
+      </div>
+
+      <button class="modal-submit" id="modal-btn-avancar" onclick="avancarModal()" style="margin-top:20px; display:none">
+        🔥 <span id="modal-btn-avancar-txt">QUERO ESSE RESULTADO!</span>
+      </button>
+      <p class="modal-privacy" style="margin-top:12px">Sem compromisso — próximo passo é só uma conversa no WhatsApp.</p>
     </div>
 
-    <form class="modal-form" onsubmit="submitModal(event)">
+    <!-- STEP 2: DADOS DE CONTATO -->
+    <div id="modal-step-2" style="display:none">
+      <button class="modal-back" onclick="voltarModal()">← Voltar</button>
 
-      <div class="modal-field">
-        <label class="modal-label">Seu nome completo</label>
-        <input class="modal-input" id="modal-nome" type="text" placeholder="Ex: João Silva" required>
-      </div>
+      <div class="modal-result-summary" id="modal-result-summary"></div>
 
-      <div class="modal-field">
-        <label class="modal-label">Seu WhatsApp (com DDD)</label>
-        <input class="modal-input" id="modal-fone" type="tel" placeholder="Ex: 11999998888" required>
-      </div>
+      <h2 class="modal-title" style="margin-top:16px">FALTA POUCO PARA<br><span class="text-orange">COMEÇAR</span></h2>
+      <p class="modal-subtitle">Preencha seus dados e o Dionatan vai entrar em contato para confirmar sua vaga.</p>
 
-      <div class="modal-field">
-        <label class="modal-label">Objetivo principal</label>
-        <select class="modal-select" id="modal-objetivo">
-          <option value="Perder gordura e definir">Perder gordura e definir</option>
-          <option value="Ganhar massa muscular">Ganhar massa muscular</option>
-          <option value="Os dois — definição e massa">Os dois: definição e massa</option>
-        </select>
-      </div>
-
-      <div class="modal-row">
+      <form class="modal-form" onsubmit="submitModal(event)">
         <div class="modal-field">
-          <label class="modal-label">Idade</label>
-          <input class="modal-input" id="modal-idade" type="number" placeholder="Ex: 28" min="16" max="70">
+          <label class="modal-label">Seu nome completo</label>
+          <input class="modal-input" id="modal-nome" type="text" placeholder="Ex: João Silva" required>
         </div>
         <div class="modal-field">
-          <label class="modal-label">Peso (kg)</label>
-          <input class="modal-input" id="modal-peso" type="number" placeholder="Ex: 85" min="40" max="200">
+          <label class="modal-label">Seu WhatsApp (com DDD)</label>
+          <input class="modal-input" id="modal-fone" type="tel" placeholder="Ex: 11999998888" required>
         </div>
-        <div class="modal-field">
-          <label class="modal-label">Altura (cm)</label>
-          <input class="modal-input" id="modal-altura" type="number" placeholder="Ex: 175" min="140" max="220">
-        </div>
-      </div>
+        <button type="submit" class="modal-submit">💬 GARANTIR MINHA VAGA NO WHATSAPP</button>
+      </form>
 
-      <button type="submit" class="modal-submit">💬 FALAR COM DIONATAN NO WHATSAPP</button>
-    </form>
+      <p class="modal-privacy">🔒 Seus dados são usados apenas para contato. Sem spam.</p>
+    </div>
 
-    <p class="modal-privacy">🔒 Seus dados são usados apenas para contato. Sem spam.</p>
   </div>
 </div>
 
@@ -2611,8 +2745,31 @@
 
   // ========== MODAL ==========
   const WHATSAPP_NUMBER = '5574999531223';
+  const modalToggle = { msexo: 'M', mobjetivo: 'definicao', mnivel: 'iniciante' };
+  let modalCalcResult = {};
 
   function openModal() {
+    // Se calculadora da página já foi usada, pré-preenche o modal
+    const idadeLP  = document.getElementById('idade')?.value;
+    const pesoLP   = document.getElementById('peso')?.value;
+    const alturaLP = document.getElementById('altura')?.value;
+    if (idadeLP)  document.getElementById('m-idade').value  = idadeLP;
+    if (pesoLP)   document.getElementById('m-peso').value   = pesoLP;
+    if (alturaLP) document.getElementById('m-altura').value = alturaLP;
+
+    // Sync toggles
+    ['msexo','mobjetivo','mnivel'].forEach(g => {
+      const srcGroup = g.replace('m','');
+      const srcActive = document.querySelector(`[data-group="${srcGroup}"].active`);
+      if (srcActive) {
+        document.querySelectorAll(`[data-group="${g}"]`).forEach(b => b.classList.remove('active'));
+        const match = document.querySelector(`[data-group="${g}"][data-value="${srcActive.dataset.value}"]`);
+        if (match) { match.classList.add('active'); modalToggle[g] = srcActive.dataset.value; }
+      }
+    });
+
+    calcModal();
+    goToStep(1);
     document.getElementById('modalOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -2628,25 +2785,111 @@
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
+  function goToStep(n) {
+    document.getElementById('modal-step-1').style.display = n === 1 ? 'block' : 'none';
+    document.getElementById('modal-step-2').style.display = n === 2 ? 'block' : 'none';
+  }
+
+  function setModalToggle(btn, group) {
+    document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    modalToggle[group] = btn.dataset.value;
+    calcModal();
+  }
+
+  function calcModal() {
+    const idade  = parseFloat(document.getElementById('m-idade').value);
+    const peso   = parseFloat(document.getElementById('m-peso').value);
+    const altura = parseFloat(document.getElementById('m-altura').value);
+    if (!idade || !peso || !altura || idade < 14 || peso < 30 || altura < 100) {
+      document.getElementById('modal-result').style.display = 'none';
+      document.getElementById('modal-btn-avancar').style.display = 'none';
+      return;
+    }
+
+    const sexo    = modalToggle.msexo;
+    const objetivo = modalToggle.mobjetivo;
+    const nivel   = modalToggle.mnivel;
+    const alturaM = altura / 100;
+    const pesoIdealBase = sexo === 'M'
+      ? 50 + 2.3 * ((altura - 152.4) / 2.54)
+      : 45.5 + 2.3 * ((altura - 152.4) / 2.54);
+    const pesoIdeal = Math.max(pesoIdealBase, 50);
+    const gordulaExcesso = Math.max(0, peso - pesoIdeal * 1.05);
+    const taxaGordura = nivel === 'iniciante' ? 0.0085 : nivel === 'intermediario' ? 0.007 : 0.006;
+    let gorduraPerda = Math.min(peso * taxaGordura * 12 * ((objetivo === 'definicao') ? 1.1 : (objetivo === 'ambos') ? 0.9 : 0.75), gordulaExcesso > 0 ? gordulaExcesso * 0.85 : peso * taxaGordura * 12);
+    gorduraPerda = Math.max(gorduraPerda, 1.5);
+    gorduraPerda = Math.min(gorduraPerda, 14);
+    if (sexo === 'F') gorduraPerda *= 0.85;
+
+    const potMassa = nivel === 'iniciante' ? (sexo === 'M' ? 3.5 : 2.0) : nivel === 'intermediario' ? (sexo === 'M' ? 1.8 : 1.1) : (sexo === 'M' ? 0.9 : 0.55);
+    let massaGanho = potMassa * ((objetivo === 'massa') ? 1.15 : (objetivo === 'ambos') ? 1.0 : 0.65);
+    if (idade > 40) massaGanho *= 0.85;
+    if (idade > 50) massaGanho *= 0.80;
+
+    let perfil, msg;
+    if (nivel === 'iniciante' && (peso / (alturaM * alturaM)) >= 25) {
+      perfil = '🔥 POTENCIAL MÁXIMO';
+      msg = 'Iniciantes com sobrepeso têm os resultados mais expressivos. Você está no ponto ideal para uma transformação radical.';
+    } else if (nivel === 'avancado') {
+      perfil = '⚡ ATLETA EM EVOLUÇÃO';
+      msg = 'Você já tem base. O protocolo de nível atlético do Dionatan vai quebrar seu platô e levar sua evolução a outro nível.';
+    } else if (objetivo === 'massa') {
+      perfil = '💪 CONSTRUTOR DE FÍSICO';
+      msg = `Com o protocolo correto de nutrição e treino de intensidade, ${massaGanho.toFixed(1)}kg de músculo real em 12 semanas é completamente alcançável no seu perfil.`;
+    } else {
+      perfil = '🎯 TRANSFORMAÇÃO TOTAL';
+      msg = `Seu perfil indica uma transformação consistente. Com o método certo, ${gorduraPerda.toFixed(1)}kg de gordura a menos e um corpo mais atlético em 12 semanas.`;
+    }
+
+    modalCalcResult = { gorduraPerda, massaGanho, perfil, msg, objetivo, nivel, sexo, idade, peso, altura };
+
+    document.getElementById('mr-gordura').textContent = gorduraPerda.toFixed(1) + ' kg';
+    document.getElementById('mr-massa').textContent   = '+' + massaGanho.toFixed(1) + ' kg';
+    document.getElementById('mr-msg').textContent     = msg;
+    document.getElementById('modal-result').style.display = 'block';
+
+    // CTA dinâmico
+    const ctaTxt = objetivo === 'massa'
+      ? `QUERO GANHAR +${massaGanho.toFixed(1)}KG DE MASSA!`
+      : `QUERO PERDER ${gorduraPerda.toFixed(1)}KG EM 12 SEMANAS!`;
+    document.getElementById('modal-btn-avancar-txt').textContent = ctaTxt;
+    document.getElementById('modal-btn-avancar').style.display = 'block';
+  }
+
+  function avancarModal() {
+    const r = modalCalcResult;
+    const objLabel = r.objetivo === 'definicao' ? 'Perda de gordura' : r.objetivo === 'massa' ? 'Ganho de massa' : 'Definição + Massa';
+    document.getElementById('modal-result-summary').innerHTML =
+      `<strong style="color:var(--orange)">${r.perfil}</strong><br>
+       Perda estimada: <strong style="color:white">${r.gorduraPerda.toFixed(1)}kg de gordura</strong> &nbsp;|&nbsp;
+       Ganho estimado: <strong style="color:#4ade80">+${r.massaGanho.toFixed(1)}kg de massa</strong><br>
+       <span style="font-size:12px;opacity:0.6">Objetivo: ${objLabel} · ${r.nivel} · ${r.sexo === 'M' ? 'Masc.' : 'Fem.'} · ${r.idade} anos · ${r.peso}kg · ${r.altura}cm</span>`;
+    goToStep(2);
+  }
+
+  function voltarModal() { goToStep(1); }
+
   function submitModal(e) {
     e.preventDefault();
-    const nome    = document.getElementById('modal-nome').value.trim();
-    const fone    = document.getElementById('modal-fone').value.trim();
-    const obj     = document.getElementById('modal-objetivo').value;
-    const idade   = document.getElementById('modal-idade').value;
-    const peso    = document.getElementById('modal-peso').value;
-    const altura  = document.getElementById('modal-altura').value;
-
+    const nome = document.getElementById('modal-nome').value.trim();
+    const fone = document.getElementById('modal-fone').value.trim();
     if (!nome || !fone) return;
+
+    const r = modalCalcResult;
+    const objLabel = r.objetivo === 'definicao' ? 'Perda de gordura' : r.objetivo === 'massa' ? 'Ganho de massa' : 'Definição + Massa';
 
     let msg = `Olá Dionatan! Quero garantir minha vaga no Projeto 8 EM 12.%0A%0A`;
     msg += `👤 *Nome:* ${nome}%0A`;
-    msg += `📱 *WhatsApp:* ${fone}%0A`;
-    msg += `🎯 *Objetivo:* ${obj}%0A`;
-    if (idade) msg += `🗓 *Idade:* ${idade} anos%0A`;
-    if (peso)  msg += `⚖️ *Peso:* ${peso}kg%0A`;
-    if (altura) msg += `📏 *Altura:* ${altura}cm%0A`;
-    msg += `%0AEstou pronto(a) para começar! 🔥`;
+    msg += `📱 *WhatsApp:* ${fone}%0A%0A`;
+    msg += `📊 *Meu perfil calculado:*%0A`;
+    msg += `🎯 Objetivo: ${objLabel}%0A`;
+    msg += `🗓 Idade: ${r.idade} anos%0A`;
+    msg += `⚖️ Peso: ${r.peso}kg%0A`;
+    msg += `📏 Altura: ${r.altura}cm%0A`;
+    msg += `📉 Gordura a perder: ${r.gorduraPerda.toFixed(1)}kg%0A`;
+    msg += `💪 Massa a ganhar: +${r.massaGanho.toFixed(1)}kg%0A%0A`;
+    msg += `Estou pronto(a) para começar! 🔥`;
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
     closeModal();
