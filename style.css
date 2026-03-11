@@ -1,0 +1,74 @@
+/* style.css - Projeto 8 EM 12 */
+:root {
+  --orange: #FF6A00;
+  --orange-dark: #CC5200;
+  --orange-glow: rgba(255, 106, 0, 0.25);
+  --black: #0D0D0D;
+  --graphite: #111111;
+  --white: #FFFFFF;
+  --gray: #888888;
+  --radius-lg: 24px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Efeito de Ruído Premium */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+/* Navbar Glassmorphism */
+nav {
+  position: fixed;
+  top: 0; width: 100%; z-index: 100; padding: 20px 0;
+  background: rgba(13, 13, 13, 0.6);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 106, 0, 0.1);
+}
+
+/* Hero Section */
+.hero { min-height: 100vh; display: flex; align-items: center; padding-top: 100px; position: relative; }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 8vw, 90px); line-height: 0.9; }
+.hero-title span.accent { color: var(--orange); }
+
+/* Grid de Resultados (Para as suas fotos novas) */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 50px 0;
+}
+.result-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--graphite);
+}
+.result-card img { width: 100%; transition: 0.5s; display: block; }
+.result-card:hover img { transform: scale(1.05); }
+
+/* CALCULADORA (Estilo do seu código original resumido) */
+.calc-card {
+  background: var(--graphite);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--orange-glow);
+}
+/* ... Adicione o restante do seu CSS aqui ... */
