@@ -2,45 +2,31 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Projeto 8 EM 12 – Consultoria Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto 8 EM 12</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav>
         <div class="container">
-            <div class="logo-text">PROJETO <span>8 EM 12</span></div>
-            <a href="#calculadora" class="btn-nav">Calcular Plano</a>
+            <h2 style="font-family: 'Bebas Neue'; color: var(--orange);">PROJETO 8 EM 12</h2>
         </div>
     </nav>
 
-    <section class="hero">
+    <header class="hero">
         <div class="container">
-            <h1 class="hero-title">CORPO <span class="accent">ESTÉTICO</span> EM 12 SEMANAS</h1>
-            <p>Abaixo, use a calculadora para ver sua projeção de resultados.</p>
+            <h1>TRANSFORME SEU <br><span>FÍSICO</span></h1>
         </div>
-    </section>
+    </header>
 
-    <section id="resultados" class="container">
-        <h2 style="margin-top:50px">Resultados de Alunos</h2>
+    <section class="results-section container">
+        <h2 style="margin-bottom: 30px; text-align: center;">RESULTADOS REAIS</h2>
         <div class="results-grid">
             <div class="result-card"><img src="assets/foto1.webp" loading="lazy"></div>
             <div class="result-card"><img src="assets/foto2.webp" loading="lazy"></div>
             <div class="result-card"><img src="assets/foto3.webp" loading="lazy"></div>
             <div class="result-card"><img src="assets/foto4.webp" loading="lazy"></div>
-        </div>
-    </section>
-
-    <section id="calculadora" class="container">
-        <div class="calc-card">
-            <h2>Calculadora de Potencial</h2>
-            <input type="number" id="peso" placeholder="Seu Peso (kg)">
-            <input type="number" id="altura" placeholder="Sua Altura (cm)">
-            <button onclick="calculateResults()" class="btn-primary">VER MEU RESULTADO</button>
-            <div id="resultado-display">
-                <p>Gordura a perder: <span id="res-gordura">-</span></p>
-                <p>Massa a ganhar: <span id="res-massa">-</span></p>
-            </div>
         </div>
     </section>
 
