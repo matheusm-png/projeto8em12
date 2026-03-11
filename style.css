@@ -1,87 +1,48 @@
-/* style.css - PROJETO 8 EM 12 */
 :root {
-  --orange: #FF6A00;
-  --orange-dark: #CC5200;
-  --orange-glow: rgba(255, 106, 0, 0.25);
-  --black: #0D0D0D;
-  --graphite: #111111;
-  --graphite-2: #1A1A1A;
-  --white: #FFFFFF;
-  --gray: #888888;
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --orange: #FF6A00;
+    --black: #0D0D0D;
+    --graphite: #1A1A1A;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-    background: var(--black); 
-    color: var(--white); 
-    font-family: 'Barlow', sans-serif; 
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-/* Efeito de Ruído que você gosta */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 9999;
-}
-
+body { background: var(--black); color: white; font-family: 'Barlow', sans-serif; margin: 0; }
+.bebas { font-family: 'Bebas Neue', sans-serif; }
+.orange { color: var(--orange); }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* NAVBAR */
-nav {
-  position: fixed; top: 0; width: 100%; z-index: 1000;
-  background: rgba(13, 13, 13, 0.8);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255, 106, 0, 0.2);
-  padding: 15px 0;
+/* Grid de Lifestyle - O diferencial */
+.lifestyle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 50px auto;
 }
 
-/* HERO SECTION */
-.hero { padding: 160px 0 80px; text-align: center; position: relative; }
-.hero h1 { font-family: 'Bebas Neue'; font-size: clamp(4rem, 10vw, 7rem); line-height: 0.9; color: var(--white); }
-.hero h1 span { color: var(--orange); }
+.card-img {
+    height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333;
+}
 
-/* GRADE DE RESULTADOS (Para suas novas fotos) */
-.results-section { padding: 80px 0; }
+.card-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: 0.5s filter;
+    filter: grayscale(100%);
+}
+
+.card-img:hover img { filter: grayscale(0%); }
+
+/* Resultados */
 .results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
-.result-card {
-  background: var(--graphite-2);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.05);
-  transition: var(--transition);
-}
-.result-card:hover { transform: translateY(-10px); border-color: var(--orange); }
-.result-card img { width: 100%; height: auto; display: block; }
 
-/* CALCULADORA (Estilo Original) */
-.calc-container {
-  background: var(--graphite);
-  padding: 40px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--orange-glow);
-  max-width: 600px; margin: 40px auto;
+.result-card img {
+    width: 100%; border-radius: 16px; 
+    border: 2px solid var(--graphite);
+    transition: 0.3s;
 }
-input {
-  width: 100%; padding: 15px; margin-bottom: 15px;
-  background: var(--graphite-2); border: 1px solid #333;
-  color: white; border-radius: 8px;
-}
-.btn-primary {
-  background: var(--orange); color: white; border: none;
-  padding: 18px 30px; width: 100%; font-weight: bold;
-  cursor: pointer; border-radius: 8px; transition: 0.3s;
-}
-.btn-primary:hover { background: var(--orange-dark); box-shadow: 0 0 20px var(--orange-glow); }
 
-/* ... (O restante do seu CSS original de modais e botões vai aqui) ... */
+.result-card:hover img { border-color: var(--orange); transform: translateY(-5px); }
