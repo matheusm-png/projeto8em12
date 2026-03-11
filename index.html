@@ -5,49 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projeto 8 EM 12 – Dionatan Alves</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --orange: #FF6A00;
+            --black: #0D0D0D;
+            --graphite: #1A1A1A;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--black); color: white; font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+        
+        /* Efeito de Ruído Premium */
+        body::before {
+            content: ""; position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 9999;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Nav */
+        nav { padding: 20px 0; border-bottom: 1px solid rgba(255,106,0,0.2); }
+        .logo { font-family: 'Bebas Neue'; font-size: 2rem; color: white; text-align: center; }
+        .logo span { color: var(--orange); }
+
+        /* Hero */
+        .hero { padding: 80px 0; text-align: center; }
+        .hero h1 { font-family: 'Bebas Neue'; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 0.9; margin-bottom: 20px; }
+        .hero h1 span { color: var(--orange); }
+        
+        .hero-main-img { 
+            width: 100%; max-width: 600px; border-radius: 20px; 
+            border: 2px solid var(--orange); box-shadow: 0 0 30px rgba(255,106,0,0.2);
+            margin: 40px 0;
+        }
+
+        /* Galeria Autoridade */
+        .authority-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px; margin: 40px 0;
+        }
+        .authority-grid img { 
+            width: 100%; height: 250px; object-fit: cover; border-radius: 12px; 
+            filter: grayscale(1); transition: 0.5s; border: 1px solid #333;
+        }
+        .authority-grid img:hover { filter: grayscale(0); transform: scale(1.02); border-color: var(--orange); }
+
+        /* Antes e Depois */
+        .results-section { background: #111; padding: 80px 0; border-radius: 40px 40px 0 0; }
+        .results-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin-top: 40px;
+        }
+        .results-grid img { width: 100%; border-radius: 15px; border: 1px solid #444; }
+
+        /* Botões */
+        .btn {
+            display: inline-block; background: var(--orange); color: white; 
+            padding: 18px 40px; border-radius: 10px; font-weight: 900;
+            text-decoration: none; font-size: 1.2rem; transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255,106,0,0.3);
+        }
+        .btn:hover { transform: translateY(-3px); background: #e65c00; }
+
+        /* Calculadora Minimalista */
+        #calculadora { padding: 80px 0; text-align: center; }
+        .calc-box { background: #1A1A1A; padding: 40px; border-radius: 24px; border: 1px solid #333; max-width: 600px; margin: 0 auto; }
+        input { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #444; color: white; border-radius: 8px; }
+    </style>
 </head>
 <body>
-    <div class="grain-overlay"></div>
 
-    <nav>
-        <div class="container nav-container" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
-            <div class="logo" style="font-family: 'Bebas Neue'; font-size: 1.8rem; color: #FFF;">PROJETO <span style="color: #FF6A00;">8 EM 12</span></div>
-            <a href="#calculadora" class="btn-nav" style="background: #FF6A00; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">COMEÇAR AGORA</a>
+    <nav><div class="container"><div class="logo">PROJETO <span>8 EM 12</span></div></div></nav>
+
+    <section class="hero container">
+        <h1>TRANSFORME SEU <br><span>FÍSICO</span></h1>
+        <p>O método de elite de Dionatan Alves para 12 semanas.</p>
+        <img src="assets/dramatica1.webp" class="hero-main-img" alt="Dionatan Alves">
+        <br><br>
+        <a href="#calculadora" class="btn">QUERO MEU PLANO</a>
+    </section>
+
+    <section class="container">
+        <div class="authority-grid">
+            <img src="assets/treinandoramondino.webp">
+            <img src="assets/premio1.webp">
+            <img src="assets/intenso1.webp">
+            <img src="assets/professor1.webp">
         </div>
-    </nav>
+    </section>
 
-    <section class="hero" style="padding: 150px 0 60px; text-align: center;">
+    <section id="resultados" class="results-section">
         <div class="container">
-            <h1 style="font-family: 'Bebas Neue'; font-size: clamp(3rem, 10vw, 6rem); line-height: 0.9; color: #FFF;">CONSTRUA UM <br><span style="color: #FF6A00;">CORPO ESTÉTICO</span></h1>
-            <p style="color: #888; font-size: 1.2rem; margin: 20px 0;">O método de 12 semanas com Dionatan Alves.</p>
-            <div style="max-width: 500px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 2px solid #FF6A00;">
-                <img src="assets/dramatica1.webp" alt="Dionatan" style="width: 100%; display: block;">
+            <h2 style="font-family: 'Bebas Neue'; font-size: 3rem; text-align: center;">RESULTADOS <span style="color: var(--orange);">REAIS</span></h2>
+            <div class="results-grid">
+                <img src="assets/antesedepois1.webp">
+                <img src="assets/antesedepois.2.webp">
+                <img src="assets/antesedepois.3.webp">
+                <img src="assets/antesedepois.4.webp">
             </div>
         </div>
     </section>
 
-    <section class="container" style="padding: 40px 20px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-            <div class="img-card"><img src="assets/treinandoramondino.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
-            <div class="img-card"><img src="assets/premio1.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
-            <div class="img-card"><img src="assets/intenso1.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
-            <div class="img-card"><img src="assets/professor1.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
+    <section id="calculadora" class="container">
+        <div class="calc-box">
+            <h2 style="font-family: 'Bebas Neue'; font-size: 2.5rem; margin-bottom: 20px;">CALCULADORA DE POTENCIAL</h2>
+            <input type="number" id="peso" placeholder="Seu Peso (kg)">
+            <input type="number" id="altura" placeholder="Sua Altura (cm)">
+            <button class="btn" onclick="enviarZap()" style="border: none; cursor: pointer; width: 100%; margin-top: 20px;">CALCULAR AGORA</button>
         </div>
     </section>
 
-    <section id="resultados" style="padding: 60px 0; background: #111;">
-        <div class="container">
-            <h2 style="font-family: 'Bebas Neue'; font-size: 3rem; color: #FF6A00; text-align: center; margin-bottom: 30px;">RESULTADOS REAIS</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 0 20px;">
-                <img src="assets/antesedepois1.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
-                <img src="assets/antesedepois.2.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
-                <img src="assets/antesedepois.3.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
-                <img src="assets/antesedepois.4.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
-            </div>
-        </div>
-    </section>
-
-    <script src="script.js"></script>
+    <script>
+        function enviarZap() {
+            const peso = document.getElementById('peso').value;
+            const altura = document.getElementById('altura').value;
+            if(!peso || !altura) return alert('Preencha os dados!');
+            
+            const texto = `Olá Dionatan! Usei a calculadora do site. Meu peso é ${peso}kg e minha altura ${altura}cm. Quero meu plano do Projeto 8 em 12!`;
+            window.open(`https://wa.me/5548991316526?text=${encodeURIComponent(texto)}`, '_blank');
+        }
+    </script>
 </body>
 </html>
