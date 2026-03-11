@@ -11,46 +11,42 @@
     <div class="grain-overlay"></div>
 
     <nav>
-        <div class="container nav-container">
-            <div class="logo">PROJETO <span>8 EM 12</span></div>
-            <a href="#calculadora" class="btn-nav">COMEÇAR AGORA</a>
+        <div class="container nav-container" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+            <div class="logo" style="font-family: 'Bebas Neue'; font-size: 1.8rem; color: #FFF;">PROJETO <span style="color: #FF6A00;">8 EM 12</span></div>
+            <a href="#calculadora" class="btn-nav" style="background: #FF6A00; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">COMEÇAR AGORA</a>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="container hero-grid">
-            <div class="hero-text">
-                <h1 class="bebas">CONSTRUA UM <br><span class="orange">CORPO ESTÉTICO</span></h1>
-                <p>O método de 12 semanas para quem busca máxima definição e performance.</p>
-                <a href="#calculadora" class="btn-main">CALCULAR MEU PLANO</a>
-            </div>
-            <div class="hero-img">
-                <img src="assets/dramatica1.webp" alt="Dionatan Alves">
-            </div>
-        </div>
-    </section>
-
-    <section class="lifestyle-grid container">
-        <div class="card-img"><img src="assets/treinandoramondino.webp" alt="Treino Ramon Dino"></div>
-        <div class="card-img"><img src="assets/premio1.webp" alt="Premiação"></div>
-        <div class="card-img"><img src="assets/intenso1.webp" alt="Treino Intenso"></div>
-        <div class="card-img"><img src="assets/professor1.webp" alt="Consultoria"></div>
-    </section>
-
-    <section id="resultados" class="results-section">
+    <section class="hero" style="padding: 150px 0 60px; text-align: center;">
         <div class="container">
-            <h2 class="bebas section-title">RESULTADOS <span class="orange">REAIS</span></h2>
-            <div class="results-grid">
-                <div class="result-card"><img src="assets/antesedepois1.webp" loading="lazy"></div>
-                <div class="result-card"><img src="assets/antesedepois.2.webp" loading="lazy"></div>
-                <div class="result-card"><img src="assets/antesedepois.3.webp" loading="lazy"></div>
-                <div class="result-card"><img src="assets/antesedepois.4.webp" loading="lazy"></div>
+            <h1 style="font-family: 'Bebas Neue'; font-size: clamp(3rem, 10vw, 6rem); line-height: 0.9; color: #FFF;">CONSTRUA UM <br><span style="color: #FF6A00;">CORPO ESTÉTICO</span></h1>
+            <p style="color: #888; font-size: 1.2rem; margin: 20px 0;">O método de 12 semanas com Dionatan Alves.</p>
+            <div style="max-width: 500px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 2px solid #FF6A00;">
+                <img src="assets/dramatica1.webp" alt="Dionatan" style="width: 100%; display: block;">
             </div>
         </div>
     </section>
 
-    <section id="calculadora" class="container">
-        </section>
+    <section class="container" style="padding: 40px 20px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div class="img-card"><img src="assets/treinandoramondino.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
+            <div class="img-card"><img src="assets/premio1.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
+            <div class="img-card"><img src="assets/intenso1.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
+            <div class="img-card"><img src="assets/professor1.webp" style="width: 100%; border-radius: 12px; filter: grayscale(100%); transition: 0.4s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'"></div>
+        </div>
+    </section>
+
+    <section id="resultados" style="padding: 60px 0; background: #111;">
+        <div class="container">
+            <h2 style="font-family: 'Bebas Neue'; font-size: 3rem; color: #FF6A00; text-align: center; margin-bottom: 30px;">RESULTADOS REAIS</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 0 20px;">
+                <img src="assets/antesedepois1.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
+                <img src="assets/antesedepois.2.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
+                <img src="assets/antesedepois.3.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
+                <img src="assets/antesedepois.4.webp" style="width: 100%; border-radius: 15px; border: 1px solid #333;">
+            </div>
+        </div>
+    </section>
 
     <script src="script.js"></script>
 </body>
