@@ -1,30 +1,101 @@
-// script.js - Projeto 8 EM 12
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Lógica da Calculadora
-    window.calculateResults = function() {
-        const peso = parseFloat(document.getElementById('peso').value);
-        const altura = parseFloat(document.getElementById('altura').value);
-        
-        if (!peso || !altura) return alert("Preencha peso e altura!");
+// Observe reveals
+document.querySelectorAll('.reveal, .reveal-scale').forEach(el => observer.observe(el));
 
-        // Exemplo de cálculo (substitua pela sua fórmula original se desejar)
-        const gorduraPerda = peso * 0.12; 
-        const massaGanho = 2.5;
+// Numeric Counter Animations
+const countObserver = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      if (el.dataset.animated) return;
+      el.dataset.animated = "true";
+      
+      const targetStr = el.dataset.target || el.innerText.replace(/\D/g, '');
+      const target = parseInt(targetStr);
+      if (!target) return;
+      
+      let current = 0;
+      const increment = target / 40;
+      const originalHTML = el.innerHTML;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.innerHTML = originalHTML.replace(/\d+/, Math.floor(current));
+      }, 30);
+      
+      obs.unobserve(el);
+    }
+  });
+}, { threshold: 0.1 });
 
-        document.getElementById('res-gordura').innerText = gorduraPerda.toFixed(1) + "kg";
-        document.getElementById('res-massa').innerText = "+" + massaGanho.toFixed(1) + "kg";
-        
-        // Abre o modal de captura
-        document.getElementById('modal').style.display = 'flex';
-    };
-});
+// Start observing numeric counters
+document.querySelectorAll('.stat-big, .stat-number').forEach(el => countObserver.observe(el));
 
-// Envio para WhatsApp
-function sendToWhatsApp() {
-    const nome = document.getElementById('modal-nome').value;
-    const fone = document.getElementById('modal-fone').value;
-    const texto = `Olá! Meu nome é ${nome}. Acabei de calcular meu plano no site e quero minha vaga no Projeto 8 em 12!`;
-    const url = `https://wa.me/5547999999999?text=${encodeURIComponent(texto)}`; // AJUSTE SEU NÚMERO AQUI
-    window.open(url, '_blank');
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
