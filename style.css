@@ -730,18 +730,6 @@ section {
   overflow: hidden;
 }
 
-.protocol-card::before {
-  content: '8\2009em\200912';
-  position: absolute;
-  top: -20px;
-  right: -10px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 120px;
-  color: rgba(255, 106, 0, 0.04);
-  letter-spacing: -2px;
-  line-height: 1;
-  pointer-events: none;
-}
 
 .protocol-weeks {
   display: grid;
@@ -1434,6 +1422,47 @@ footer {
 
 .float {
   animation: floatAnim 4s ease-in-out infinite;
+}
+
+@keyframes glitchTremble {
+
+  0%,
+  94% {
+    transform: translate(0, 0);
+    text-shadow: none;
+  }
+
+  95% {
+    transform: translate(-2px, 2px);
+    text-shadow: 2px 0 var(--orange);
+  }
+
+  96% {
+    transform: translate(2px, -2px);
+    text-shadow: -2px 0 var(--orange);
+  }
+
+  97% {
+    transform: translate(-2px, 0);
+    text-shadow: none;
+  }
+
+  98% {
+    transform: translate(2px, 2px);
+  }
+
+  99% {
+    transform: translate(-1px, -1px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.glitch-text {
+  display: inline-block;
+  animation: glitchTremble 4s infinite;
 }
 
 .pulse-glow {
