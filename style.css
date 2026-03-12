@@ -693,9 +693,10 @@ section {
   z-index: 1;
 }
 
-/* ===== PROTOCOL ===== */
 .protocol {
-  background: var(--graphite);
+  background:
+    linear-gradient(rgba(13, 13, 13, 0.85), rgba(13, 13, 13, 0.95)),
+    url("assets/professor3.webp") center center / cover fixed no-repeat;
   position: relative;
   overflow: hidden;
 }
