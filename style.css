@@ -248,8 +248,8 @@ nav .container {
 }
 
 .hero-title .outline {
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
-  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.05);
 }
 
 .hero-subtitle {
