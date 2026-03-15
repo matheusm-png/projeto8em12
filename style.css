@@ -82,6 +82,12 @@ nav .container {
   text-decoration: none;
 }
 
+.logo-svg {
+  height: 72px;
+  width: auto;
+  display: block;
+}
+
 .logo-mark {
   width: 36px;
   height: 36px;
@@ -236,7 +242,7 @@ nav .container {
 
 .hero-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(60px, 7vw, 96px);
+  font-size: clamp(80px, 10vw, 140px);
   line-height: 0.95;
   letter-spacing: 2px;
   margin-bottom: 24px;
@@ -250,6 +256,17 @@ nav .container {
 .hero-title .outline {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
   color: rgba(255, 255, 255, 0.05);
+}
+
+.hero-tagline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+  animation: fadeUp 0.6s 0.1s ease both;
 }
 
 .hero-subtitle {
@@ -412,6 +429,16 @@ nav .container {
   background:
     radial-gradient(ellipse at 50% 30%, rgba(255, 106, 0, 0.15) 0%, transparent 60%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='40%25' r='60%25'%3E%3Cstop offset='0%25' stop-color='%23FF6A00' stop-opacity='0.08'/%3E%3Cstop offset='100%25' stop-color='transparent'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='400' height='500' fill='url(%23g)'/%3E%3C/svg%3E");
+  z-index: 0;
+}
+
+.hero-image-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 13, 13, 0) 40%, rgba(13, 13, 13, 0.92) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .athlete-silhouette {
@@ -447,7 +474,7 @@ nav .container {
   border: 1px solid rgba(255, 106, 0, 0.2);
   backdrop-filter: blur(12px);
   border-radius: var(--radius-sm);
-  padding: 12px 18px;
+  padding: 16px 24px;
   z-index: 3;
 }
 
@@ -463,17 +490,17 @@ nav .container {
 
 .stat-number {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
+  font-size: 42px;
   color: var(--orange);
   line-height: 1;
 }
 
 .stat-label {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--gray);
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 /* ===== SECTION STATS ===== */
@@ -1516,6 +1543,21 @@ footer {
   }
 
   .hero-right {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .hero-image-container {
+    aspect-ratio: auto;
+    height: 300px;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-image-placeholder {
+    background-position: center 20%;
+  }
+
+  .floating-stat {
     display: none;
   }
 
