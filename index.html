@@ -4,14 +4,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projeto 8 EM 12 – Dionatan Alves</title>
+  <title>Projeto 8 EM 12 | Dionatan Alves</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <!-- dataLayer init — deve vir ANTES do GTM -->
+  <script>window.dataLayer = window.dataLayer || [];</script>
+
+  <!-- Google Tag Manager — substituir GTM-XXXXXXX pelo ID real -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+
+  <!-- Microsoft Clarity — substituir CLARITY_ID_AQUI pelo ID real -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","CLARITY_ID_AQUI");
+  </script>
+
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- MODAL POPUP -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
@@ -87,11 +110,11 @@
         <div class="modal-result" id="modal-result" style="display:none">
           <div class="modal-result-grid">
             <div class="modal-result-card">
-              <div class="modal-result-val" id="mr-gordura">—</div>
+              <div class="modal-result-val" id="mr-gordura">0</div>
               <div class="modal-result-label">Gordura a perder</div>
             </div>
             <div class="modal-result-card">
-              <div class="modal-result-val green" id="mr-massa">—</div>
+              <div class="modal-result-val green" id="mr-massa">0</div>
               <div class="modal-result-label">Massa muscular</div>
             </div>
           </div>
@@ -122,7 +145,7 @@
             <input class="modal-input" id="modal-nome" type="text" placeholder="Ex: João Silva" required>
           </div>
           <div class="modal-field">
-            <label class="modal-label">Seu e-mail</label>
+            <label class="modal-label">Seu email</label>
             <input class="modal-input" id="modal-email" type="email" placeholder="Ex: joao@email.com" required>
           </div>
           <div class="modal-field">
@@ -143,10 +166,10 @@
   <nav>
     <div class="container">
       <a href="#" class="logo">
-        <img src="assets/logo.svg" alt="Team Diou" class="logo-svg">
+        <img src="assets/logo/logo.svg" alt="Team Diou" class="logo-svg">
       </a>
       <ul class="nav-links">
-        <li><a href="#services">Protocolo</a></li>
+        <li><a href="#protocolo">Protocolo</a></li>
         <li><a href="#about">Especialista</a></li>
         <li><a href="#pricing">Investimento</a></li>
         <li><a href="#faq">FAQ</a></li>
@@ -168,38 +191,33 @@
           </div>
           <div class="hero-logo-title">
             <div class="hero-logo-wrap">
-              <img src="assets/8em12logo_branca.webp" alt="8 EM 12" class="hero-logo-img">
+              <img src="assets/logo/8em12logo_branca.webp" alt="8 EM 12" class="hero-logo-img">
             </div>
           </div>
           <p class="hero-tagline">
-            Perca 8kg em 12 semanas<br>
+            Perca mais de 8kg em 12 semanas<br>
             Com protocolo de atleta
           </p>
-          <p class="hero-subtitle">
-            Treino com intensidade real. Dieta personalizada. Resultado de fisiculturismo aplicado à sua vida.
-          </p>
+          <!-- Bloco de Impacto Emocional e Promessa -->
+          <div style="margin-top: 32px; margin-bottom: 48px; border-left: 3px solid var(--orange); padding-left: 24px; animation: fadeUp 0.8s 0.2s ease both;">
+            <p style="font-size: 18px; color: var(--gray-light); font-weight: 400; font-style: italic; line-height: 1.5; margin-bottom: 8px; max-width: 550px;">
+              "Você já tentou. Dieta. Procedimento. Aquela academia cara."
+            </p>
+            <p style="font-size: 18px; color: var(--white); font-weight: 600; line-height: 1.5; margin-bottom: 12px; max-width: 550px;">
+              O problema não é falta de esforço. É método. Seu corpo destrói músculo quando as 3 variáveis estão erradas.
+            </p>
+            <p style="font-size: 22px; color: var(--white); font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; max-width: 480px;">
+              Treino com intensidade real. Dieta personalizada. <br>
+              <span style="color:var(--orange)">Resultado de fisiculturismo</span> aplicado à sua vida.
+            </p>
+          </div>
           <div class="hero-cta">
             <a href="#pricing" class="btn-primary">
               GARANTIR MINHA VAGA
             </a>
-            <a href="#services" class="btn-secondary">
+            <a href="#protocolo" class="btn-secondary">
               50 VAGAS · LANÇAMENTO
             </a>
-          </div>
-          <div class="hero-social-proof">
-            <div class="avatars">
-              <div class="avatar">MP</div>
-              <div class="avatar">RL</div>
-              <div class="avatar">JT</div>
-              <div class="avatar">CS</div>
-            </div>
-            <div>
-              <div class="stars">★★★★★</div>
-              <div class="social-text">
-                <strong>+200 alunos transformados</strong>
-                com o método Dionatan
-              </div>
-            </div>
           </div>
         </div>
         <div class="hero-right">
@@ -208,7 +226,7 @@
               <div class="athlete-silhouette">8/12</div>
               <div class="hero-image-card">
                 <div class="hero-image-name">DIONATAN ALVES</div>
-                <div class="hero-image-title">Pós-Grad. Bodybuilder Coach · DYHIT Certified</div>
+                <div class="hero-image-title">Pós Graduado Bodybuilder Coach · DYHIT Certified</div>
               </div>
             </div>
           </div>
@@ -238,7 +256,7 @@
           <div class="stat-desc">corpos transformados</div>
         </div>
         <div class="stat-item">
-          <div class="stat-big">8<span>kg</span></div>
+          <div class="stat-big">10<span>kg</span></div>
           <div class="stat-desc">de resultado médio</div>
         </div>
         <div class="stat-item">
@@ -249,133 +267,83 @@
     </div>
   </div>
 
-  <!-- SERVICES -->
-  <section class="services" id="services">
+  <!-- DEPOIMENTO ANA HELENA -->
+  <section class="testimonial-single">
     <div class="container">
-      <div class="services-header reveal">
-        <div class="section-tag">O Que Você Recebe</div>
-        <h2 class="section-title">
-          TUDO QUE VOCÊ PRECISA<br>
-          PARA UMA <span class="accent">TRANSFORMAÇÃO REAL</span>
-        </h2>
-        <p class="section-subtitle">
-          Método completo inspirado na preparação de atletas de fisiculturismo. Adaptado para você.
-        </p>
-      </div>
-      <div class="services-grid">
-        <div class="service-card reveal reveal-delay-1">
-          <div class="service-icon">🏋️</div>
-          <div class="service-name">Treino Individualizado</div>
-          <div class="service-desc">Protocolo montado para o seu nível. Intensidade real, progressão semana a semana.</div>
+      <div class="testimonial-single-inner reveal">
+        <div class="testimonial-single-photo">
+          <img src="assets/depo/depo1.webp" alt="Ana Helena Adler">
+          <div class="testimonial-single-photo-overlay"></div>
         </div>
-        <div class="service-card reveal reveal-delay-2">
-          <div class="service-icon">🥗</div>
-          <div class="service-name">Dieta Personalizada</div>
-          <div class="service-desc">PDF com seu plano alimentar + lista completa de substituições. Sem achismo, sem fórmula genérica.</div>
-        </div>
-        <div class="service-card reveal reveal-delay-3">
-          <div class="service-icon">🏃</div>
-          <div class="service-name">Cardio Estratégico</div>
-          <div class="service-desc">O terceiro pilar que a maioria ignora. Aplicado do jeito certo, queima gordura sem destruir músculo.</div>
-        </div>
-        <div class="service-card reveal reveal-delay-1">
-          <div class="service-icon">💬</div>
-          <div class="service-name">Suporte Direto</div>
-          <div class="service-desc">Grupo exclusivo no WhatsApp com acesso ao coach durante as 12 semanas.</div>
-        </div>
-        <div class="service-card reveal reveal-delay-2">
-          <div class="service-icon">🏆</div>
-          <div class="service-name">Método de Atleta</div>
-          <div class="service-desc">A mesma base de preparação do fisiculturismo, adaptada para quem tem vida real.</div>
+        <div class="testimonial-single-content">
+          <div class="testimonial-single-badge">✦ Depoimento real, sem edição</div>
+          <div class="testimonial-single-quote">"</div>
+          <p class="testimonial-single-text">Cara, o projeto foi <span class="depo-mark depo-mark--wave"><strong>essencial na minha vida!</strong><svg viewBox="0 0 200 12" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M1,9 C20,4 45,12 75,7 C105,2 135,10 165,6 C180,4 193,8 199,7"/></svg></span> Foi através dele que eu aprendi a treinar de verdade, ter segurança nos exercícios, não ter medo de comer… Eu contratei o projeto porque ia <span class="depo-mark depo-mark--line depo-mark--delay-1">operar a coluna<svg viewBox="0 0 200 10" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M1,7 C40,5 80,9 120,6 C160,3 185,8 199,7"/></svg></span> e queria melhorar minha composição corporal e condicionamento físico, e os resultados que tive me ajudaram muito a ter um <span class="depo-mark depo-mark--circle depo-mark--delay-2">pós-cirúrgico <strong>INCRÍVEL</strong><svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M50,4 C74,1 98,18 97,50 C96,82 72,98 50,96 C28,99 3,81 4,50 C5,19 28,2 52,5"/></svg></span>. Foi uma experiência fantástica. 🤟🏻</p>
+          <div class="testimonial-single-author">
+            <div class="testimonial-single-name">Ana Helena Adler</div>
+            <div class="testimonial-single-role">Aluna do Projeto 8 EM 12</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROTOCOL -->
-  <section class="protocol" id="protocol">
+  <!-- PROTOCOLO RESUMO -->
+  <section class="metodo-resumo" id="protocolo">
     <div class="container">
-      <div class="protocol-grid">
-        <div class="protocol-visual reveal">
-          <div class="protocol-card">
-            <div class="protocol-weeks">
-              <div class="week-block active">
-                <div class="week-num">1–4</div>
-                <div class="week-label">Adaptação</div>
-              </div>
-              <div class="week-block active">
-                <div class="week-num">5–8</div>
-                <div class="week-label">Intensidade</div>
-              </div>
-              <div class="week-block active">
-                <div class="week-num">9–12</div>
-                <div class="week-label">Peak</div>
-              </div>
-            </div>
-            <div class="progress-bar-container">
-              <div class="progress-label">
-                <span>Definição Muscular</span>
-                <span>+85%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 85%;"></div>
-              </div>
-              <div class="progress-label">
-                <span>Perda de Gordura</span>
-                <span>+78%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 78%;"></div>
-              </div>
-              <div class="progress-label">
-                <span>Força e Performance</span>
-                <span>+92%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 92%;"></div>
-              </div>
-            </div>
-            <div style="font-size: 13px; color: var(--gray); text-align: center;">
-              Resultados médios reportados pelos participantes
-            </div>
-          </div>
+
+      <div class="reveal" style="text-align: center; margin-bottom: 52px;">
+        <div class="section-tag" style="justify-content: center;">O Método</div>
+        <h2 class="section-title">
+          INTENSIDADE REAL.<br><span class="accent">RESULTADO REAL.</span>
+        </h2>
+      </div>
+
+      <!-- 3 pilares -->
+      <div class="metodo-pilares reveal">
+        <div class="metodo-pilar">
+          <div class="metodo-pilar-icon">🏋️</div>
+          <div class="metodo-pilar-name">Treino Individualizado</div>
+          <div class="metodo-pilar-desc">Protocolo de atleta adaptado ao seu nível e objetivo.</div>
         </div>
-        <div class="protocol-text reveal reveal-delay-2">
-          <div class="section-tag">O Método</div>
-          <h2 class="section-title">
-            INTENSIDADE REAL.<br><span class="accent">RESULTADO REAL.</span>
-          </h2>
-          <p style="color: var(--gray); font-size: 15px; line-height: 1.8; margin-bottom: 8px;">
-            Não existe transformação sem esforço honesto. O Projeto 8 EM 12 é uma mini preparação de atleta com toda a estrutura e sem os extremos. Você vai treinar com método, comer com inteligência e entender o que o seu corpo é capaz de fazer em 12 semanas.
-          </p>
-          <ul class="protocol-bullets">
-            <li class="protocol-bullet">
-              <div class="bullet-icon">🔥</div>
-              <div class="bullet-content">
-                <div class="bullet-title">Treino com Intensidade Real</div>
-                <div class="bullet-desc">Nenhuma modalidade esportiva desenvolve as características estéticas do corpo
-                  como o fisiculturismo. Você vai treinar como atleta.</div>
-              </div>
-            </li>
-            <li class="protocol-bullet">
-              <div class="bullet-icon">📋</div>
-              <div class="bullet-content">
-                <div class="bullet-title">Nutrição Baseada em Ciência</div>
-                <div class="bullet-desc">Dieta personalizada para o seu perfil. Sem restrições absurdas. Com lista de
-                  substituições para caber na sua rotina.</div>
-              </div>
-            </li>
-            <li class="protocol-bullet">
-              <div class="bullet-icon">⚡</div>
-              <div class="bullet-content">
-                <div class="bullet-title">Cardio Estratégico</div>
-                <div class="bullet-desc">Protocolo cardiorrespiratório preciso. O suficiente para acelerar a queima sem
-                  comprometer o desenvolvimento muscular.</div>
-              </div>
-            </li>
-          </ul>
+        <div class="metodo-pilar">
+          <div class="metodo-pilar-icon">🥗</div>
+          <div class="metodo-pilar-name">Dieta Personalizada</div>
+          <div class="metodo-pilar-desc">PDF com seu plano alimentar. Sem achismo, sem fórmula genérica.</div>
+        </div>
+        <div class="metodo-pilar">
+          <div class="metodo-pilar-icon">⚡</div>
+          <div class="metodo-pilar-name">Cardio Estratégico</div>
+          <div class="metodo-pilar-desc">Queima gordura sem destruir o músculo que você está construindo.</div>
         </div>
       </div>
+
+      <!-- 3 fases -->
+      <div class="metodo-fases reveal">
+        <div class="metodo-fase">
+          <div class="metodo-fase-badge" style="background: #ff9d66;">SEM 1–4</div>
+          <div class="metodo-fase-title">ADAPTAÇÃO</div>
+          <div class="metodo-fase-desc">Técnica, calibração e primeiros resultados</div>
+        </div>
+        <div class="metodo-fase-arrow">→</div>
+        <div class="metodo-fase">
+          <div class="metodo-fase-badge" style="background: var(--orange);">SEM 5–8</div>
+          <div class="metodo-fase-title">INTENSIDADE</div>
+          <div class="metodo-fase-desc">Cargas sobem, definição começa a aparecer</div>
+        </div>
+        <div class="metodo-fase-arrow">→</div>
+        <div class="metodo-fase">
+          <div class="metodo-fase-badge" style="background: #cc4400;">SEM 9–12</div>
+          <div class="metodo-fase-title">PEAK</div>
+          <div class="metodo-fase-desc">Treino, dieta e cardio em sinergia total</div>
+        </div>
+      </div>
+
+      <!-- CTA para página do método -->
+      <div class="reveal" style="text-align: center; margin-top: 48px;">
+        <a href="metodo.html" class="btn-metodo">Ver o método completo →</a>
+      </div>
+
     </div>
   </section>
 
@@ -392,18 +360,25 @@
         </p>
       </div>
 
-      <div class="before-after-grid reveal-scale reveal-delay-2">
-        <div class="before-after-card">
-          <img src="assets/antesedepois1.webp" alt="Resultado de Aluno 1">
-        </div>
-        <div class="before-after-card">
-          <img src="assets/antesedepois.2.webp" alt="Resultado de Aluno 2">
-        </div>
-        <div class="before-after-card">
-          <img src="assets/antesedepois.3.webp" alt="Resultado de Aluno 3">
-        </div>
-        <div class="before-after-card">
-          <img src="assets/antesedepois.4.webp" alt="Resultado de Aluno 4">
+      <div class="ba-carousel-track-wrapper">
+        <div class="ba-carousel-track">
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois1.webp" alt="Transformação 1"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois.2.webp" alt="Transformação 2"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois.3.webp" alt="Transformação 3"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois.4.webp" alt="Transformação 4"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois6.webp" alt="Transformação 6"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois5.webp" alt="Transformação 5"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois7.webp" alt="Transformação 7"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois8.webp" alt="Transformação 8"></div>
+          <!-- duplicadas para loop infinito -->
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois1.webp" alt="Transformação 1"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois.2.webp" alt="Transformação 2"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois.3.webp" alt="Transformação 3"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois.4.webp" alt="Transformação 4"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois6.webp" alt="Transformação 6"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois5.webp" alt="Transformação 5"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois7.webp" alt="Transformação 7"></div>
+          <div class="ba-card"><img src="assets/antes-depois/antesedepois8.webp" alt="Transformação 8"></div>
         </div>
       </div>
     </div>
@@ -416,8 +391,11 @@
         <div class="section-tag" style="justify-content: center;">Elegibilidade</div>
         <div class="section-tag::before" style="display:none;"></div>
         <h2 class="section-title">
-          ESSE DESAFIO<br>É <span class="accent">PARA VOCÊ?</span>
+          SEJA HONESTO<br>CONSIGO <span class="accent">MESMO.</span>
         </h2>
+        <p class="section-subtitle" style="margin: 0 auto; margin-bottom: 32px; font-weight: 600; color: white;">
+          A fisiologia é honesta. O método funciona para quem aplica. Veja se é o seu caso:
+        </p>
         <p class="section-subtitle" style="margin: 0 auto;">
           O Projeto 8 em 12 não é para qualquer um. É para quem está pronto para um compromisso real.
         </p>
@@ -482,18 +460,18 @@
         <div class="expert-image-wrap reveal">
           <div class="expert-image-box" id="expertCarousel">
             <div class="expert-carousel-track" id="expertCarouselTrack">
-              <div class="expert-carousel-item" style="background-image: url('assets/dramatica.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/dramatica2.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/dramatica3.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/dramatica4.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/professor1.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/professor2.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/professor3.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/professor4.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/intenso1.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/intenso2.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/treinandoramondino.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/premio1.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/hero/dramatica.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/hero/dramatica2.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/hero/dramatica3.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/hero/dramatica4.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/professor/professor1.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/professor/professor2.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/professor/professor3.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/professor/professor4.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/hero/intenso1.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/hero/intenso2.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/professor/treinandoramondino.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/misc/premio1.webp');"></div>
             </div>
 
             <button class="carousel-btn prev" id="carouselPrev">❮</button>
@@ -511,7 +489,7 @@
             FORMADO PARA<br><span class="accent">TRANSFORMAR</span><br>CORPOS
           </h2>
           <p style="color: var(--gray); font-size: 15px; line-height: 1.8; margin-bottom: 32px;">
-            Dionatan Alves é formado em Educação Física, pós-graduado em Bodybuilder Coach e certificado Master Training DYHIT by Dorian Yates, um dos maiores fisiculturistas da história. Co-fundador da War Zone e treinador de atletas amadores de fisiculturismo, Dionatan criou o Projeto 8 EM 12 para levar o método de preparação atlética para pessoas comuns que querem resultado de verdade.
+            Dionatan Alves é formado em Educação Física, pós graduado em Bodybuilder Coach e certificado Master Training DYHIT by Dorian Yates, um dos maiores fisiculturistas da história. Cofundador da War Zone e treinador de atletas amadores de fisiculturismo, Dionatan criou o Projeto 8 EM 12 para levar o método de preparação atlética para pessoas comuns que querem resultado de verdade.
           </p>
           <div class="expert-credentials">
             <div class="credential">
@@ -520,7 +498,7 @@
             </div>
             <div class="credential">
               <div class="credential-icon">🏅</div>
-              Pós-Graduado em Bodybuilder Coach
+              Pós Graduado em Bodybuilder Coach
             </div>
             <div class="credential">
               <div class="credential-icon">⚡</div>
@@ -532,7 +510,7 @@
             </div>
             <div class="credential">
               <div class="credential-icon">👥</div>
-              Co-Fundador War Zone · Treinador de Atletas Amadores
+              Cofundador War Zone · Treinador de Atletas Amadores
             </div>
           </div>
         </div>
@@ -807,6 +785,18 @@
 
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFaq(this)">
+            Por que 12 semanas e não menos?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              12 semanas é o intervalo mínimo para o corpo consolidar adaptações crônicas reais: transição de fibras musculares, aumento de sensibilidade à insulina via GLUT4 e expansão do volume plasmático. Menos que isso e você sai antes do resultado aparecer de verdade.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
             Quantas vagas têm disponíveis?
             <span class="faq-icon">+</span>
           </button>
@@ -836,7 +826,10 @@
         COMEÇA AGORA.
       </h2>
       <p class="cta-final-subtitle">
-        50 vagas. 12 semanas. O melhor físico da sua vida.
+        O Dionatan monta cada dieta individualmente. São 50 vagas e ponto.
+      </p>
+      <p class="cta-final-subtitle" style="font-size: 15px; margin-top: -15px; opacity: 0.9;">
+        12 semanas é o tempo que a fisiologia confirma para adaptações crônicas reais. Não é prazo de marketing.
       </p>
       <div class="cta-final-actions">
         <a href="javascript:void(0)" onclick="openModal()" class="btn-primary-lg pulse-glow">
@@ -852,13 +845,35 @@
       <div class="footer-inner">
         <div class="footer-copy">© 2025 TeamDiou · Dionatan Alves. Todos os direitos reservados.</div>
         <div class="footer-links">
-          <a href="#">Termos</a>
-          <a href="#">Privacidade</a>
+          <a href="termos.html">Termos</a>
+          <a href="privacidade.html">Privacidade</a>
           <a href="javascript:void(0)" onclick="openModal()">teamdiou.com.br</a>
         </div>
       </div>
     </div>
   </footer>
+
+  <!-- WHATSAPP BOT FLUTUANTE -->
+  <div class="wbot-fab" id="wbotFab" onclick="wbotOpen()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.852L.054 23.25a.75.75 0 00.916.916l5.398-1.478A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a10 10 0 01-5.197-1.452l-.362-.214-3.75 1.026 1.026-3.75-.214-.362A10 10 0 1112 22z"/>
+    </svg>
+    <div class="wbot-fab-ring"></div>
+  </div>
+
+  <div class="wbot-popup" id="wbotPopup">
+    <div class="wbot-header">
+      <div class="wbot-avatar">D</div>
+      <div class="wbot-header-info">
+        <div class="wbot-hname">Dionatan · TeamDiou</div>
+        <div class="wbot-hstatus"><span class="wbot-dot"></span>Online agora</div>
+      </div>
+      <button class="wbot-close" onclick="wbotClose()">✕</button>
+    </div>
+    <div class="wbot-messages" id="wbotMessages"></div>
+    <div class="wbot-input-area" id="wbotInputArea"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>

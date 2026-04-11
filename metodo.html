@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O Método | Projeto 8 EM 12</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .metodo-page {
+      padding: 140px 0 100px;
+    }
+
+    /* ---- HERO ---- */
+    .metodo-hero {
+      text-align: center;
+      margin-bottom: 96px;
+    }
+    .metodo-hero .section-tag { justify-content: center; }
+    .metodo-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 8vw, 88px);
+      letter-spacing: 2px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .metodo-hero-sub {
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ---- O QUE VOCÊ RECEBE ---- */
+    .metodo-recebe {
+      margin-bottom: 100px;
+    }
+    .metodo-recebe-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      margin-bottom: 40px;
+      letter-spacing: 1px;
+    }
+    .metodo-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .metodo-card {
+      background: var(--graphite-2);
+      border: 1px solid rgba(255,106,0,0.12);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .metodo-card:hover {
+      border-color: rgba(255,106,0,0.35);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 30px rgba(255,106,0,0.08);
+    }
+    .metodo-card-icon {
+      font-size: 32px;
+      background: rgba(255,106,0,0.1);
+      border-radius: var(--radius-sm);
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .metodo-card-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .metodo-card-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ---- DIVISOR ---- */
+    .metodo-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,106,0,0.2), transparent);
+      margin: 80px 0;
+    }
+
+    /* ---- PILARES CIENTÍFICOS ---- */
+    .metodo-ciencia-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .metodo-ciencia-sub {
+      color: var(--gray);
+      font-size: 15px;
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 48px;
+    }
+    .metodo-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+    .metodo-bullet {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .metodo-bullet-icon {
+      font-size: 24px;
+      background: rgba(255,106,0,0.12);
+      border-radius: 12px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,106,0,0.2);
+    }
+    .metodo-bullet-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .metodo-bullet-desc {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.75;
+    }
+
+    /* ---- TIMELINE FASES ---- */
+    .metodo-fases-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      margin-bottom: 40px;
+      letter-spacing: 1px;
+    }
+    .metodo-timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .metodo-fase-card {
+      background: var(--graphite-2);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      border-top: 3px solid var(--fase-color, var(--orange));
+    }
+    .metodo-fase-card .fase-badge {
+      display: inline-block;
+      background: var(--fase-color, var(--orange));
+      color: white;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+    .metodo-fase-card .fase-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      color: var(--white);
+    }
+    .metodo-fase-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .metodo-fase-card ul li {
+      font-size: 14px;
+      color: var(--gray-light);
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+    .metodo-fase-card ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--fase-color, var(--orange));
+      font-size: 12px;
+    }
+    .metodo-cite {
+      font-size: 12px;
+      color: var(--gray);
+      opacity: 0.7;
+    }
+
+    /* ---- CTA ---- */
+    .metodo-cta {
+      text-align: center;
+      background: var(--graphite-2);
+      border: 1px solid rgba(255,106,0,0.15);
+      border-radius: var(--radius-lg);
+      padding: 64px 40px;
+      margin-top: 80px;
+    }
+    .metodo-cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 6vw, 64px);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .metodo-cta-sub {
+      color: var(--gray);
+      font-size: 16px;
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 768px) {
+      .metodo-timeline { grid-template-columns: 1fr; }
+      .metodo-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo/8em12logo_branca.webp" alt="Team Diou" class="logo-svg">
+      </a>
+      <a href="index.html#pricing" class="btn-nav">Garantir Vaga</a>
+    </div>
+  </nav>
+
+  <main class="metodo-page">
+    <div class="container">
+
+      <a href="index.html" class="legal-back">← Voltar ao site</a>
+
+      <!-- HERO -->
+      <div class="metodo-hero">
+        <div class="section-tag" style="justify-content: center;">O Método Completo</div>
+        <h1 class="metodo-hero-title">
+          INTENSIDADE REAL.<br><span class="accent">RESULTADO REAL.</span>
+        </h1>
+        <p class="metodo-hero-sub">
+          O Projeto 8 EM 12 é uma mini preparação de atleta com toda a estrutura — e sem os extremos. Treino com método, dieta com ciência, cardio com estratégia.
+        </p>
+      </div>
+
+      <!-- O QUE VOCÊ RECEBE -->
+      <div class="metodo-recebe">
+        <h2 class="metodo-recebe-title">TUDO QUE ESTÁ INCLUÍDO</h2>
+        <div class="metodo-cards">
+          <div class="metodo-card">
+            <div class="metodo-card-icon">🏋️</div>
+            <div class="metodo-card-name">Treino Individualizado</div>
+            <div class="metodo-card-desc">Protocolo montado para o seu nível. Intensidade real, progressão semana a semana. Nada genérico.</div>
+          </div>
+          <div class="metodo-card">
+            <div class="metodo-card-icon">🥗</div>
+            <div class="metodo-card-name">Dieta Personalizada</div>
+            <div class="metodo-card-desc">PDF com seu plano alimentar + lista completa de substituições. Macros calculados por grupo alimentar para o seu objetivo.</div>
+          </div>
+          <div class="metodo-card">
+            <div class="metodo-card-icon">🏃</div>
+            <div class="metodo-card-name">Cardio Estratégico</div>
+            <div class="metodo-card-desc">O terceiro pilar que a maioria ignora. 4x por semana, 50 minutos. Calculado para queimar gordura sem destruir músculo.</div>
+          </div>
+          <div class="metodo-card">
+            <div class="metodo-card-icon">💬</div>
+            <div class="metodo-card-name">Suporte Direto</div>
+            <div class="metodo-card-desc">Grupo exclusivo no WhatsApp com acesso ao Dionatan durante as 12 semanas. Dúvidas respondidas, ajustes feitos.</div>
+          </div>
+          <div class="metodo-card">
+            <div class="metodo-card-icon">🏆</div>
+            <div class="metodo-card-name">Método de Atleta</div>
+            <div class="metodo-card-desc">A mesma base de preparação do fisiculturismo competitivo, adaptada para quem tem rotina, trabalho e vida real.</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="metodo-divider">
+
+      <!-- PILARES CIENTÍFICOS -->
+      <div class="metodo-ciencia">
+        <h2 class="metodo-ciencia-title">POR QUE FUNCIONA</h2>
+        <p class="metodo-ciencia-sub">
+          Não existe transformação sem esforço honesto. Mas esforço sem método é desperdício. O 8 EM 12 combina os três pilares que a fisiologia do exercício confirma serem necessários para transformação corporal real.
+        </p>
+        <div class="metodo-bullets">
+          <div class="metodo-bullet">
+            <div class="metodo-bullet-icon">🔥</div>
+            <div>
+              <div class="metodo-bullet-title">Treino com Intensidade Real</div>
+              <div class="metodo-bullet-desc">O fisiculturismo recruta fibras de contração rápida Tipo IIa — as que têm maior potencial de hipertrofia. Nenhuma outra modalidade faz isso de forma tão sistemática. O protocolo do 8 EM 12 usa os mesmos princípios de sobrecarga progressiva que preparações de atletas, adaptados à realidade de quem tem vida. Você vai treinar como atleta.</div>
+            </div>
+          </div>
+          <div class="metodo-bullet">
+            <div class="metodo-bullet-icon">📋</div>
+            <div>
+              <div class="metodo-bullet-title">Nutrição Baseada em Ciência</div>
+              <div class="metodo-bullet-desc">A dieta do protocolo mantém equilíbrio nitrogenado positivo — preservando músculo enquanto o déficit calórico foca na gordura. Macros são controlados por grupo alimentar, não por calorias genéricas. Resultado: você perde gordura sem catabolismo, sem passar fome de forma irracional, sem abrir mão de comer de verdade.</div>
+            </div>
+          </div>
+          <div class="metodo-bullet">
+            <div class="metodo-bullet-icon">⚡</div>
+            <div>
+              <div class="metodo-bullet-title">Cardio Estratégico</div>
+              <div class="metodo-bullet-desc">Cardio com glicogênio controlado força o corpo a usar gordura como combustível via lipólise. Executado 4x por semana, 50 minutos por sessão, no momento certo em relação ao treino de força. Calculado para maximizar a queima de gordura sem destruir o que você está construindo no treino de resistência.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="metodo-divider">
+
+      <!-- TIMELINE DE FASES -->
+      <div class="metodo-fases-section">
+        <h2 class="metodo-fases-title">AS 3 FASES DO PROTOCOLO</h2>
+        <div class="metodo-timeline">
+          <div class="metodo-fase-card" style="--fase-color: #ff9d66;">
+            <div class="fase-badge">SEM 1 a 4</div>
+            <div class="fase-title">ADAPTAÇÃO</div>
+            <ul>
+              <li>Corpo aprende o movimento. Técnica antes de carga</li>
+              <li>Dieta calibrada para o seu perfil (entregue em até 7 dias úteis)</li>
+              <li>Cardio 4x por semana, 50 minutos por sessão</li>
+              <li>Primeiros ajustes de composição corporal</li>
+            </ul>
+          </div>
+          <div class="metodo-fase-card" style="--fase-color: #ff6a00;">
+            <div class="fase-badge">SEM 5 a 8</div>
+            <div class="fase-title">INTENSIDADE</div>
+            <ul>
+              <li>Cargas aumentam. O corpo já está pronto para trabalhar</li>
+              <li>Protocolo de cutting em execução: macros controlados por grupo alimentar</li>
+              <li>Cardio mantido com progressão de intensidade</li>
+              <li>Definição começa a aparecer visivelmente</li>
+            </ul>
+          </div>
+          <div class="metodo-fase-card" style="--fase-color: #cc4400;">
+            <div class="fase-badge">SEM 9 a 12</div>
+            <div class="fase-title">PEAK</div>
+            <ul>
+              <li>Protocolo no pico. Treino, dieta e cardio em sinergia total</li>
+              <li>Gordura subcutânea no alvo</li>
+              <li>Físico atlético tomando forma</li>
+              <li>Resultado final: seu melhor físico</li>
+            </ul>
+          </div>
+        </div>
+        <p class="metodo-cite">Base científica: Scott Powers, Fisiologia do Exercício. Adaptações confirmadas em protocolos de 12 semanas.</p>
+      </div>
+
+      <!-- CTA FINAL -->
+      <div class="metodo-cta">
+        <h2 class="metodo-cta-title">PRONTO PARA <span class="accent">COMEÇAR?</span></h2>
+        <p class="metodo-cta-sub">50 vagas. Dieta e treino montados individualmente pelo Dionatan.</p>
+        <a href="index.html#pricing" class="btn-primary-lg pulse-glow">GARANTIR MINHA VAGA</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-copy">© 2025 TeamDiou · Dionatan Alves. Todos os direitos reservados.</div>
+        <div class="footer-links">
+          <a href="termos.html">Termos</a>
+          <a href="privacidade.html">Privacidade</a>
+          <a href="index.html">teamdiou.com.br</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
