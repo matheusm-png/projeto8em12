@@ -409,8 +409,8 @@ function voltarModal() {
 function submitModal(e) {
   e.preventDefault();
   const nome = document.getElementById('modal-nome').value;
-  const email = document.getElementById('modal-email').value;
   const fone = document.getElementById('modal-fone').value;
+  const email = ''; // coletado no checkout
 
   const resultDiv = document.getElementById('modal-result');
   const hasResults = resultDiv.style.display !== 'none';
@@ -463,8 +463,18 @@ function submitModal(e) {
     content_name: 'Projeto 8 EM 12'
   });
 
-  closeModal();
-  window.location.href = 'https://checkout.infinitepay.io/projeto8em12';
+  // Mostra step 3 de agradecimento
+  step2.style.display = 'none';
+  const step3 = document.getElementById('modal-step-3');
+  step3.style.display = 'block';
+  document.getElementById('modal-thanks-nome').innerText = nome;
+
+  // Abre checkout em nova aba e fecha modal após 2.5s
+  window.open('https://link.infinitepay.io/diou-alves/VC1DLUMtSQ-3Q51Xws4F-497,00', '_blank');
+  setTimeout(() => {
+    step3.style.display = 'none';
+    closeModal();
+  }, 2500);
 }
 
 // =============================================================
@@ -493,29 +503,29 @@ function wbotStart() {
   msgs.innerHTML = '';
   wbotStep = 1;
   wbotData = { nome: '', objetivo: '' };
-  wbotTyping(800, () => {
-    wbotAddMsg('bot', 'Oi! 👋 Antes de te levar ao Dionatan, me conta rapidinho:');
-    wbotTyping(1000, () => {
-      wbotAddMsg('bot', 'Qual é o <strong>seu nome</strong>?');
-      wbotShowInput('text', 'Digite seu nome...', (val) => {
+  wbotTyping(700, () => {
+    wbotAddMsg('bot', 'Fala! 👋 O Dionatan pediu pra eu organizar a fila pra não te deixar esperando.');
+    wbotTyping(900, () => {
+      wbotAddMsg('bot', 'Qual é o seu <strong>primeiro nome</strong>?');
+      wbotShowInput('text', 'Seu nome...', (val) => {
         wbotData.nome = val.trim();
         wbotAddMsg('user', wbotData.nome);
         wbotStep = 2;
-        wbotTyping(900, () => {
-          wbotAddMsg('bot', `Oi, <strong>${wbotData.nome}</strong>! 💪`);
+        wbotTyping(800, () => {
+          wbotAddMsg('bot', `${wbotData.nome}! Boa. 💪`);
           wbotTyping(700, () => {
-            wbotAddMsg('bot', 'Qual é o seu <strong>objetivo</strong> com o Projeto 8 EM 12?');
+            wbotAddMsg('bot', 'Qual é o seu <strong>objetivo principal</strong>?');
             wbotShowButtons([
-              { label: '🔥 Definição', value: 'Definição' },
-              { label: '💪 Ganhar Massa', value: 'Ganhar Massa' },
-              { label: '⚡ Os dois', value: 'Definição e Massa' }
+              { label: '🔥 Perder gordura', value: 'perder gordura' },
+              { label: '💪 Ganhar massa', value: 'ganhar massa muscular' },
+              { label: '⚡ Os dois', value: 'perder gordura e ganhar massa' }
             ], (val) => {
               wbotData.objetivo = val;
               wbotAddMsg('user', val);
               wbotStep = 3;
-              wbotTyping(1000, () => {
-                wbotAddMsg('bot', 'Perfeito! 🔥 Preparei tudo pro Dionatan. É só clicar abaixo:');
-                const msg = `Oi Dionatan! Me chamo ${wbotData.nome} e meu objetivo é ${wbotData.objetivo}. Quero saber mais sobre o Projeto 8 EM 12!`;
+              wbotTyping(900, () => {
+                wbotAddMsg('bot', 'O Dionatan já ajudou muita gente com esse mesmo objetivo. 🎯 Preparei sua mensagem:');
+                const msg = `Oi Dionatan! Me chamo ${wbotData.nome}, vim pelo site do Projeto 8 EM 12. Meu objetivo é ${wbotData.objetivo} e quero saber como garantir minha vaga!`;
                 pushEvent('whatsapp_lead', {
                   lead_name: wbotData.nome,
                   objetivo: wbotData.objetivo,
@@ -584,6 +594,152 @@ function wbotShowButtons(options, cb) {
     });
   });
 }
+
+// =============================================================
+// HERO RIGHT CAROUSEL — cross-fade Dionatan ↔ Antes/Depois
+// =============================================================
+(function () {
+  const img     = document.getElementById('hrcImgInner');
+  const imgCard = document.getElementById('hrcImgCard');
+  const stat1   = document.getElementById('hrcStat1');
+  const stat2   = document.getElementById('hrcStat2');
+  const dots    = document.querySelectorAll('.hrc-dot');
+  console.log('[HRC] init — img:', !!img, 'dots:', dots.length);
+  if (!img) return;
+
+  let current = 0;
+
+  const slides = [
+    {
+      bg: "url('assets/hero/dramatica1.webp') center top / cover no-repeat",
+      bgPos: 'center top',
+      filter: 'none',
+      card: `<div class="hero-image-name">DIONATAN ALVES</div>
+             <div class="hero-image-title">Pós Graduado Bodybuilder Coach · DYHIT Certified</div>`,
+      stat1: `<div style="font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--orange);line-height:1">12</div>
+              <div style="font-size:13px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-top:4px">Semanas</div>`,
+      stat2: `<div style="font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--orange);line-height:1">50</div>
+              <div style="font-size:13px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-top:4px">Vagas disponíveis</div>`
+    },
+    {
+      bg: "url('assets/antes-depois/antesedepois2_home.webp') center center / cover no-repeat",
+      bgPos: 'center center',
+      filter: 'grayscale(1) contrast(1.1) brightness(0.9)',
+      card: `<div class="hero-image-name">TRANSFORMAÇÃO REAL</div>
+             <div class="hero-image-title">Protocolo: 12 Semanas · Método 8 em 12</div>`,
+      stat1: `<div style="font-family:'Bebas Neue',sans-serif;font-size:42px;color:#FF6A00;line-height:1">-10<span style="font-size:22px">kg</span></div>
+              <div style="font-size:13px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-top:4px">Resultado médio</div>`,
+      stat2: `<div style="display:flex;align-items:center;gap:10px; cursor: pointer;" onclick="document.getElementById('resultados').scrollIntoView({behavior:'smooth'})">
+                <div style="width:36px;height:36px;border-radius:50%;background:#FF6A00;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">A</div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:white;line-height:1.2">Conheça o depoimento da Ana</div>
+                  <div style="font-size:11px;color:#4ade80;margin-top:2px">✓ Aluna do Projeto 8 EM 12</div>
+                </div>
+              </div>`
+    }
+  ];
+
+  function goTo(idx) {
+    current = ((idx % slides.length) + slides.length) % slides.length;
+    const s = slides[current];
+
+    // fade out
+    [img, stat1, stat2].forEach(el => { el.style.transition = 'opacity 0.35s ease'; el.style.opacity = '0'; });
+
+    setTimeout(() => {
+      // troca background e filtro via inline style
+      img.style.background = s.bg;
+      img.style.filter = s.filter || 'none';
+      imgCard.innerHTML = s.card;
+      stat1.innerHTML = s.stat1;
+      stat2.innerHTML = s.stat2;
+
+      // Troca de lados (Horizontal Swap) conforme solicitado
+      if (current === 1) {
+        stat1.classList.add('stat-pos-left');
+        stat1.classList.remove('stat-pos-right');
+        stat2.classList.add('stat-pos-right');
+        stat2.classList.remove('stat-pos-left');
+      } else {
+        stat1.classList.remove('stat-pos-left');
+        stat1.classList.add('stat-pos-right');
+        stat2.classList.remove('stat-pos-right');
+        stat2.classList.add('stat-pos-left');
+      }
+
+      // fade in
+      [img, stat1, stat2].forEach(el => { el.style.opacity = '1'; });
+    }, 350);
+
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      console.log('[HRC] dot click → goTo', dot.dataset.slide);
+      goTo(parseInt(dot.dataset.slide));
+    });
+  });
+
+  // autoplay 5s
+  setInterval(() => goTo((current + 1) % slides.length), 5000);
+})();
+
+// =============================================================
+// BEFORE/AFTER CAROUSEL — controle manual + autoplay
+// =============================================================
+(function () {
+  const track = document.getElementById('baTrack');
+  const dots = document.querySelectorAll('.ba-dot');
+  const TOTAL = 8; // imagens originais (sem duplicatas)
+  const CARD_WIDTH = 320; // card 300px + gap 20px
+  let current = 0;
+  let paused = false;
+  let autoTimer = null;
+
+  function goTo(idx) {
+    current = ((idx % TOTAL) + TOTAL) % TOTAL;
+    track.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
+    track.style.transform = `translateX(-${current * CARD_WIDTH}px)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+      if (!paused) {
+        current = (current + 1) % TOTAL;
+        track.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
+        track.style.transform = `translateX(-${current * CARD_WIDTH}px)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+    }, 3000);
+  }
+
+  function pauseManual() {
+    paused = true;
+    track.classList.add('paused');
+    // retoma autoplay após 6s de inatividade
+    clearTimeout(track._resumeTimer);
+    track._resumeTimer = setTimeout(() => { paused = false; track.classList.remove('paused'); }, 6000);
+  }
+
+  const prevBtn = document.getElementById('baPrev');
+  const nextBtn = document.getElementById('baNext');
+
+  if (prevBtn) prevBtn.addEventListener('click', () => { pauseManual(); goTo(current - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { pauseManual(); goTo(current + 1); });
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { pauseManual(); goTo(i); });
+  });
+
+  // pausa animação CSS no hover — já está no CSS via .paused
+  // inicia posição e autoplay
+  track.style.animation = 'none'; // desativa CSS animation, controle via JS
+  goTo(0);
+  startAuto();
+})();
 
 // FAQ TOGGLE
 function toggleFaq(el) {
