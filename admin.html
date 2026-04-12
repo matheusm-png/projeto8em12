@@ -141,6 +141,42 @@
       font-size: 13px;
     }
 
+    /* --- TABLE VIEW --- */
+    .table-view {
+      display: none;
+      padding: 24px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .table-view.active { display: block; }
+    
+    .crm-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+      font-size: 14px;
+    }
+    .crm-table th, .crm-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      text-align: left;
+    }
+    .crm-table th {
+      background: var(--graphite-2);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      color: var(--orange);
+      letter-spacing: 1px;
+    }
+    .crm-table tr:hover { background: rgba(255,106,0,0.05); }
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.1);
+    }
+
     /* --- KANBAN BOARD --- */
     .kanban-board {
       display: flex;
@@ -299,7 +335,14 @@
     <div class="header-logo">PROJETO <span>8 EM 12</span> CRM</div>
     <div class="header-actions">
       <div class="loader" id="loader"></div>
-      <input type="text" id="search-input" placeholder="Buscar lead..." class="btn-refresh" style="background:var(--graphite); margin-right: 16px;" oninput="filterBoard()">
+      
+      <div style="display:flex; border-radius:6px; overflow:hidden; border:1px solid rgba(255,255,255,0.2); margin-right:8px;">
+        <button class="btn-refresh" id="btnKanban" style="border:none; border-radius:0; background:var(--orange);" onclick="toggleView('kanban')">Kanban</button>
+        <button class="btn-refresh" id="btnTable" style="border:none; border-radius:0;" onclick="toggleView('table')">Tabela</button>
+      </div>
+
+      <input type="text" id="search-input" placeholder="Buscar lead..." class="btn-refresh" style="background:var(--graphite); margin-right: 8px;" oninput="filterLeads()">
+      <button class="btn-refresh" style="margin-right: 8px; background: #22c55e; border-color: #22c55e;" onclick="exportCSV()">↓ CSV</button>
       <button class="btn-refresh" onclick="loadLeads()">Atualizar</button>
     </div>
   </header>
@@ -351,6 +394,28 @@
 
   </div>
 
+  <!-- TABLE VIEW -->
+  <div class="table-view" id="tableView">
+    <div style="background: var(--graphite-2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden;">
+      <table class="crm-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Nome</th>
+            <th>Status</th>
+            <th>Telefone</th>
+            <th>Objetivo</th>
+            <th>Nível / Sexo</th>
+            <th>Id. / Peso / Alt.</th>
+            <th>UTM Source</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // --- SUPABASE SETUP ---
@@ -394,6 +459,7 @@
         }));
         
         renderBoard(globalLeads);
+        renderTable(globalLeads);
       } catch (err) {
         console.error("Erro ao carregar leads", err);
         alert("Falha ao se conectar com o Supabase.");
@@ -531,8 +597,9 @@
       document.getElementById('loader').style.display = 'none';
     }
 
-    function filterBoard() {
+    function filterLeads() {
       const q = document.getElementById('search-input').value.toLowerCase();
+      // Filtra Kanban
       const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
         if (card.innerText.toLowerCase().includes(q)) {
@@ -541,6 +608,88 @@
           card.style.display = 'none';
         }
       });
+      // Filtra Tabela
+      const rows = document.querySelectorAll('.table-row-item');
+      rows.forEach(row => {
+        if (row.innerText.toLowerCase().includes(q)) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function toggleView(view) {
+      if (view === 'kanban') {
+        document.getElementById('board').style.display = 'flex';
+        document.getElementById('tableView').classList.remove('active');
+        document.getElementById('btnKanban').style.background = 'var(--orange)';
+        document.getElementById('btnTable').style.background = 'var(--graphite)';
+      } else {
+        document.getElementById('board').style.display = 'none';
+        document.getElementById('tableView').classList.add('active');
+        document.getElementById('btnKanban').style.background = 'var(--graphite)';
+        document.getElementById('btnTable').style.background = 'var(--orange)';
+      }
+    }
+
+    function renderTable(leads) {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      leads.forEach(lead => {
+        const tr = document.createElement('tr');
+        tr.className = 'table-row-item';
+        tr.innerHTML = `
+          <td>${lead.timestamp ? lead.timestamp.split(' ')[0] : '-'}</td>
+          <td style="font-weight:700">${lead.nome || '-'}</td>
+          <td><span class="status-badge">${lead.status || 'Lead'}</span></td>
+          <td>${lead.whatsapp || '-'}</td>
+          <td>${lead.objetivo || '-'}</td>
+          <td>${lead.nivel || '-'} / ${lead.sexo || '-'}</td>
+          <td>${lead.idade || '-'}a, ${lead.peso || '-'}kg, ${lead.altura || '-'}cm</td>
+          <td>${lead.utm_source || '-'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function exportCSV() {
+      if (!globalLeads || globalLeads.length === 0) {
+        alert("Sem dados para exportar.");
+        return;
+      }
+      
+      const colunas = ["Cadastrado Em", "Status", "Nome", "Email", "WhatsApp", "Objetivo", "Nivel", "Sexo", "Idade", "Peso", "Altura", "UTM Source", "UTM Campaign", "URL"];
+      let csvContent = "data:text/csv;charset=utf-8," + colunas.join(",") + "\n";
+
+      globalLeads.forEach(lead => {
+        const row = [
+          lead.timestamp || "",
+          lead.status || "",
+          lead.nome || "",
+          lead.email || "",
+          lead.whatsapp || "",
+          lead.objetivo || "",
+          lead.nivel || "",
+          lead.sexo || "",
+          lead.idade || "",
+          lead.peso || "",
+          lead.altura || "",
+          lead.utm_source || "",
+          lead.utm_campaign || "",
+          lead.url || ""
+        ].map(campo => `"${String(campo).replace(/"/g, '""')}"`);
+        
+        csvContent += row.join(",") + "\n";
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `leads_8em12_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   </script>
 </body>
