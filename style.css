@@ -2832,8 +2832,10 @@ footer {
 /* ===== DEPO MARKS — animação de risco/círculo ===== */
 .depo-mark {
   position: relative;
-  display: inline;
-  white-space: normal;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: baseline;
+  transition: transform 0.3s ease;
 }
 
 /* SVG sublinhado — posicionado abaixo do texto */
@@ -2841,9 +2843,9 @@ footer {
 .depo-mark--line svg {
   position: absolute;
   left: 0;
-  bottom: -6px;
+  bottom: -4px;
   width: 100%;
-  height: 14px;
+  height: 12px;
   overflow: visible;
   pointer-events: none;
 }
@@ -2851,10 +2853,10 @@ footer {
 /* SVG círculo — envolve o texto */
 .depo-mark--circle svg {
   position: absolute;
-  left: -8px;
-  top: -6px;
-  width: calc(100% + 16px);
-  height: calc(100% + 14px);
+  left: -6px;
+  top: -4px;
+  width: calc(100% + 12px);
+  height: calc(100% + 10px);
   overflow: visible;
   pointer-events: none;
 }
