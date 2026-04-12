@@ -4141,43 +4141,7 @@ footer {
 </style>
 
 
-  <!-- Trackers: GTM + Clarity + Meta Pixel
-       Carregam na PRIMEIRA INTERAÇÃO do usuário (scroll/click/toque)
-       ou após 4s — o que vier primeiro. Zero impacto no LCP/FCP. -->
-  <script>
-    (function() {
-      var loaded = false;
-      function loadTrackers() {
-        if (loaded) return;
-        loaded = true;
-
-        // Google Analytics (gtag)
-        var ga = document.createElement('script');
-        ga.async = true;
-        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-L12GZMVM55';
-        document.head.appendChild(ga);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', 'G-L12GZMVM55');
-
-        // Microsoft Clarity
-        (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window,document,'clarity','script','wab27oqs99');
-      }
-
-      // Primeira interação do usuário
-      ['scroll','click','touchstart','keydown'].forEach(function(ev) {
-        window.addEventListener(ev, loadTrackers, { once: true, passive: true });
-      });
-      // Fallback: 4 segundos (garante rastreamento mesmo sem interação)
-      setTimeout(loadTrackers, 4000);
-    })();
-  </script>
+  <!-- Google Tag Manager carrega as tags externamente para manter o HTML limpo -->
 
 </head>
 
