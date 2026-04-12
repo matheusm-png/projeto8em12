@@ -505,52 +505,113 @@ function wbotClose() {
 function wbotStart() {
   const msgs = document.getElementById('wbotMessages');
   msgs.innerHTML = '';
+  
+  // Resgata o que a pessoa já preencheu na calculadora (se preencheu)
+  wbotData = { 
+    nome: '', 
+    whatsapp: '',
+    objetivo: calcState.objetivo || 'perder gordura',
+    sexo: calcState.sexo || 'M',
+    nivel: calcState.nivel || 'iniciante',
+    idade: document.getElementById('idade') ? document.getElementById('idade').value : '',
+    peso: document.getElementById('peso') ? document.getElementById('peso').value : '',
+    altura: document.getElementById('altura') ? document.getElementById('altura').value : ''
+  };
+
   wbotStep = 1;
-  wbotData = { nome: '', objetivo: '' };
   wbotTyping(700, () => {
     wbotAddMsg('bot', 'Fala! 👋 O Dionatan pediu pra eu organizar a fila pra não te deixar esperando.');
-    wbotTyping(900, () => {
+    wbotTyping(800, () => {
       wbotAddMsg('bot', 'Qual é o seu <strong>primeiro nome</strong>?');
-      wbotShowInput('text', 'Seu nome...', (val) => {
-        wbotData.nome = val.trim();
+      wbotShowInput('text', 'Seu nome...', (nome) => {
+        wbotData.nome = nome.trim();
         wbotAddMsg('user', wbotData.nome);
-        wbotStep = 2;
-        wbotTyping(800, () => {
-          wbotAddMsg('bot', `${wbotData.nome}! Boa. 💪`);
-          wbotTyping(700, () => {
-            wbotAddMsg('bot', 'Qual é o seu <strong>objetivo principal</strong>?');
-            wbotShowButtons([
-              { label: '🔥 Perder gordura', value: 'perder gordura' },
-              { label: '💪 Ganhar massa', value: 'ganhar massa muscular' },
-              { label: '⚡ Os dois', value: 'perder gordura e ganhar massa' }
-            ], (val) => {
-              wbotData.objetivo = val;
-              wbotAddMsg('user', val);
-              wbotStep = 3;
-              
-              // Dispara envio pro CRM Supabase
-              enviarParaCRM({
-                nome: wbotData.nome,
-                objetivo: wbotData.objetivo,
-                whatsapp: '' // O Whats real o Diou só descobre na conversa, mas o lead fica captado!
-              });
-
-              wbotTyping(900, () => {
-                wbotAddMsg('bot', 'O Dionatan já ajudou muita gente com esse mesmo objetivo. 🎯 Preparei sua mensagem:');
-                const msg = `Oi Dionatan! Me chamo ${wbotData.nome}, vim pelo site do Projeto 8 EM 12. Meu objetivo é ${wbotData.objetivo} e quero saber como garantir minha vaga!`;
-                pushEvent('whatsapp_lead', {
-                  lead_name: wbotData.nome,
-                  objetivo: wbotData.objetivo,
-                  content_name: 'Projeto 8 EM 12'
-                });
-                const area = document.getElementById('wbotInputArea');
-                area.innerHTML = `<a class="wbot-cta-btn" href="https://wa.me/${WBOT_PHONE}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" onclick="setTimeout(()=>{wbotClose();wbotStep=0;},300)">💬 Falar com o Dionatan</a>`;
-              });
-            });
-          });
-        });
+        askWhatsApp();
       });
     });
+  });
+}
+
+function askWhatsApp() {
+  wbotTyping(700, () => {
+    wbotAddMsg('bot', `${wbotData.nome}! Prazer. Qual é o seu <strong>WhatsApp com DDD</strong>?`);
+    wbotShowInput('tel', '(11) 99999-9999', (fone) => {
+      wbotData.whatsapp = fone.trim();
+      wbotAddMsg('user', wbotData.whatsapp);
+      
+      // Se a pessoa já usou a calculadora, passa direto
+      if (wbotData.idade && wbotData.peso && wbotData.altura) {
+        finishWbot();
+      } else {
+        askObjetivo();
+      }
+    });
+  });
+}
+
+function askObjetivo() {
+  wbotTyping(700, () => {
+    wbotAddMsg('bot', 'Qual é o seu <strong>objetivo principal</strong>?');
+    wbotShowButtons([
+      { label: '🔥 Perder gordura', value: 'perder gordura' },
+      { label: '💪 Ganhar massa', value: 'ganhar massa muscular' },
+      { label: '⚡ Os dois', value: 'perder gordura e ganhar massa' }
+    ], (val) => {
+      wbotData.objetivo = val;
+      wbotAddMsg('user', val);
+      askFisico();
+    });
+  });
+}
+
+function askFisico() {
+  wbotTyping(700, () => {
+    wbotAddMsg('bot', 'Pra agilizar a análise do Diou, me manda sua <strong>Idade, Peso e Altura</strong> (ex: 28 anos, 80kg, 175cm):');
+    wbotShowInput('text', 'Ex: 28, 80kg, 1.75m', (fisico) => {
+      wbotAddMsg('user', fisico);
+      
+      // Tenta extrair os numeros de "28, 80, 175"
+      const numbers = fisico.match(/\d+/g);
+      if (numbers && numbers.length >= 3) {
+         wbotData.idade = numbers[0];
+         wbotData.peso = numbers[1];
+         wbotData.altura = numbers[2] > 10 ? numbers[2] : numbers[2] * 100; // Trata "1.75" vs "175"
+      }
+      finishWbot();
+    });
+  });
+}
+
+function finishWbot() {
+  wbotStep = 5;
+  
+  // Envia tudo pro CRM Supabase!
+  enviarParaCRM({
+    nome: wbotData.nome,
+    whatsapp: wbotData.whatsapp,
+    objetivo: wbotData.objetivo,
+    sexo: wbotData.sexo,
+    nivel: wbotData.nivel,
+    idade: wbotData.idade,
+    peso: wbotData.peso,
+    altura: wbotData.altura,
+    gordura: undefined, // Somente calculadora garante esse cálculo exato
+    massa: undefined
+  });
+
+  wbotTyping(900, () => {
+    wbotAddMsg('bot', 'Tudo certo! 🎯 Preparei sua mensagem com seus dados:');
+    const msg = `Oi Dionatan! Me chamo ${wbotData.nome}, vim pelo site do Projeto 8 EM 12. Meu objetivo é ${wbotData.objetivo} e quero saber como garantir minha vaga!`;
+    
+    pushEvent('whatsapp_lead', {
+      lead_name: wbotData.nome,
+      lead_phone: wbotData.whatsapp,
+      objetivo: wbotData.objetivo,
+      content_name: 'Projeto 8 EM 12'
+    });
+    
+    const area = document.getElementById('wbotInputArea');
+    area.innerHTML = `<a class="wbot-cta-btn" href="https://wa.me/${WBOT_PHONE}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" onclick="setTimeout(()=>{wbotClose();wbotStep=0;},300)">💬 Falar com o Dionatan</a>`;
   });
 }
 
