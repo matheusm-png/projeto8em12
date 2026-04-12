@@ -1577,6 +1577,14 @@ section {
   overflow: hidden;
 }
 
+@media (max-width: 768px) {
+  .cta-final {
+    background:
+      linear-gradient(rgba(13, 13, 13, 0.72), rgba(13, 13, 13, 0.82)),
+      url("assets/professor/apontando1.webp") center top / cover no-repeat;
+  }
+}
+
 .cta-final-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(48px, 7vw, 88px);
