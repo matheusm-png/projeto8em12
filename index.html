@@ -11,21 +11,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Preload: imagem LCP do hero (browser busca antes de parsear CSS/JS) -->
-  <link rel="preload" as="image" href="assets/hero/dramatica1.webp">
+  <!-- Preload: LCP real é o logo (maior elemento visível no primeiro paint) -->
+  <link rel="preload" as="image" href="assets/logo/8em12logo_branca.webp">
 
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=3">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L12GZMVM55"></script>
+  <!-- Google tag — carregado após load para não bloquear LCP/FCP -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-L12GZMVM55');
+    window.addEventListener('load', function() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-L12GZMVM55';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L12GZMVM55');
+    });
   </script>
 
   <!-- Microsoft Clarity -->
@@ -201,7 +206,7 @@
   <nav>
     <div class="container">
       <a href="#" class="logo">
-        <img src="assets/logo/logo.svg" alt="Team Diou" class="logo-svg">
+        <img src="assets/logo/logo.svg" alt="Team Diou" class="logo-svg" width="108" height="52">
       </a>
       <ul class="nav-links">
         <li><a href="#resultados">Resultados</a></li>
@@ -224,7 +229,7 @@
           </div>
           <div class="hero-logo-title">
             <div class="hero-logo-wrap">
-              <img src="assets/logo/8em12logo_branca.webp" alt="8 EM 12" class="hero-logo-img">
+              <img src="assets/logo/8em12logo_branca.webp" alt="8 EM 12" class="hero-logo-img" width="240" height="181" fetchpriority="high">
             </div>
           </div>
           <p class="hero-tagline">
@@ -569,7 +574,7 @@
     <div class="container">
       <div class="dyhit-band">
         <div class="dyhit-seal-sm">
-          <img src="assets/misc/SELO.webp" alt="Selo DYHIT Master">
+          <img src="assets/misc/SELO.webp" alt="Selo DYHIT Master" width="250" height="249">
         </div>
         <div class="dyhit-cta-group">
           <span class="gold-chip">CERTIFICAÇÃO MASTER DYHIT</span>
