@@ -22,45 +22,54 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap"></noscript>
   <link rel="stylesheet" href="style.css?v=4">
 
-  <!-- Google tag — carregado após load para não bloquear LCP/FCP -->
+  <!-- Trackers: GTM + Clarity + Meta Pixel
+       Carregam na PRIMEIRA INTERAÇÃO do usuário (scroll/click/toque)
+       ou após 4s — o que vier primeiro. Zero impacto no LCP/FCP. -->
   <script>
-    window.addEventListener('load', function() {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-L12GZMVM55';
-      document.head.appendChild(s);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-L12GZMVM55');
-    });
-  </script>
+    (function() {
+      var loaded = false;
+      function loadTrackers() {
+        if (loaded) return;
+        loaded = true;
 
-  <!-- Microsoft Clarity — carregado após load para não causar reflow no paint inicial -->
-  <script>
-    window.addEventListener('load', function() {
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window,document,"clarity","script","wab27oqs99");
-    });
-  </script>
+        // Google Analytics (gtag)
+        var ga = document.createElement('script');
+        ga.async = true;
+        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-L12GZMVM55';
+        document.head.appendChild(ga);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-L12GZMVM55');
 
-  <!-- Meta Pixel — carregado após o paint para não bloquear FCP -->
-  <script>
-    window.addEventListener('load', function() {
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '26239101812415449');
-      fbq('track', 'PageView');
-    });
+        // Microsoft Clarity
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,'clarity','script','wab27oqs99');
+
+        // Meta Pixel
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init','26239101812415449');
+        fbq('track','PageView');
+      }
+
+      // Primeira interação do usuário
+      ['scroll','click','touchstart','keydown'].forEach(function(ev) {
+        window.addEventListener(ev, loadTrackers, { once: true, passive: true });
+      });
+      // Fallback: 4 segundos (garante rastreamento mesmo sem interação)
+      setTimeout(loadTrackers, 4000);
+    })();
   </script>
 
 </head>
@@ -234,7 +243,7 @@
           </div>
           <div class="hero-logo-title">
             <div class="hero-logo-wrap">
-              <img src="assets/logo/8em12logo_branca.webp" alt="8 EM 12" class="hero-logo-img" width="240" height="181" fetchpriority="high">
+              <img src="assets/logo/8em12logo_branca.webp" alt="8 EM 12" class="hero-logo-img" width="240" height="181" fetchpriority="high" decoding="async">
             </div>
           </div>
           <p class="hero-tagline">
@@ -928,9 +937,9 @@
 
       <div class="footer-brand">
         <div class="footer-brand-logos">
-          <img src="assets/logo/logo.svg" alt="Team Diou" class="footer-logo-team">
+          <img src="assets/logo/logo.svg" alt="Team Diou" class="footer-logo-team" width="142" height="68">
           <div class="footer-logo-sep"></div>
-          <img src="assets/logo/8em12logo_branca.webp" alt="Projeto 8 EM 12" class="footer-logo-projeto">
+          <img src="assets/logo/8em12logo_branca.webp" alt="Projeto 8 EM 12" class="footer-logo-projeto" width="77" height="58">
         </div>
         <p class="footer-tagline">Método de atleta. Resultado real. Sem desculpas.</p>
       </div>
