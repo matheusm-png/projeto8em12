@@ -102,38 +102,42 @@ const countObserver = new IntersectionObserver((entries, obs) => {
 // Start observing numeric counters
 document.querySelectorAll('.stat-big, .stat-number').forEach(el => countObserver.observe(el));
 
-// CRM INTEGRATION
+// CRM INTEGRATION - SUPABASE
 async function enviarParaCRM(dadosLead) {
-  const APPS_SCRIPT_URL = 'APPS_SCRIPT_URL_AQUI'; // <--- SUBSTITUIR AQUI APÓS DEPLOY
+  const SUPABASE_URL = 'https://nlabhkhlvptasstpwxti.supabase.co/rest/v1/leads';
+  const SUPABASE_KEY = 'sb_publishable_mPnOSlzFZteqtJEAYwnbPA_Jw7rN-CK';
 
   const params = new URLSearchParams(window.location.search);
 
   const payload = {
-    timestamp: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
     nome: dadosLead.nome || '',
     email: dadosLead.email || '',
     whatsapp: dadosLead.whatsapp || '',
     sexo: dadosLead.sexo || '',
     objetivo: dadosLead.objetivo || '',
     nivel: dadosLead.nivel || '',
-    idade: dadosLead.idade || '',
-    peso: dadosLead.peso || '',
-    altura: dadosLead.altura || '',
-    gordura: dadosLead.gordura || '',
-    massa: dadosLead.massa || '',
+    idade: dadosLead.idade ? parseInt(dadosLead.idade) : null,
+    peso: dadosLead.peso ? parseFloat(dadosLead.peso) : null,
+    altura: dadosLead.altura ? parseFloat(dadosLead.altura) : null,
+    gordura: dadosLead.gordura ? parseFloat(dadosLead.gordura) : null,
+    massa: dadosLead.massa ? parseFloat(dadosLead.massa) : null,
     utm_source: params.get('utm_source') || '',
     utm_medium: params.get('utm_medium') || '',
     utm_campaign: params.get('utm_campaign') || '',
     utm_term: params.get('utm_term') || '',
     utm_content: params.get('utm_content') || '',
-    url: window.location.href
+    url: window.location.href,
+    status: 'Lead'
   };
 
   try {
-    await fetch(APPS_SCRIPT_URL, {
+    await fetch(SUPABASE_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      },
       body: JSON.stringify(payload)
     });
   } catch(err) {
