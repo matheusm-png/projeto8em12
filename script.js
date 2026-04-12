@@ -527,6 +527,14 @@ function wbotStart() {
               wbotData.objetivo = val;
               wbotAddMsg('user', val);
               wbotStep = 3;
+              
+              // Dispara envio pro CRM Supabase
+              enviarParaCRM({
+                nome: wbotData.nome,
+                objetivo: wbotData.objetivo,
+                whatsapp: '' // O Whats real o Diou só descobre na conversa, mas o lead fica captado!
+              });
+
               wbotTyping(900, () => {
                 wbotAddMsg('bot', 'O Dionatan já ajudou muita gente com esse mesmo objetivo. 🎯 Preparei sua mensagem:');
                 const msg = `Oi Dionatan! Me chamo ${wbotData.nome}, vim pelo site do Projeto 8 EM 12. Meu objetivo é ${wbotData.objetivo} e quero saber como garantir minha vaga!`;
