@@ -351,9 +351,13 @@
 
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // --- ATENÇÃO: COLOQUE AQUI A MESMA URL DO DEPLOY DO SCRIPT.JS ---
-    const APPS_SCRIPT_URL = 'APPS_SCRIPT_URL_AQUI'; 
+    // --- SUPABASE SETUP ---
+    const SUPABASE_URL = 'https://nlabhkhlvptasstpwxti.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_mPnOSlzFZteqtJEAYwnbPA_Jw7rN-CK';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     let globalLeads = [];
 
     // HASHING BÁSICO SHA-256 (Senha default: "diouadmin2026")
@@ -374,20 +378,25 @@
     }
 
     async function loadLeads() {
-      if(APPS_SCRIPT_URL === 'APPS_SCRIPT_URL_AQUI') {
-        alert("Atenção: Configure a APPS_SCRIPT_URL no código do admin.html para puxar os dados.");
-        return;
-      }
-
       document.getElementById('loader').style.display = 'block';
       try {
-        const response = await fetch(APPS_SCRIPT_URL);
-        const data = await response.json();
-        globalLeads = data;
+        const { data, error } = await supabaseClient
+          .from('leads')
+          .select('*')
+          .order('created_at', { ascending: false });
+          
+        if (error) throw error;
+        
+        globalLeads = data.map(lead => ({
+          ...lead,
+          row_index: lead.id, // ID uuid para uso no controle do kanban
+          timestamp: new Date(lead.created_at).toLocaleString('pt-BR')
+        }));
+        
         renderBoard(globalLeads);
       } catch (err) {
         console.error("Erro ao carregar leads", err);
-        alert("Falha ao se conectar com a planilha.");
+        alert("Falha ao se conectar com o Supabase.");
       }
       document.getElementById('loader').style.display = 'none';
     }
@@ -507,20 +516,15 @@
       if(idx > -1) globalLeads[idx].status = targetStatus;
     }
 
-    async function updateStatus(rowIndex, newStatus) {
+    async function updateStatus(leadId, newStatus) {
       document.getElementById('loader').style.display = 'block';
-      const payload = {
-        action: "update_status",
-        row_index: rowIndex,
-        status: newStatus
-      };
-
       try {
-        await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain' }, // Text plain para não triggar Preflight CORS no Apps Script
-          body: JSON.stringify(payload)
-        });
+        const { error } = await supabaseClient
+          .from('leads')
+          .update({ status: newStatus })
+          .eq('id', leadId);
+          
+        if (error) throw error;
       } catch (err) {
         console.error("Falha ao atualizar", err);
       }
