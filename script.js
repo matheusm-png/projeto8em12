@@ -681,6 +681,10 @@ function wbotShowButtons(options, cb) {
     });
   });
 
+  // Parâmetro de URL: ?hero=resultado → começa no slide antes/depois
+  const heroParam = new URLSearchParams(window.location.search).get('hero');
+  if (heroParam === 'resultado') goTo(1);
+
   // autoplay 5s
   setInterval(() => goTo((current + 1) % slides.length), 5000);
 })();
