@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projeto 8 EM 12 | Dionatan Alves — Perca 10kg em 12 Semanas com Protocolo de Atleta</title>
   <meta name="description" content="O Projeto 8 EM 12 é um protocolo de 12 semanas com treino individualizado, dieta personalizada e cardio estratégico. Método de atleta adaptado para sua rotina. Apenas 50 vagas.">
+  <!-- Preconnect: Google Fonts (evita round-trips extras) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload: imagem LCP do hero (browser busca antes de parsear CSS/JS) -->
+  <link rel="preload" as="image" href="assets/hero/dramatica1.webp">
+
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap"
     rel="stylesheet">
@@ -17,16 +24,8 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-L12GZMVM55');
   </script>
-
-  <!-- Google Tag Manager — substituir GTM-XXXXXXX pelo ID real -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
 
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -37,20 +36,21 @@
     })(window,document,"clarity","script","wab27oqs99");
   </script>
 
-  <!-- Meta Pixel Code -->
+  <!-- Meta Pixel — carregado após o paint para não bloquear FCP -->
   <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '26239101812415449');
-    fbq('track', 'PageView');
+    window.addEventListener('load', function() {
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '26239101812415449');
+      fbq('track', 'PageView');
+    });
   </script>
-  <!-- End Meta Pixel Code -->
 
 </head>
 
@@ -945,7 +945,7 @@
     <div class="wbot-input-area" id="wbotInputArea"></div>
   </div>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=2" defer></script>
 </body>
 
 </html>
