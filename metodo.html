@@ -105,7 +105,8 @@
       justify-content: space-between;
     }
 
-    .nav-logo img { height: 54px; }
+    .nav-logo img { height: 54px; transition: height 0.3s; }
+    @media (max-width: 768px) { .nav-logo img { height: 36px; } }
 
     .nav-back {
       display: flex;
@@ -169,6 +170,7 @@
       letter-spacing: -1px;
       text-transform: uppercase;
     }
+    @media (max-width: 768px) { .section-title { font-size: 52px; } }
 
     .accent { color: var(--orange); }
 
@@ -178,7 +180,8 @@
       max-width: 640px;
       font-weight: 300;
       line-height: 1.75;
-      margin-top: 20px;
+      margin: 20px auto 0;
+      text-align: center;
     }
 
     .divider {
@@ -440,6 +443,10 @@
       position: relative;
       overflow: hidden;
       transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .pilar-card::before {
@@ -585,8 +592,8 @@
     .science-item-visual::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(13,13,13,0.3) 0%, rgba(13,13,13,0.8) 100%);
+      inset: -1px;
+      background: radial-gradient(circle at center, rgba(13,13,13,0.3) 0%, rgba(13,13,13,0.85) 100%);
       z-index: 1;
       pointer-events: none;
     }
@@ -622,6 +629,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
+      text-align: center;
     }
 
     .science-num {
@@ -741,7 +750,7 @@
 
     .fase-list {
       list-style: none;
-      text-align: left;
+      text-align: center;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -749,7 +758,8 @@
 
     .fase-list li {
       display: flex;
-      align-items: flex-start;
+      justify-content: center;
+      align-items: center;
       gap: 10px;
       color: var(--gray);
       font-size: 13px;

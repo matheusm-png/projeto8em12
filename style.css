@@ -85,9 +85,13 @@ nav .container {
 }
 
 .logo-svg {
-  height: 72px;
+  height: 52px;
   width: auto;
   display: block;
+}
+
+@media (max-width: 768px) {
+  .logo-svg { height: 34px; }
 }
 
 .logo-mark {
@@ -816,6 +820,10 @@ section {
   margin-bottom: 20px;
 }
 
+@media (max-width: 768px) {
+  .section-title { font-size: 52px; line-height: 0.95; }
+}
+
 .section-title .accent {
   color: var(--orange);
 }
@@ -825,6 +833,8 @@ section {
   color: var(--gray);
   max-width: 540px;
   line-height: 1.7;
+  margin: 16px auto 0;
+  text-align: center;
 }
 
 /* ===== SERVIÇOS ===== */
@@ -1807,7 +1817,7 @@ footer {
   }
 
   .hero-logo-img {
-    max-width: 100%;
+    max-width: 240px;
   }
 
   .hero-right {
@@ -1816,13 +1826,14 @@ footer {
   }
 
   .hero-image-container {
-    aspect-ratio: auto;
-    height: 300px;
+    aspect-ratio: 4/5.5;
+    height: auto;
     border-radius: var(--radius-md);
   }
 
   .hero-image-placeholder {
-    background-position: center 20%;
+    padding: 24px 16px 48px;
+    background-position: center top;
   }
 
   .floating-stat {
@@ -1853,6 +1864,11 @@ footer {
 
   .expert-grid {
     grid-template-columns: 1fr;
+  }
+
+  .expert-image-box {
+    aspect-ratio: 4/5.5;
+    height: auto;
   }
 
   .for-who-grid {
@@ -2888,7 +2904,11 @@ footer {
   }
   .testimonial-single-photo {
     width: 100%;
-    height: 320px;
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+  .testimonial-single-photo img {
+    object-position: center 35%;
   }
   .testimonial-single-photo-overlay {
     background: linear-gradient(to bottom, transparent 60%, var(--graphite-3) 100%);
@@ -3255,6 +3275,7 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
   transition: transform 0.5s ease;
 }
@@ -3264,7 +3285,10 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .ba-card { width: 220px; }
+  .ba-card { 
+    width: calc(100vw - 60px); 
+    aspect-ratio: 9 / 16;
+  }
 }
 /* ==========================================================================
    TIMELINE 12 SEMANAS (SUBSTITUIÇÃO DOS GRÁFICOS)

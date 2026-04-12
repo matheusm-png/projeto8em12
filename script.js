@@ -622,8 +622,8 @@ function wbotShowButtons(options, cb) {
               <div style="font-size:13px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-top:4px">Vagas disponíveis</div>`
     },
     {
-      bg: "url('assets/antes-depois/antesedepois2_home.webp') center center / cover no-repeat",
-      bgPos: 'center center',
+      bg: "url('assets/antes-depois/antesedepois2_home.webp') center top / cover no-repeat",
+      bgPos: 'center top',
       filter: 'grayscale(1) contrast(1.1) brightness(0.9)',
       card: `<div class="hero-image-name">TRANSFORMAÇÃO REAL</div>
              <div class="hero-image-title">Protocolo: 12 Semanas · Método 8 em 12</div>`,
@@ -690,18 +690,32 @@ function wbotShowButtons(options, cb) {
 // =============================================================
 (function () {
   const track = document.getElementById('baTrack');
-  const dots = document.querySelectorAll('.ba-dot');
-  const TOTAL = 8; // imagens originais (sem duplicatas)
-  const CARD_WIDTH = 320; // card 300px + gap 20px
+  const TOTAL = 8; 
   let current = 0;
   let paused = false;
   let autoTimer = null;
 
+  function updatePosition() {
+    const card = track.querySelector('.ba-card');
+    if (!card) return;
+    const gap = 20; 
+    const cardWidth = card.getBoundingClientRect().width;
+    const cardSize = cardWidth + gap;
+    const wrapperWidth = track.parentElement.offsetWidth;
+    
+    // Centraliza apenas no Mobile (< 768px)
+    let offset = 0;
+    if (window.innerWidth < 768) {
+      offset = (wrapperWidth - cardWidth) / 2;
+    }
+    
+    track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    track.style.transform = `translate3d(${offset - (current * cardSize)}px, 0, 0)`;
+  }
+
   function goTo(idx) {
     current = ((idx % TOTAL) + TOTAL) % TOTAL;
-    track.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
-    track.style.transform = `translateX(-${current * CARD_WIDTH}px)`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    updatePosition();
   }
 
   function startAuto() {
@@ -709,35 +723,18 @@ function wbotShowButtons(options, cb) {
     autoTimer = setInterval(() => {
       if (!paused) {
         current = (current + 1) % TOTAL;
-        track.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
-        track.style.transform = `translateX(-${current * CARD_WIDTH}px)`;
-        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        updatePosition();
       }
-    }, 3000);
+    }, 3500);
   }
 
-  function pauseManual() {
-    paused = true;
-    track.classList.add('paused');
-    // retoma autoplay após 6s de inatividade
-    clearTimeout(track._resumeTimer);
-    track._resumeTimer = setTimeout(() => { paused = false; track.classList.remove('paused'); }, 6000);
-  }
+  track.addEventListener('mouseenter', () => paused = true);
+  track.addEventListener('mouseleave', () => paused = false);
 
-  const prevBtn = document.getElementById('baPrev');
-  const nextBtn = document.getElementById('baNext');
-
-  if (prevBtn) prevBtn.addEventListener('click', () => { pauseManual(); goTo(current - 1); });
-  if (nextBtn) nextBtn.addEventListener('click', () => { pauseManual(); goTo(current + 1); });
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => { pauseManual(); goTo(i); });
-  });
-
-  // pausa animação CSS no hover — já está no CSS via .paused
-  // inicia posição e autoplay
-  track.style.animation = 'none'; // desativa CSS animation, controle via JS
-  goTo(0);
+  window.addEventListener('resize', updatePosition);
+  
+  // Posicionamento inicial
+  setTimeout(updatePosition, 100);
   startAuto();
 })();
 

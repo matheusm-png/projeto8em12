@@ -256,7 +256,7 @@
 
           <!-- Imagem principal (cross-fade entre slides) -->
           <div class="hero-image-container">
-            <div class="hero-image-placeholder" id="hrcImg">
+            <div class="hero-image-placeholder" style="padding: 24px 16px; background-position: center top;">
               <div class="hero-image-inner" id="hrcImgInner"></div>
               <div class="athlete-silhouette">8/12</div>
               <div class="hero-image-card" id="hrcImgCard">
@@ -407,7 +407,6 @@
       </div>
 
       <div class="ba-carousel-outer">
-        <button class="ba-nav-btn ba-nav-prev" id="baPrev" aria-label="Anterior">&#8249;</button>
         <div class="ba-carousel-track-wrapper" id="baWrapper">
           <div class="ba-carousel-track" id="baTrack">
             <div class="ba-card"><img src="assets/antes-depois/antesedepois1.webp" alt="Transformação 1"></div>
@@ -429,17 +428,6 @@
             <div class="ba-card"><img src="assets/antes-depois/antesedepois8.webp" alt="Transformação 8"></div>
           </div>
         </div>
-        <button class="ba-nav-btn ba-nav-next" id="baNext" aria-label="Próximo">&#8250;</button>
-      </div>
-      <div class="ba-dots" id="baDots">
-        <button class="ba-dot active" data-idx="0"></button>
-        <button class="ba-dot" data-idx="1"></button>
-        <button class="ba-dot" data-idx="2"></button>
-        <button class="ba-dot" data-idx="3"></button>
-        <button class="ba-dot" data-idx="4"></button>
-        <button class="ba-dot" data-idx="5"></button>
-        <button class="ba-dot" data-idx="6"></button>
-        <button class="ba-dot" data-idx="7"></button>
       </div>
     </div>
   </section>
@@ -528,7 +516,7 @@
               <div class="expert-carousel-item" style="background-image: url('assets/professor/professor2.webp');"></div>
               <div class="expert-carousel-item" style="background-image: url('assets/professor/professor3.webp');"></div>
               <div class="expert-carousel-item" style="background-image: url('assets/professor/professor4.webp');"></div>
-              <div class="expert-carousel-item" style="background-image: url('assets/hero/intenso1.webp');"></div>
+              <div class="expert-carousel-item" style="background-image: url('assets/hero/intenso1.webp');" onclick="hrcImgInner.style.backgroundImage = `url('${slides[idx].img}')`; hrcImgInner.style.backgroundPosition = 'center top'; hrcName.textContent = slides[idx].name;"></div>
               <div class="expert-carousel-item" style="background-image: url('assets/hero/intenso2.webp');"></div>
               <div class="expert-carousel-item" style="background-image: url('assets/professor/treinandoramondino.webp');"></div>
               <div class="expert-carousel-item" style="background-image: url('assets/misc/premio1.webp');"></div>
