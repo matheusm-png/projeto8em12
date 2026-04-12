@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Projeto 8 EM 12</title>
+  <link rel="icon" type="image/webp" href="assets/logo/8em12logo_branca.webp">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;800&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #FF6A00;
+      --orange-dark: #CC5200;
+      --black: #0D0D0D;
+      --graphite: #111111;
+      --graphite-2: #1A1A1A;
+      --white: #FFFFFF;
+      --gray: #888888;
+      --gray-light: #CCCCCC;
+    }
+    
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* --- LOGIN SCREEN --- */
+    #login-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #login-screen.hidden {
+      display: none;
+    }
+
+    .login-box {
+      background: var(--graphite-2);
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 106, 0, 0.2);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      color: var(--orange);
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--gray);
+      background: var(--graphite);
+      color: white;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-family: 'Barlow', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    /* --- DASHBOARD HEDER --- */
+    header {
+      background: var(--graphite-2);
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(255, 106, 0, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .header-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: white;
+      letter-spacing: 2px;
+    }
+
+    .header-logo span { color: var(--orange); }
+
+    .header-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .loader {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 106, 0, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--orange);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-refresh {
+      background: var(--graphite);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* --- KANBAN BOARD --- */
+    .kanban-board {
+      display: flex;
+      gap: 16px;
+      padding: 24px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      flex: 1;
+      align-items: flex-start;
+    }
+
+    .column {
+      background: var(--graphite-2);
+      border-radius: 12px;
+      min-width: 320px;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      max-height: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .column-header {
+      padding: 16px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .col-count {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .column-content {
+      padding: 12px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 60px;
+    }
+
+    /* --- LEAD CARDS --- */
+    .card {
+      background: var(--graphite);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .card:hover { border-color: var(--orange); }
+    .card.dragging { opacity: 0.5; }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .card-name { font-weight: 700; font-size: 15px; color: white; margin-bottom: 4px; }
+    .card-date { font-size: 11px; color: var(--gray); }
+
+    .tag-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    
+    .tag {
+      background: rgba(255, 106, 0, 0.1);
+      color: var(--orange);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+
+    .card-data {
+      font-size: 12px;
+      color: var(--gray-light);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .calc-result {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .calc-result span { font-weight: 600; }
+    .text-green { color: #4ade80; }
+    .text-orange { color: #FF6A00; }
+
+    .btn-wa {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .btn-wa:hover { background: #20BA56; }
+    
+    .utm-label {
+      font-size: 10px;
+      color: var(--gray);
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-box">
+      <div class="login-title">ADMINISTRADOR</div>
+      <p style="color:var(--gray); margin-bottom: 24px; font-size: 14px;">Acesso restrito à equipe Team Diou.</p>
+      <input type="password" id="pass-input" class="login-input" placeholder="Digite a senha" onkeydown="if(event.key==='Enter') doLogin()">
+      <button class="login-btn" onclick="doLogin()">Entrar no Dashboard</button>
+      <p id="login-error" style="color:#ef4444; font-size:13px; margin-top:12px; display:none;">Senha incorreta.</p>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-logo">PROJETO <span>8 EM 12</span> CRM</div>
+    <div class="header-actions">
+      <div class="loader" id="loader"></div>
+      <input type="text" id="search-input" placeholder="Buscar lead..." class="btn-refresh" style="background:var(--graphite); margin-right: 16px;" oninput="filterBoard()">
+      <button class="btn-refresh" onclick="loadLeads()">Atualizar</button>
+    </div>
+  </header>
+
+  <!-- BOARD -->
+  <div class="kanban-board" id="board">
+    
+    <div class="column" data-status="Lead" ondragover="allowDrop(event)" ondrop="drop(event, 'Lead')">
+      <div class="column-header" style="border-top: 3px solid #64748b;">
+        Entrada 📝 <span class="col-count" id="count-Lead">0</span>
+      </div>
+      <div class="column-content" id="col-Lead"></div>
+    </div>
+
+    <div class="column" data-status="Contato Feito" ondragover="allowDrop(event)" ondrop="drop(event, 'Contato Feito')">
+      <div class="column-header" style="border-top: 3px solid #3b82f6;">
+        Contato Feito 💬 <span class="col-count" id="count-Contato Feito">0</span>
+      </div>
+      <div class="column-content" id="col-Contato Feito"></div>
+    </div>
+
+    <div class="column" data-status="Pagou" ondragover="allowDrop(event)" ondrop="drop(event, 'Pagou')">
+      <div class="column-header" style="border-top: 3px solid #eab308;">
+        Pagou 💰 <span class="col-count" id="count-Pagou">0</span>
+      </div>
+      <div class="column-content" id="col-Pagou"></div>
+    </div>
+
+    <div class="column" data-status="Ativo" ondragover="allowDrop(event)" ondrop="drop(event, 'Ativo')">
+      <div class="column-header" style="border-top: 3px solid #22c55e;">
+        Ativo 🔥 <span class="col-count" id="count-Ativo">0</span>
+      </div>
+      <div class="column-content" id="col-Ativo"></div>
+    </div>
+
+    <div class="column" data-status="Concluido" ondragover="allowDrop(event)" ondrop="drop(event, 'Concluido')">
+      <div class="column-header" style="border-top: 3px solid #a855f7;">
+        Concluído 🏆 <span class="col-count" id="count-Concluido">0</span>
+      </div>
+      <div class="column-content" id="col-Concluido"></div>
+    </div>
+
+    <div class="column" data-status="Desistiu" ondragover="allowDrop(event)" ondrop="drop(event, 'Desistiu')">
+      <div class="column-header" style="border-top: 3px solid #ef4444;">
+        Desistiu ❌ <span class="col-count" id="count-Desistiu">0</span>
+      </div>
+      <div class="column-content" id="col-Desistiu"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- ATENÇÃO: COLOQUE AQUI A MESMA URL DO DEPLOY DO SCRIPT.JS ---
+    const APPS_SCRIPT_URL = 'APPS_SCRIPT_URL_AQUI'; 
+    let globalLeads = [];
+
+    // HASHING BÁSICO SHA-256 (Senha default: "diouadmin2026")
+    const TARGET_HASH = "80f1ce2b02bbfe1df5196f7c3dc00b7d727b10287fd0ebbd432d84dbb02b5e27";
+
+    async function doLogin() {
+      const input = document.getElementById('pass-input').value;
+      const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+      const hashArray = Array.from(new Uint8Array(buffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      
+      if (hashHex === TARGET_HASH) {
+        document.getElementById('login-screen').classList.add('hidden');
+        loadLeads();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    }
+
+    async function loadLeads() {
+      if(APPS_SCRIPT_URL === 'APPS_SCRIPT_URL_AQUI') {
+        alert("Atenção: Configure a APPS_SCRIPT_URL no código do admin.html para puxar os dados.");
+        return;
+      }
+
+      document.getElementById('loader').style.display = 'block';
+      try {
+        const response = await fetch(APPS_SCRIPT_URL);
+        const data = await response.json();
+        globalLeads = data;
+        renderBoard(globalLeads);
+      } catch (err) {
+        console.error("Erro ao carregar leads", err);
+        alert("Falha ao se conectar com a planilha.");
+      }
+      document.getElementById('loader').style.display = 'none';
+    }
+
+    function renderBoard(leads) {
+      const columns = ["Lead", "Contato Feito", "Pagou", "Ativo", "Concluido", "Desistiu"];
+      
+      columns.forEach(col => {
+        document.getElementById(`col-${col}`).innerHTML = '';
+        document.getElementById(`count-${col}`).innerText = '0';
+      });
+
+      leads.forEach(lead => {
+        // Status fallback e formatação
+        let status = lead.status.trim();
+        if (status === "Concluído" || status === "Concluido") status = "Concluido";
+        if (!columns.includes(status)) status = "Lead";
+
+        const card = createCard(lead);
+        const container = document.getElementById(`col-${status}`);
+        if(container) {
+          container.appendChild(card);
+        }
+      });
+
+      columns.forEach(col => {
+        const container = document.getElementById(`col-${col}`);
+        document.getElementById(`count-${col}`).innerText = container.children.length;
+      });
+    }
+
+    function createCard(lead) {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.draggable = true;
+      div.id = `lead-${lead.row_index}`;
+      
+      div.ondragstart = (e) => {
+        div.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', JSON.stringify({
+          row_index: lead.row_index,
+          card_id: div.id,
+          current_status: lead.status
+        }));
+      };
+      div.ondragend = () => {
+        div.classList.remove('dragging');
+      };
+
+      // Formatação WhatsApp (remover +55 etc para o link wa.me)
+      let waLink = lead.whatsapp ? lead.whatsapp.replace(/\D/g, '') : '';
+      if (waLink && !waLink.startsWith('55')) waLink = '55' + waLink;
+
+      let dData = lead.timestamp ? lead.timestamp.split(' ')[0] : '';
+      
+      div.innerHTML = `
+        <div class="card-header">
+          <div>
+            <div class="card-name">${lead.nome || 'Sem Nome'}</div>
+            <div class="card-date">${dData}</div>
+          </div>
+        </div>
+        
+        <div class="tag-group">
+          <span class="tag">${lead.sexo || '-'}</span>
+          <span class="tag">${lead.nivel || '-'}</span>
+          <span class="tag" style="background:rgba(255,255,255,0.1); color:white">${lead.objetivo || '-'}</span>
+        </div>
+
+        <div class="card-data">
+          <div>Idade: ${lead.idade || '-'}</div>
+          <div>Peso: ${lead.peso || '-'}</div>
+          <div>Altura: ${lead.altura || '-'}</div>
+        </div>
+
+        ${lead.gordura ? `
+        <div class="calc-result">
+          Calc: <span class="text-orange">-${lead.gordura}kg</span> / <span class="text-green">+${lead.massa}kg</span>
+        </div>` : ''}
+
+        ${waLink ? `
+        <a href="https://wa.me/${waLink}?text=Oi ${lead.nome.split(' ')[0]}! Aqui é o Dionatan Alves." target="_blank" class="btn-wa">
+          Conversar no WhatsApp
+        </a>` : ''}
+
+        ${lead.utm_source ? `<div class="utm-label">${lead.utm_source} / ${lead.utm_campaign}</div>` : ''}
+      `;
+      return div;
+    }
+
+    // --- DRAG AND DROP ---
+    function allowDrop(e) {
+      e.preventDefault();
+    }
+
+    function drop(e, targetStatus) {
+      e.preventDefault();
+      const dataStr = e.dataTransfer.getData('text/plain');
+      if (!dataStr) return;
+      
+      const pData = JSON.parse(dataStr);
+      if (pData.current_status === targetStatus) return; // Nao mudou
+
+      const card = document.getElementById(pData.card_id);
+      const targetCol = document.getElementById(`col-${targetStatus}`);
+      targetCol.appendChild(card);
+
+      // Atualiza contadores
+      document.getElementById(`count-${pData.current_status}`).innerText = parseInt(document.getElementById(`count-${pData.current_status}`).innerText) - 1;
+      document.getElementById(`count-${targetStatus}`).innerText = parseInt(document.getElementById(`count-${targetStatus}`).innerText) + 1;
+
+      // Chama API para salvar no Google Sheets
+      updateStatus(pData.row_index, targetStatus);
+      
+      // Atualiza estado local
+      const idx = globalLeads.findIndex(l => l.row_index === pData.row_index);
+      if(idx > -1) globalLeads[idx].status = targetStatus;
+    }
+
+    async function updateStatus(rowIndex, newStatus) {
+      document.getElementById('loader').style.display = 'block';
+      const payload = {
+        action: "update_status",
+        row_index: rowIndex,
+        status: newStatus
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' }, // Text plain para não triggar Preflight CORS no Apps Script
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error("Falha ao atualizar", err);
+      }
+      document.getElementById('loader').style.display = 'none';
+    }
+
+    function filterBoard() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        if (card.innerText.toLowerCase().includes(q)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
