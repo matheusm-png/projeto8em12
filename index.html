@@ -21,16 +21,19 @@
   <meta name="twitter:description" content="Perca até 10kg em 12 semanas. Protocolo e método de Bodybuilder.">
   <meta name="twitter:image" content="https://teamdiou.com.br/assets/misc/banner8em12.webp">
 
-  <!-- Preconnect: GTM server-side tagging (economia ~300ms LCP) -->
+  <!-- Preconnect: GTM server-side tagging (~300ms LCP savings) -->
   <link rel="preconnect" href="https://server-side-tagging-vgtbi3to7a-uc.a.run.app">
 
-  <!-- Preload: LCP — logo principal -->
-  <link rel="preload" as="image" href="assets/logo/8em12logo_branca.webp" fetchpriority="high">
+  <!-- Preload: FCP — logo navbar -->
+  <link rel="preload" as="image" href="assets/logo/logo.webp" fetchpriority="high">
+
+  <!-- Preload: LCP — logo hero principal (versão RGB compositeada, 73% menor) -->
+  <link rel="preload" as="image" href="assets/logo/8em12logo_hero.webp" fetchpriority="high">
 
   <!-- Preload: Fontes Críticas locais (previne CLS/FOUT) -->
-  <link rel="preload" href="assets/fonts/HTxwL3I-JCGChYJ8VI-L6OO_au7B45L0z3bWuQ.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="preload" href="assets/fonts/HTxwL3I-JCGChYJ8VI-L6OO_au7B46r2z3bWuQ.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="preload" href="assets/fonts/7cHpv4kjgoGqM7E_DMs5.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <link rel="preload" href="assets/fonts/HTxwL3I-JCGChYJ8VI-L6OO_au7B45L0z3bWuQ.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/HTxwL3I-JCGChYJ8VI-L6OO_au7B46r2z3bWuQ.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/7cHpv4kjgoGqM7E_DMs5.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -4295,7 +4298,7 @@ footer {
   <nav>
     <div class="container">
       <a href="#" class="logo">
-        <img src="assets/logo/logo.svg" alt="Team Diou" class="logo-svg" width="108" height="52">
+        <img src="assets/logo/logo.webp" alt="Team Diou" class="logo-svg" width="108" height="52" fetchpriority="high" decoding="async">
       </a>
       <ul class="nav-links">
         <li><a href="#resultados">Resultados</a></li>
@@ -4318,7 +4321,7 @@ footer {
           </div>
           <div class="hero-logo-title">
             <div class="hero-logo-wrap">
-              <img src="assets/logo/8em12logo_branca.webp" alt="8 EM 12" class="hero-logo-img" width="240" height="181" fetchpriority="high" decoding="async">
+              <img src="assets/logo/8em12logo_hero.webp" alt="8 EM 12" class="hero-logo-img" width="240" height="181" fetchpriority="high" decoding="async">
             </div>
           </div>
           <p class="hero-tagline">

@@ -221,7 +221,8 @@ nav .container {
   text-transform: uppercase;
   color: var(--orange);
   margin-bottom: 28px;
-  animation: fadeUp 0.6s ease both;
+  /* slideUp em vez de fadeUp: badge é FCP — não pode começar em opacity:0 */
+  animation: slideUp 0.5s ease forwards;
 }
 
 .badge-dot {
@@ -249,7 +250,8 @@ nav .container {
 /* Logo title replacing hero text */
 .hero-logo-title {
   margin-bottom: 24px;
-  animation: fadeUp 0.6s 0.1s ease both;
+  /* slideUp em vez de fadeUp: contém o LCP element — opacity:0 atrasaria LCP em ~2.8s */
+  animation: slideUp 0.5s 0.05s ease forwards;
 }
 
 .hero-logo-wrap {
@@ -1812,6 +1814,14 @@ footer {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* slideUp: só transform — elemento permanece visível desde o primeiro frame
+   Usado nos elementos LCP/FCP críticos (hero-badge, hero-logo-title)
+   para não bloquear FCP/LCP com opacity:0 */
+@keyframes slideUp {
+  from { transform: translateY(20px); }
+  to   { transform: translateY(0);    }
 }
 
 @keyframes floatAnim {
