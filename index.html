@@ -29,9 +29,12 @@
   })(window,document,'script','dataLayer','GTM-MJDHHNZ5');</script>
   <!-- End Google Tag Manager -->
 
-  <!-- Preconnect: Google Fonts (evita round-trips extras) -->
+  <!-- Preconnect: Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts: fallback online caso os arquivos locais não carreguem -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Preload: LCP real é o logo (maior elemento visível no primeiro paint) -->
   <link rel="preload" as="image" href="assets/logo/8em12logo_branca.webp">
@@ -166,6 +169,9 @@
   --radius-sm: 10px;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-orange: 0 0 40px rgba(255, 106, 0, 0.2);
+  --font-body: 'Barlow', sans-serif;
+  --font-condensed: 'Barlow Condensed', sans-serif;
+  --font-display: 'Bebas Neue', sans-serif;
 }
 
 *,
@@ -434,7 +440,7 @@ nav .container {
 .hero-tagline {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(20px, 2.8vw, 34px);
-  font-weight: 700;
+  font-weight: 800;
   color: var(--orange);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -445,7 +451,8 @@ nav .container {
 
 /* ---- HERO HEADLINE (nova) ---- */
 .hero-headline {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
   font-size: clamp(48px, 7vw, 80px);
   line-height: 1;
   letter-spacing: 1px;
@@ -965,7 +972,8 @@ section {
 }
 
 .section-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
   font-size: clamp(40px, 5vw, 64px);
   line-height: 1;
   letter-spacing: 1px;
@@ -1738,7 +1746,8 @@ section {
 }
 
 .cta-final-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
   font-size: clamp(48px, 7vw, 88px);
   line-height: 0.95;
   letter-spacing: 2px;
