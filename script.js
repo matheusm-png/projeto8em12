@@ -810,8 +810,8 @@ function wbotShowButtons(options, cb) {
 
   window.addEventListener('resize', updatePosition);
   
-  // Posicionamento inicial
-  setTimeout(updatePosition, 100);
+  // Posicionamento inicial — requestAnimationFrame evita forced reflow na thread principal
+  requestAnimationFrame(updatePosition);
   startAuto();
 })();
 
