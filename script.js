@@ -102,6 +102,26 @@ const countObserver = new IntersectionObserver((entries, obs) => {
 // Start observing numeric counters
 document.querySelectorAll('.stat-big, .stat-number').forEach(el => countObserver.observe(el));
 
+// =============================================================
+// BOT TRIGGER
+// Chama o backend Node.js (Railway) para iniciar a conversa
+// no WhatsApp do lead logo após o formulário ser enviado.
+// Substitua BOT_BACKEND_URL_AQUI pela URL do Railway após deploy.
+// =============================================================
+async function triggerBot(dadosLead) {
+  const BOT_URL = 'BOT_BACKEND_URL_AQUI';
+  try {
+    await fetch(BOT_URL + '/trigger', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dadosLead)
+    });
+  } catch (err) {
+    console.warn('Bot trigger: falha ao disparar', err);
+  }
+}
+
+// =============================================================
 // CRM INTEGRATION - SUPABASE
 async function enviarParaCRM(dadosLead) {
   const SUPABASE_URL = 'https://nlabhkhlvptasstpwxti.supabase.co/rest/v1/leads';
@@ -442,6 +462,9 @@ function submitModal(e) {
 
   // Dispara o CRM sem travar o usuário
   enviarParaCRM(dadosCompletos);
+
+  // Inicia conversa no WhatsApp do lead via bot de pré-vendas
+  triggerBot(dadosCompletos);
 
   // GA4: generate_lead | Meta CAPI: Lead
   // GTM vai ler email/phone e hashar antes de enviar ao CAPI

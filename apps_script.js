@@ -79,6 +79,35 @@ function doPost(e) {
   }
   
   sheet.appendRow(newRow);
+
+  // --- DISPARA BOT DE PRÉ-VENDAS VIA WHATSAPP ---
+  // Chama o backend Node.js (Railway) que inicia a conversa com o lead.
+  // Substitua BOT_BACKEND_URL_AQUI pela URL gerada no Railway após o deploy.
+  try {
+    var botPayload = {
+      nome:       data.nome       || '',
+      whatsapp:   data.whatsapp   || '',
+      sexo:       data.sexo       || '',
+      objetivo:   data.objetivo   || '',
+      nivel:      data.nivel      || '',
+      idade:      data.idade      || '',
+      peso:       data.peso       || '',
+      altura:     data.altura     || '',
+      gordura:    data.gordura    || '',
+      massa:      data.massa      || '',
+      utm_source: data.utm_source || ''
+    };
+    UrlFetchApp.fetch('BOT_BACKEND_URL_AQUI/trigger', {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify(botPayload),
+      muteHttpExceptions: true
+    });
+  } catch(botErr) {
+    // Silencia erros do bot — o lead já foi salvo com sucesso
+    Logger.log('Bot trigger error: ' + botErr.toString());
+  }
+
   output.setContent(JSON.stringify({success: true, msg: "Lead salvo"}));
   return output;
 }
