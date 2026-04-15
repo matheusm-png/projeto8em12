@@ -315,9 +315,303 @@
     ::-webkit-scrollbar-track { background: var(--black); }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+
+    /* --- LEAD DRAWER --- */
+    #drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 500;
+      backdrop-filter: blur(2px);
+    }
+    #drawer-overlay.open { display: block; }
+
+    #lead-drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 480px;
+      max-width: 100vw;
+      background: var(--graphite-2);
+      border-left: 1px solid rgba(255,106,0,0.2);
+      z-index: 600;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      overflow: hidden;
+    }
+    #lead-drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .drawer-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .drawer-title { flex: 1; }
+    .drawer-name {
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+    .drawer-date { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+    .btn-close-drawer {
+      background: none; border: none; color: var(--gray);
+      font-size: 22px; cursor: pointer; padding: 4px 8px;
+      line-height: 1;
+    }
+    .btn-close-drawer:hover { color: white; }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .drawer-section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .drawer-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .drawer-info-item {
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .drawer-info-label {
+      font-size: 10px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .drawer-info-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .drawer-calc-box {
+      background: rgba(255,106,0,0.08);
+      border: 1px solid rgba(255,106,0,0.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+    }
+    .drawer-calc-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      line-height: 1;
+    }
+    .drawer-calc-label {
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    .drawer-status-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-status {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: var(--gray-light);
+      transition: all 0.15s;
+    }
+    .btn-status:hover, .btn-status.active {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
+    }
+
+    /* Timeline */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+
+    .tl-item {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 16px;
+      position: relative;
+    }
+    .tl-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .tl-icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .tl-content { flex: 1; padding-top: 4px; }
+    .tl-text { font-size: 13px; color: var(--gray-light); line-height: 1.4; }
+    .tl-time { font-size: 11px; color: var(--gray); margin-top: 3px; }
+
+    .drawer-note-form {
+      display: flex;
+      gap: 8px;
+    }
+    .drawer-note-input {
+      flex: 1;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      outline: none;
+    }
+    .drawer-note-input:focus { border-color: var(--orange); }
+    .btn-add-note {
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .drawer-wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .drawer-wa-btn:hover { background: #20BA56; }
+
+    .tl-empty {
+      text-align: center;
+      color: var(--gray);
+      font-size: 13px;
+      padding: 16px 0;
+    }
   </style>
 </head>
 <body>
+
+  <!-- LEAD DRAWER -->
+  <div id="drawer-overlay" onclick="closeLeadDrawer()"></div>
+  <div id="lead-drawer">
+    <div class="drawer-header">
+      <div class="drawer-avatar" id="drawer-avatar">?</div>
+      <div class="drawer-title">
+        <div class="drawer-name" id="drawer-name">—</div>
+        <div class="drawer-date" id="drawer-date">—</div>
+      </div>
+      <button class="btn-close-drawer" onclick="closeLeadDrawer()">✕</button>
+    </div>
+
+    <div class="drawer-body">
+
+      <!-- WhatsApp -->
+      <a id="drawer-wa" href="#" target="_blank" class="drawer-wa-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Conversar no WhatsApp
+      </a>
+
+      <!-- Status rápido -->
+      <div>
+        <div class="drawer-section-title">Status</div>
+        <div class="drawer-status-row" id="drawer-status-row"></div>
+      </div>
+
+      <!-- Perfil completo -->
+      <div>
+        <div class="drawer-section-title">Perfil</div>
+        <div class="drawer-info-grid" id="drawer-info-grid"></div>
+      </div>
+
+      <!-- Resultado calculadora -->
+      <div id="drawer-calc-section" style="display:none">
+        <div class="drawer-section-title">Resultado Estimado (12 semanas)</div>
+        <div class="drawer-calc-box">
+          <div>
+            <div class="drawer-calc-val text-orange" id="drawer-gordura">—</div>
+            <div class="drawer-calc-label">Gordura a Perder</div>
+          </div>
+          <div>
+            <div class="drawer-calc-val text-green" id="drawer-massa">—</div>
+            <div class="drawer-calc-label">Massa a Ganhar</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linha do tempo -->
+      <div>
+        <div class="drawer-section-title">Linha do Tempo</div>
+        <div class="timeline" id="drawer-timeline">
+          <div class="tl-empty">Carregando eventos...</div>
+        </div>
+      </div>
+
+      <!-- Adicionar nota -->
+      <div>
+        <div class="drawer-section-title">Adicionar Nota</div>
+        <div class="drawer-note-form">
+          <input type="text" class="drawer-note-input" id="drawer-note-input" placeholder="Ex: Cliente muito interessado, aguardando retorno...">
+          <button class="btn-add-note" onclick="submitNote()">Salvar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- LOGIN -->
   <div id="login-screen">
@@ -499,6 +793,11 @@
       div.className = 'card';
       div.draggable = true;
       div.id = `lead-${lead.row_index}`;
+      div.onclick = (e) => {
+        // Não abre o drawer ao clicar no botão de WhatsApp
+        if (e.target.closest('.btn-wa')) return;
+        openLeadDrawer(lead);
+      };
       
       div.ondragstart = (e) => {
         div.classList.add('dragging');
@@ -652,6 +951,211 @@
         tbody.appendChild(tr);
       });
     }
+
+    // =========================================================
+    // LEAD DRAWER
+    // =========================================================
+    let activeDrawerLead = null;
+
+    const STATUSES = [
+      { key: 'Lead',         label: 'Entrada' },
+      { key: 'Contato Feito',label: 'Contato Feito' },
+      { key: 'Em dúvida',    label: 'Em Dúvida' },
+      { key: 'Pagou',        label: 'Pagou' },
+      { key: 'Ativo',        label: 'Ativo' },
+      { key: 'Concluido',    label: 'Concluído' },
+      { key: 'Desistiu',     label: 'Desistiu' },
+    ];
+
+    const TL_ICONS = {
+      bot_sent:          { bg: '#1e3a5f', icon: '🤖' },
+      lead_replied:      { bg: '#1a3a1a', icon: '💬' },
+      status_change:     { bg: '#2a1a00', icon: '🔄' },
+      dionatan_notified: { bg: '#2a1a00', icon: '🔔' },
+      note:              { bg: '#1a1a2e', icon: '📝' },
+      created:           { bg: '#1a1a1a', icon: '✨' },
+    };
+
+    function openLeadDrawer(lead) {
+      activeDrawerLead = lead;
+
+      // Avatar
+      const initials = (lead.nome || '?').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+      document.getElementById('drawer-avatar').innerText = initials;
+
+      // Header
+      document.getElementById('drawer-name').innerText = lead.nome || 'Sem nome';
+      document.getElementById('drawer-date').innerText = `Cadastrado em ${lead.timestamp || '—'}`;
+
+      // WhatsApp link
+      let waNum = (lead.whatsapp || '').replace(/\D/g,'');
+      if (waNum && !waNum.startsWith('55')) waNum = '55' + waNum;
+      const waLink = document.getElementById('drawer-wa');
+      waLink.href = waNum
+        ? `https://wa.me/${waNum}?text=Oi ${(lead.nome||'').split(' ')[0]}! Aqui é o Dionatan.`
+        : '#';
+
+      // Status buttons
+      const row = document.getElementById('drawer-status-row');
+      row.innerHTML = '';
+      STATUSES.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-status' + (lead.status === s.key ? ' active' : '');
+        btn.innerText = s.label;
+        btn.onclick = () => changeDrawerStatus(s.key);
+        row.appendChild(btn);
+      });
+
+      // Perfil grid
+      const grid = document.getElementById('drawer-info-grid');
+      const fields = [
+        { label: 'WhatsApp',  value: lead.whatsapp || '—' },
+        { label: 'E-mail',    value: lead.email    || '—' },
+        { label: 'Sexo',      value: lead.sexo     || '—' },
+        { label: 'Idade',     value: lead.idade ? lead.idade + ' anos' : '—' },
+        { label: 'Peso',      value: lead.peso  ? lead.peso + ' kg'   : '—' },
+        { label: 'Altura',    value: lead.altura? lead.altura + ' cm' : '—' },
+        { label: 'Nível',     value: lead.nivel    || '—' },
+        { label: 'Objetivo',  value: lead.objetivo || '—' },
+        { label: 'Origem',    value: lead.utm_source   || '—' },
+        { label: 'Campanha',  value: lead.utm_campaign || '—' },
+      ];
+      grid.innerHTML = fields.map(f => `
+        <div class="drawer-info-item">
+          <div class="drawer-info-label">${f.label}</div>
+          <div class="drawer-info-value">${f.value}</div>
+        </div>
+      `).join('');
+
+      // Calculadora
+      if (lead.gordura || lead.massa) {
+        document.getElementById('drawer-calc-section').style.display = 'block';
+        document.getElementById('drawer-gordura').innerText = `-${lead.gordura}kg`;
+        document.getElementById('drawer-massa').innerText   = `+${lead.massa}kg`;
+      } else {
+        document.getElementById('drawer-calc-section').style.display = 'none';
+      }
+
+      // Abre o drawer
+      document.getElementById('drawer-overlay').classList.add('open');
+      document.getElementById('lead-drawer').classList.add('open');
+
+      // Carrega timeline
+      loadTimeline(lead.row_index, lead);
+    }
+
+    function closeLeadDrawer() {
+      document.getElementById('drawer-overlay').classList.remove('open');
+      document.getElementById('lead-drawer').classList.remove('open');
+      activeDrawerLead = null;
+    }
+
+    async function loadTimeline(leadId, lead) {
+      const container = document.getElementById('drawer-timeline');
+      container.innerHTML = '<div class="tl-empty">Carregando...</div>';
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('lead_events')
+          .select('*')
+          .eq('lead_id', leadId)
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+
+        // Sempre inclui o evento de criação
+        const createdAt = lead.timestamp || '—';
+        const events = [
+          { type: 'created', content: 'Lead cadastrado no site', created_at: lead.created_at || null },
+          ...(data || [])
+        ];
+
+        container.innerHTML = '';
+        events.forEach(ev => renderTimelineItem(container, ev));
+
+        if (events.length === 1) {
+          const empty = document.createElement('div');
+          empty.className = 'tl-empty';
+          empty.innerText = 'Nenhuma interação do bot registrada ainda.';
+          container.appendChild(empty);
+        }
+      } catch(err) {
+        container.innerHTML = '<div class="tl-empty">Tabela lead_events não encontrada.<br>Rode o SQL no Supabase para ativar a timeline.</div>';
+      }
+    }
+
+    function renderTimelineItem(container, ev) {
+      const cfg = TL_ICONS[ev.type] || { bg: '#1a1a1a', icon: '•' };
+      const time = ev.created_at
+        ? new Date(ev.created_at).toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })
+        : '—';
+
+      const item = document.createElement('div');
+      item.className = 'tl-item';
+      item.innerHTML = `
+        <div class="tl-icon" style="background:${cfg.bg}">${cfg.icon}</div>
+        <div class="tl-content">
+          <div class="tl-text">${escapeHtml(ev.content || '')}</div>
+          <div class="tl-time">${time}</div>
+        </div>
+      `;
+      container.appendChild(item);
+    }
+
+    async function changeDrawerStatus(newStatus) {
+      if (!activeDrawerLead) return;
+      await updateStatus(activeDrawerLead.row_index, newStatus);
+
+      // Atualiza visual dos botões
+      document.querySelectorAll('#drawer-status-row .btn-status').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText === STATUSES.find(s => s.key === newStatus)?.label);
+      });
+
+      // Atualiza estado local e Kanban
+      const idx = globalLeads.findIndex(l => l.row_index === activeDrawerLead.row_index);
+      if (idx > -1) {
+        globalLeads[idx].status = newStatus;
+        activeDrawerLead.status = newStatus;
+      }
+      renderBoard(globalLeads);
+      renderTable(globalLeads);
+
+      // Registra evento na timeline (se a tabela existir)
+      try {
+        await supabaseClient.from('lead_events').insert({
+          lead_id: activeDrawerLead.row_index,
+          type: 'status_change',
+          content: `Status alterado para "${newStatus}" pelo admin`,
+        });
+        loadTimeline(activeDrawerLead.row_index, activeDrawerLead);
+      } catch(_) {}
+    }
+
+    async function submitNote() {
+      if (!activeDrawerLead) return;
+      const input = document.getElementById('drawer-note-input');
+      const note = input.value.trim();
+      if (!note) return;
+
+      try {
+        await supabaseClient.from('lead_events').insert({
+          lead_id: activeDrawerLead.row_index,
+          type: 'note',
+          content: note,
+        });
+        input.value = '';
+        loadTimeline(activeDrawerLead.row_index, activeDrawerLead);
+      } catch(err) {
+        alert('Erro ao salvar nota. Verifique se a tabela lead_events foi criada no Supabase.');
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // Fecha drawer com ESC
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLeadDrawer(); });
 
     function exportCSV() {
       if (!globalLeads || globalLeads.length === 0) {

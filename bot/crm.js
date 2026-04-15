@@ -48,4 +48,43 @@ async function updateLeadStatus(phone, status) {
   }
 }
 
-module.exports = { updateLeadStatus };
+/**
+ * Registra um evento na linha do tempo do lead (tabela lead_events).
+ * @param {string} phone   - número normalizado do lead
+ * @param {string} type    - 'bot_sent' | 'lead_replied' | 'status_change' | 'dionatan_notified' | 'note'
+ * @param {string} content - texto descritivo do evento
+ * @param {object} metadata- dados extras (opcional)
+ */
+async function logEvent(phone, type, content, metadata = {}) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+
+  const digits = String(phone).replace(/\D/g, '');
+  const localPhone = digits.startsWith('55') ? digits.slice(2) : digits;
+
+  try {
+    // Busca o lead_id pelo telefone
+    const searchRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/leads?whatsapp=ilike.*${localPhone}*&select=id&limit=1`,
+      { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+    );
+    const leads = await searchRes.json().catch(() => []);
+    if (!leads || leads.length === 0) return;
+
+    const leadId = leads[0].id;
+
+    await fetch(`${SUPABASE_URL}/rest/v1/lead_events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({ lead_id: leadId, type, content, metadata }),
+    });
+  } catch (err) {
+    console.error('[CRM] Erro ao logar evento:', err.message);
+  }
+}
+
+module.exports = { updateLeadStatus, logEvent };

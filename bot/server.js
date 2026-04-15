@@ -9,7 +9,7 @@ const express = require('express');
 const { sendText, sendSequence, normalizePhone } = require('./zapi');
 const state = require('./state');
 const { scheduleFollowups } = require('./followup');
-const { updateLeadStatus } = require('./crm');
+const { updateLeadStatus, logEvent } = require('./crm');
 
 const app = express();
 app.use(express.json());
@@ -84,6 +84,9 @@ app.post('/webhook', async (req, res) => {
   // Cancela follow-ups pendentes pois o lead respondeu
   state.cancelFollowups(phone);
 
+  // Loga a resposta do lead na timeline
+  logEvent(phone, 'lead_replied', `Lead respondeu: "${text}"`);
+
   await processarResposta(phone, text, lead);
 });
 
@@ -108,20 +111,24 @@ async function iniciarFluxo(phone) {
   const peso = lead.peso || '?';
 
   // ETAPA 1 — Apresentação e resultados personalizados
-  await sendSequence(phone, [
+  const msgs1 = [
     `Oi, ${nome}! 👋 Aqui é o assistente do Dionatan, treinador do Projeto 8 EM 12. Vi que você acabou de se cadastrar no site!`,
     `Calculei o seu potencial com o protocolo 🔥\n\n→ Gordura a eliminar em 12 semanas: ~${gordura}kg\n→ Massa muscular a ganhar: ~${massa}kg\n\nEsse resultado é baseado no seu perfil: ${sexoLabel}, ${idade} anos, ${peso}kg, nível ${nivelLabel}.`,
     `Quem segue o protocolo à risca alcança esses números. O Dionatan já conduziu dezenas de pessoas nessa mesma transformação. 🎯`,
-  ], 2000);
+  ];
+  await sendSequence(phone, msgs1, 2000);
+  msgs1.forEach(m => logEvent(phone, 'bot_sent', m));
 
   // Pequena pausa antes da ETAPA 2
   await sleep(2500);
 
   // ETAPA 2 — Urgência e confirmação de interesse
-  await sendSequence(phone, [
+  const msgs2 = [
     `⚠️ Essa turma tem apenas 50 vagas. Com o tráfego rodando agora, as vagas estão sendo preenchidas rápido. Quando fechar, fecha mesmo.`,
     `${nome}, você ainda tem interesse em garantir sua vaga?\n\n1️⃣ Sim, quero garantir!\n2️⃣ Preciso de mais informações\n3️⃣ Por enquanto não`,
-  ], 1800);
+  ];
+  await sendSequence(phone, msgs2, 1800);
+  msgs2.forEach(m => logEvent(phone, 'bot_sent', m));
 
   // Agenda follow-ups caso o lead não responda
   scheduleFollowups(phone);
@@ -181,13 +188,16 @@ async function processarResposta(phone, text, lead) {
 async function etapa3A(phone, lead) {
   state.updateStatus(phone, 'interested');
 
-  await sendSequence(phone, [
+  const msgs = [
     `Perfeito! 🔥 Vou te colocar agora na fila de atendimento do Dionatan. Ele vai te chamar em breve para tirar suas dúvidas e te passar o link de pagamento.`,
     `Enquanto isso, você pode conhecer melhor a metodologia aqui: teamdiou.com.br`,
-  ], 1800);
+  ];
+  await sendSequence(phone, msgs, 1800);
+  msgs.forEach(m => logEvent(phone, 'bot_sent', m));
 
   await notificarDionatan(phone, lead);
   await updateLeadStatus(phone, 'Contato Feito');
+  logEvent(phone, 'status_change', 'Status atualizado para "Contato Feito" — lead confirmou interesse');
 }
 
 // =============================================================
@@ -196,14 +206,17 @@ async function etapa3A(phone, lead) {
 async function etapa3B(phone, lead) {
   state.updateStatus(phone, 'more_info');
 
-  await sendSequence(phone, [
+  const msgs = [
     `Claro! O Dionatan é formado em Educação Física, Pós-Graduado em Bodybuilder Coach e certificado pelo Dorian Yates — o maior fisiculturista de todos os tempos.`,
     `O protocolo inclui: plano de treino personalizado, dieta com lista de substituições e cardio estruturado. Tudo entregue por app e PDF. Investimento: R$ 497,00.`,
     `Quer que eu te passe pro Dionatan esclarecer qualquer dúvida?\n\n1️⃣ Sim, quero conversar\n2️⃣ Vou pensar mais`,
-  ], 2000);
+  ];
+  await sendSequence(phone, msgs, 2000);
+  msgs.forEach(m => logEvent(phone, 'bot_sent', m));
 
   state.updateStatus(phone, 'waiting_subresponse');
   await updateLeadStatus(phone, 'Em dúvida');
+  logEvent(phone, 'status_change', 'Status atualizado para "Em dúvida" — lead pediu mais informações');
 }
 
 // =============================================================
@@ -212,12 +225,12 @@ async function etapa3B(phone, lead) {
 async function etapa3C(phone, lead) {
   state.updateStatus(phone, 'no');
 
-  await sendText(
-    phone,
-    `Sem problema! Se mudar de ideia, pode me chamar aqui que verifico as vagas pra você. Boa sorte na sua jornada! 💪`
-  );
+  const msg = `Sem problema! Se mudar de ideia, pode me chamar aqui que verifico as vagas pra você. Boa sorte na sua jornada! 💪`;
+  await sendText(phone, msg);
+  logEvent(phone, 'bot_sent', msg);
 
   await updateLeadStatus(phone, 'Desistiu');
+  logEvent(phone, 'status_change', 'Status atualizado para "Desistiu" — lead recusou por enquanto');
 
   // Agenda mensagem de retomada em 48h com gatilho de escassez
   const t = setTimeout(async () => {
@@ -258,6 +271,7 @@ async function notificarDionatan(phone, lead) {
   try {
     await sendText(DIONATAN_PHONE, msg);
     console.log(`[Bot] Dionatan notificado sobre lead: ${lead.nome}`);
+    logEvent(phone, 'dionatan_notified', 'Dionatan notificado com resumo do lead — pronto para fechar');
   } catch (err) {
     console.error('[Bot] Erro ao notificar Dionatan:', err.message);
   }
