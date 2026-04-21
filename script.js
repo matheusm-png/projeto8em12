@@ -626,7 +626,7 @@ function finishWbot() {
   wbotStep = 5;
   
   // Envia tudo pro CRM Supabase!
-  enviarParaCRM({
+  const dadosLead = {
     nome: wbotData.nome,
     whatsapp: wbotData.whatsapp,
     objetivo: wbotData.objetivo,
@@ -637,7 +637,12 @@ function finishWbot() {
     altura: wbotData.altura,
     gordura: undefined, // Somente calculadora garante esse cálculo exato
     massa: undefined
-  });
+  };
+
+  enviarParaCRM(dadosLead);
+  
+  // Dispara o bot de pré-vendas (sequência de 5 mensagens)
+  triggerBot(dadosLead);
 
   wbotTyping(900, () => {
     wbotAddMsg('bot', 'Tudo certo! 🎯 Preparei sua mensagem com seus dados:');
