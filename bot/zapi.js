@@ -10,7 +10,7 @@ const CLIENT_TOKEN = process.env.ZAPI_CLIENT_TOKEN || '';
 
 /**
  * Normaliza número para formato internacional sem o +
- * Ex: "(74) 99953-1223" → "5574999531223"
+ * Ex: "(47) 98484-2336" → "5547984842336"
  */
 function normalizePhone(phone) {
   const digits = String(phone).replace(/\D/g, '');

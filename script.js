@@ -109,7 +109,7 @@ document.querySelectorAll('.stat-big, .stat-number').forEach(el => countObserver
 // Substitua BOT_BACKEND_URL_AQUI pela URL do Railway após deploy.
 // =============================================================
 async function triggerBot(dadosLead) {
-  const BOT_URL = 'BOT_BACKEND_URL_AQUI';
+  const BOT_URL = 'https://projeto8em12-production.up.railway.app';
   try {
     await fetch(BOT_URL + '/trigger', {
       method: 'POST',
@@ -496,19 +496,36 @@ function submitModal(e) {
   step3.style.display = 'block';
   document.getElementById('modal-thanks-nome').innerText = nome;
 
-  // Abre checkout em nova aba e fecha modal após 2.5s
-  window.open('https://link.infinitepay.io/diou-alves/VC1DLUMtSQ-3Q51Xws4F-497,00', '_blank');
-  setTimeout(() => {
-    step3.style.display = 'none';
-    closeModal();
-  }, 2500);
+  // Gera QR code PIX no step 3
+  const qrContainer = document.getElementById('modal-qr-code');
+  qrContainer.innerHTML = '';
+  new QRCode(qrContainer, {
+    text: '00020101021226820014BR.GOV.BCB.PIX0136e6b6ed8f-0af2-414a-ba0c-3d4564136a060220Pagamento diou-alves5204000053039865406497.005802BR5925DIONATAN DE AZEVEDO ALVES6008CAMBORIU62290525QRCCQun3EcEKtEHsGrn2bovE563043E90',
+    width: 144,
+    height: 144,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+}
+
+const PIX_CODE = '00020101021226820014BR.GOV.BCB.PIX0136e6b6ed8f-0af2-414a-ba0c-3d4564136a060220Pagamento diou-alves5204000053039865406497.005802BR5925DIONATAN DE AZEVEDO ALVES6008CAMBORIU62290525QRCCQun3EcEKtEHsGrn2bovE563043E90';
+
+function copyPix() {
+  navigator.clipboard.writeText(PIX_CODE).then(() => {
+    const btn = document.getElementById('btnCopyPix');
+    btn.textContent = '✅ Copiado!';
+    setTimeout(() => { btn.textContent = '📋 Copiar código PIX'; }, 2500);
+  }).catch(() => {
+    prompt('Copie o código PIX abaixo:', PIX_CODE);
+  });
 }
 
 // =============================================================
 // WHATSAPP BOT FLUTUANTE
 // Fluxo: nome → objetivo → redirect WhatsApp com contexto
 // =============================================================
-const WBOT_PHONE = '5574999531223';
+const WBOT_PHONE = '5547984842336';
 let wbotStep = 0;
 let wbotData = { nome: '', objetivo: '' };
 

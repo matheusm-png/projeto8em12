@@ -9,7 +9,7 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
 /**
  * Atualiza o status de um lead pelo número de WhatsApp.
- * @param {string} phone  - número normalizado (ex: 5574999531223)
+ * @param {string} phone  - número normalizado (ex: 5547984842336)
  * @param {string} status - ex: 'Contato Feito', 'Em dúvida', 'Desistiu'
  */
 async function updateLeadStatus(phone, status) {

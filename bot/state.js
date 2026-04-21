@@ -18,7 +18,7 @@ const conversations = new Map();
 
 /**
  * Inicializa ou retorna o estado de um lead pelo telefone.
- * @param {string} phone - normalizado (ex: 5574999531223)
+ * @param {string} phone - normalizado (ex: 5547984842336)
  * @param {object} leadData - dados do lead vindos do formulário
  */
 function getOrCreate(phone, leadData = {}) {

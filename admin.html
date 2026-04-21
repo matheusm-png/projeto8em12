@@ -990,7 +990,7 @@
       <div class="dash-hero-header">
         <div>
           <div class="dash-hero-title">META DA CAMPANHA</div>
-          <div class="dash-hero-sub">Objetivo: 50 alunos em 30–45 dias &nbsp;·&nbsp; Investimento R$ 1.500 &nbsp;·&nbsp; Ticket R$ 497</div>
+          <div class="dash-hero-sub">Objetivo pago: 35 alunos em 30–45 dias &nbsp;·&nbsp; Meta total: 50 alunos &nbsp;·&nbsp; Investimento R$ 1.500 &nbsp;·&nbsp; Ticket R$ 497</div>
         </div>
         <div class="dash-hero-stats">
           <div class="dash-hero-stat">
@@ -1013,7 +1013,7 @@
       <div class="progress-bar-labels">
         <span id="dh-progress-pct">0% da meta</span>
         <span id="dh-faltam">Faltam 50 alunos</span>
-        <span>Meta: 50 alunos · R$ 24.850</span>
+        <span>Meta paga: 35 alunos · R$ 17.395</span>
       </div>
     </div>
 
@@ -1553,7 +1553,7 @@
     // DASHBOARD
     // =========================================================
     const TICKET      = 497;
-    const META_ALUNOS = 50;
+    const META_ALUNOS = 35;   // meta tráfego pago (total 50 inclui orgânico/indicações)
     const BUDGET      = 1500;
     const PRAZO_CURTO = 30;
     const PRAZO_LONGO = 45;
@@ -1657,7 +1657,7 @@
 
       // ---- SALES KPIs ----
       const negociacao  = contato + emDuvida;
-      const roiMeta     = (24850 / BUDGET).toFixed(1);
+      const roiMeta     = ((META_ALUNOS * TICKET) / BUDGET).toFixed(1);
       const salesCards  = [
         { label: 'Pagou',           value: pagou,      cls: 'yellow' },
         { label: 'Ativo',           value: ativo,      cls: 'green' },

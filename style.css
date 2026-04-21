@@ -2580,6 +2580,75 @@ footer {
   color: var(--white);
 }
 
+.payment-block {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.payment-block-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-light);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.btn-copy-pix {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: rgba(255,106,0,0.15);
+  border: 1px solid var(--orange);
+  border-radius: 8px;
+  color: var(--orange);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-copy-pix:hover {
+  background: rgba(255,106,0,0.3);
+}
+
+.btn-card-option {
+  display: block;
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 8px;
+  transition: opacity 0.2s;
+}
+
+.btn-card-option:hover { opacity: 0.85; }
+
+.btn-card-option small {
+  display: block;
+  font-weight: 400;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.btn-card-1x {
+  background: var(--orange);
+  color: #fff;
+}
+
+.btn-card-inst {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--gray-light);
+}
+
 .modal-thanks-loader {
   background: rgba(255,255,255,0.08);
   border-radius: 4px;
