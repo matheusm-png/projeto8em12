@@ -12,6 +12,16 @@ const { scheduleFollowups } = require('./followup');
 const { updateLeadStatus, logEvent } = require('./crm');
 
 const app = express();
+
+// CORS — permite requisições do site e de qualquer origem
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 app.use(express.json());
 
 const DIONATAN_PHONE = process.env.DIONATAN_PHONE; // número privado do Dionatan
@@ -31,11 +41,13 @@ app.post('/trigger', async (req, res) => {
 
   const phone = normalizePhone(whatsapp);
 
-  // Evita reprocessar leads que já estão em conversa ativa
+  // Evita reprocessar leads que já estão em conversa ativa (comentado para testes)
+  /*
   if (state.get(phone)) {
     console.log(`[Trigger] Lead ${phone} já em conversa — ignorando`);
     return res.json({ ok: true, msg: 'já em andamento' });
   }
+  */
 
   // Inicializa estado
   state.getOrCreate(phone, {
