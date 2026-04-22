@@ -14,9 +14,14 @@
       "purpose": "any maskable"
     },
     {
-      "src": "assets/logo/logo.webp",
+      "src": "assets/logo/8em12logo_branca.webp",
       "sizes": "512x512",
       "type": "image/webp"
+    },
+    {
+      "src": "assets/logo/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }
