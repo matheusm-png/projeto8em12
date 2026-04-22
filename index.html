@@ -21,13 +21,16 @@
   <meta name="twitter:description" content="Perca até 10kg em 12 semanas. Protocolo e método de Bodybuilder.">
   <meta name="twitter:image" content="https://teamdiou.com.br/assets/misc/banner8em12.webp">
 
-  <!-- Preconnect: GTM server-side tagging (~300ms LCP savings) -->
-  <link rel="preconnect" href="https://server-side-tagging-vgtbi3to7a-uc.a.run.app">
+  <!-- Preconnects para Scripts de Terceiros (Melhora DNS/SSL handshake) -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://connect.facebook.net">
+  <link rel="preconnect" href="https://capi-automation.s3.us-east-2.amazonaws.com">
 
-  <!-- Preload: FCP — logo navbar -->
-  <link rel="preload" as="image" href="assets/logo/logo.webp" fetchpriority="high">
+  <!-- Preload: LCP — Imagem Principal do Treinador (Garante maior ganho no LCP) -->
+  <link rel="preload" as="image" href="assets/hero/dramatica1.webp" fetchpriority="high">
 
-  <!-- Preload: LCP — logo hero principal (versão RGB compositeada, 73% menor) -->
+  <!-- Preload: LCP — logo hero principal -->
   <link rel="preload" as="image" href="assets/logo/8em12logo_hero.webp" fetchpriority="high">
 
   <!-- Preload: Fontes Críticas locais (previne CLS/FOUT) -->
@@ -35,12 +38,23 @@
   <link rel="preload" href="assets/fonts/HTxwL3I-JCGChYJ8VI-L6OO_au7B46r2z3bWuQ.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/7cHpv4kjgoGqM7E_DMs5.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-MJDHHNZ5');</script>
+  <!-- Google Tag Manager (Carregamento Otimizado via Script Delay no final da página) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtm_init() {
+      if (window.gtm_loaded) return;
+      window.gtm_loaded = true;
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MJDHHNZ5');
+      console.log('GTM Loaded via Delay Logic');
+    }
+    // Agenda o carregamento para 3.5s ou na primeira interação
+    const gtmTimeout = setTimeout(gtm_init, 3500);
+    ['mouseover', 'keydown', 'touchstart', 'scroll'].forEach(e => window.addEventListener(e, gtm_init, {once: true, passive: true}));
+  </script>
   <!-- End Google Tag Manager -->
 
 <style>
@@ -196,15 +210,15 @@ body {
   line-height: 1.6;
 }
 
-/* Grain overlay */
+/* Grain overlay — Otimizado: Removido filtro SVG pesado que matava a performance mobile */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background: radial-gradient(circle at center, transparent 0%, rgba(13,13,13,0.1) 100%);
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.3;
+  opacity: 0.15;
 }
 
 .container {
@@ -221,9 +235,9 @@ nav {
   right: 0;
   z-index: 100;
   padding: 20px 0;
-  background: rgba(13, 13, 13, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(13, 13, 13, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 106, 0, 0.1);
   transition: var(--transition);
 }
@@ -434,6 +448,16 @@ nav .container {
   0%, 40%, 100% { filter: drop-shadow(0 0 10px rgba(255, 106, 0, 0.2)) brightness(1);    }
   50%            { filter: drop-shadow(0 0 35px rgba(255, 106, 0, 0.65)) brightness(1.18); }
   60%            { filter: drop-shadow(0 0 15px rgba(255, 106, 0, 0.25)) brightness(1);    }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(15px); }
+  to { transform: translateY(0); }
 }
 
 .hero-tagline {
@@ -692,7 +716,7 @@ nav .container {
   overflow: hidden;
   aspect-ratio: 4/5;
   background: var(--graphite-2);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), var(--shadow-orange);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 106, 0, 0.1);
 }
 
 .hero-image-placeholder {
@@ -709,7 +733,10 @@ nav .container {
 .hero-image-inner {
   position: absolute;
   inset: 0;
-  background: url("assets/hero/dramatica1.webp") center top / cover no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
   z-index: 0;
   transition: opacity 0.4s ease, filter 0.4s ease, transform 0.6s ease;
 }
@@ -791,9 +818,9 @@ nav .container {
   width: 44px;
 }
 
-/* Slide 2 — Antes/Depois */
-.hrc-ba-img {
-  background: url('assets/antes-depois/antesedepois.2.webp') center center / cover no-repeat !important;
+/* Otimização de Imagens do Carrossel Secundário */
+.expert-carousel-item {
+  loading: lazy;
 }
 
 .hrc-ba-label {
@@ -854,13 +881,11 @@ nav .container {
 .floating-stat {
   position: absolute;
   background: rgba(13, 13, 13, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-top: 1px solid rgba(255, 106, 0, 0.25);
-  box-shadow: 
-    0 15px 35px rgba(0,0,0,0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 106, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   border-radius: var(--radius-sm);
   padding: 16px 24px;
   z-index: 3;
@@ -1408,6 +1433,8 @@ section {
   background-position: center top;
   background-repeat: no-repeat;
   position: relative;
+  content-visibility: auto; /* Otimização: Não renderiza se estiver fora da tela */
+  contain-intrinsic-size: 100% 400px;
 }
 
 .expert-carousel-item::after {
@@ -4381,11 +4408,11 @@ footer {
     <div class="container">
       <div class="hero-content">
         <div class="hero-left">
-          <div class="hero-badge">
+          <div class="hero-badge" style="animation: slideUp 0.5s ease both;">
             <span class="badge-dot"></span>
             Desafio · 12 Semanas · Apenas 50 Vagas
           </div>
-          <div class="hero-logo-title">
+          <div class="hero-logo-title" style="animation: slideUp 0.5s 0.05s ease both;">
             <div class="hero-logo-wrap">
               <img src="assets/logo/8em12logo_hero.webp" alt="8 EM 12" class="hero-logo-img" width="240" height="181" fetchpriority="high" decoding="async">
             </div>
@@ -4421,7 +4448,7 @@ footer {
           <!-- Imagem principal (cross-fade entre slides) -->
           <div class="hero-image-container">
             <div class="hero-image-placeholder" style="padding: 24px 16px; background-position: center top;">
-              <div class="hero-image-inner" id="hrcImgInner" style="background: url('assets/hero/dramatica1.webp') center top / cover no-repeat;"></div>
+              <img src="assets/hero/dramatica1.webp" alt="Dionatan Alves" class="hero-image-inner" id="hrcImgInner" fetchpriority="high" loading="eager" decoding="sync">
               <div class="athlete-silhouette">8/12</div>
               <div class="hero-image-card" id="hrcImgCard">
                 <div class="hero-image-name">DIONATAN ALVES</div>
@@ -5094,9 +5121,9 @@ footer {
 
       <div class="footer-brand">
         <div class="footer-brand-logos">
-          <img src="assets/logo/logo.svg" alt="Team Diou" class="footer-logo-team" width="142" height="68">
+          <img src="assets/logo/logo.svg" alt="Team Diou" class="footer-logo-team" width="142" height="68" loading="lazy">
           <div class="footer-logo-sep"></div>
-          <img src="assets/logo/8em12logo_branca.webp" alt="Projeto 8 EM 12" class="footer-logo-projeto" width="77" height="58">
+          <img src="assets/logo/logo.webp" alt="Projeto 8 EM 12" class="footer-logo-projeto" width="77" height="58" loading="lazy">
         </div>
         <p class="footer-tagline">Método de atleta. Resultado real. Sem desculpas.</p>
       </div>

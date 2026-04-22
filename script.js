@@ -81,18 +81,21 @@ const countObserver = new IntersectionObserver((entries, obs) => {
       const target = parseInt(targetStr);
       if (!target) return;
       
-      let current = 0;
-      const increment = target / 40;
-      const originalHTML = el.innerHTML;
+      const start = performance.now();
+      const duration = 1200; // 1.2s total
       
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-          current = target;
-          clearInterval(timer);
+      function animate(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const current = Math.floor(progress * target);
+        
+        // Atualiza apenas o número preservando o resto do texto
+        el.textContent = el.textContent.replace(/\d+/, current);
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
         }
-        el.innerHTML = originalHTML.replace(/\d+/, Math.floor(current));
-      }, 30);
+      }
+      requestAnimationFrame(animate);
       
       obs.unobserve(el);
     }
@@ -765,8 +768,8 @@ function wbotShowButtons(options, cb) {
     [img, stat1, stat2].forEach(el => { el.style.transition = 'opacity 0.35s ease'; el.style.opacity = '0'; });
 
     setTimeout(() => {
-      // troca background e filtro via inline style
-      img.style.background = s.bg;
+      // troca src e filtro (agora é uma tag img)
+      img.src = s.bg.match(/url\('(.*?)'\)/)[1];
       img.style.filter = s.filter || 'none';
       imgCard.innerHTML = s.card;
       stat1.innerHTML = s.stat1;
