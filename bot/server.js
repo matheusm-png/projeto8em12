@@ -48,11 +48,11 @@ app.post('/trigger', async (req, res) => {
   }
   */
 
-  state.getOrCreate(phone, {
+  state.set(phone, {
     nome, whatsapp: phone, sexo, objetivo, nivel,
     idade, peso, altura, gordura, massa, utm_source,
     timestamp: new Date().toISOString(),
-    status: 'waiting_response'
+    status: 'waiting_response' // Sempre reseta para garantir que o bot responda em novos cadastros
   });
 
   console.log(`[Trigger] Novo lead: ${nome} | ${phone}`);
@@ -71,15 +71,24 @@ app.post('/webhook', async (req, res) => {
   if (payload.type !== 'ReceivedCallback') return;
 
   const phone = normalizePhone(payload.phone || payload.sender || '');
-  const text = (payload.text?.message || '').trim();
+  const text = (
+    payload.text?.message || 
+    payload.message?.text || 
+    payload.content || 
+    ''
+  ).trim();
 
   if (!phone || !text) return;
 
   console.log(`[Webhook] ${phone}: "${text}"`);
 
   const lead = state.get(phone);
-  if (!lead) return;
+  if (!lead) {
+    console.log(`[Webhook] Lead não encontrado para ${phone}. Ignorando.`);
+    return;
+  }
 
+  console.log(`[Webhook] Processando resposta de ${lead.nome || phone} (Status: ${lead.status})`);
   state.cancelFollowups(phone);
   logEvent(phone, 'lead_replied', `Lead respondeu: "${text}"`);
 
@@ -239,17 +248,17 @@ async function notificarDionatan(phone, lead) {
 
 function matchesSim(text) {
   const t = text.toLowerCase().trim();
-  return t === '1' || t.includes('sim') || t.includes('quero') || t.includes('garantir') || t.includes('conversar') || t.includes('participar');
+  return t === '1' || t.includes('1️⃣') || t.includes('sim') || t.includes('quero') || t.includes('garantir') || t.includes('conversar') || t.includes('participar');
 }
 
 function matchesInfo(text) {
   const t = text.toLowerCase().trim();
-  return t === '2' || t.includes('informa') || t.includes('mais') || t.includes('dúvida') || t.includes('detalhes');
+  return t === '2' || t.includes('2️⃣') || t.includes('informa') || t.includes('mais') || t.includes('dúvida') || t.includes('detalhes');
 }
 
 function matchesNao(text) {
   const t = text.toLowerCase().trim();
-  return t === '3' || t.includes('não') || t.includes('nao') || t.includes('depois');
+  return t === '3' || t.includes('3️⃣') || t.includes('não') || t.includes('nao') || t.includes('depois');
 }
 
 function sleep(ms) {

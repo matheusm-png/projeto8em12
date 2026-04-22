@@ -48,7 +48,50 @@ function getOrCreate(phone, leadData = {}) {
 }
 
 function get(phone) {
-  return conversations.get(phone) || null;
+  const normalized = normalizeForSearch(phone);
+  
+  // Tenta busca direta primeiro
+  if (conversations.has(normalized)) {
+    return conversations.get(normalized);
+  }
+
+  // Se não achar, tenta busca flexível (nono dígito)
+  for (let [key, value] of conversations) {
+    if (isSameBrazilianPhone(key, normalized)) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Normalização específica para busca interna
+ */
+function normalizeForSearch(phone) {
+  return String(phone).replace(/\D/g, '');
+}
+
+/**
+ * Compara dois números brasileiros ignorando a presença ou ausência do nono dígito
+ */
+function isSameBrazilianPhone(p1, p2) {
+  if (p1 === p2) return true;
+  
+  // Remove 55 se houver
+  const n1 = p1.startsWith('55') ? p1.slice(2) : p1;
+  const n2 = p2.startsWith('55') ? p2.slice(2) : p2;
+
+  // Se não tiverem o mesmo DDD (primeiros 2 dígitos), já era
+  if (n1.slice(0, 2) !== n2.slice(0, 2)) return false;
+
+  // Formata ambos sem o nono dígito (se houver) para comparar
+  // Números com 9 dígitos: DDD + 9 + 8 dígitos = 11 total
+  // Números com 8 dígitos: DDD + 8 dígitos = 10 total
+  const clean1 = n1.length === 11 ? n1.slice(0, 2) + n1.slice(3) : n1;
+  const clean2 = n2.length === 11 ? n2.slice(0, 2) + n2.slice(3) : n2;
+
+  return clean1 === clean2;
 }
 
 function set(phone, data) {
@@ -58,34 +101,33 @@ function set(phone, data) {
 }
 
 function updateStatus(phone, status) {
-  const state = conversations.get(phone);
-  if (state) {
-    state.status = status;
-    conversations.set(phone, state);
+  const lead = get(phone);
+  if (lead) {
+    lead.status = status;
     saveToFile();
   }
 }
 
 function addFollowupTimer(phone, timerId) {
-  const state = conversations.get(phone);
-  if (state) {
-    state.followupTimers = state.followupTimers || [];
-    state.followupTimers.push(timerId);
+  const lead = get(phone);
+  if (lead) {
+    lead.followupTimers = lead.followupTimers || [];
+    lead.followupTimers.push(timerId);
   }
 }
 
 function cancelFollowups(phone) {
-  const state = conversations.get(phone);
-  if (state && state.followupTimers) {
-    state.followupTimers.forEach((id) => clearTimeout(id));
-    state.followupTimers = [];
+  const lead = get(phone);
+  if (lead && lead.followupTimers) {
+    lead.followupTimers.forEach((id) => clearTimeout(id));
+    lead.followupTimers = [];
   }
 }
 
 function isAlreadyHandled(phone) {
-  const state = conversations.get(phone);
-  if (!state) return false;
-  return ['interested', 'done', 'no'].includes(state.status);
+  const lead = get(phone);
+  if (!lead) return false;
+  return ['interested', 'done', 'no'].includes(lead.status);
 }
 
 module.exports = {
