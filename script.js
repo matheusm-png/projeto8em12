@@ -82,14 +82,15 @@ const countObserver = new IntersectionObserver((entries, obs) => {
       if (!target) return;
       
       const start = performance.now();
-      const duration = 1200; // 1.2s total
+      const duration = 1200;
+      const originalHTML = el.innerHTML; // Preserva o <span> original
       
       function animate(now) {
         const progress = Math.min((now - start) / duration, 1);
         const current = Math.floor(progress * target);
         
-        // Atualiza apenas o número preservando o resto do texto
-        el.textContent = el.textContent.replace(/\d+/, current);
+        // Atualiza preservando o HTML (como o <span>)
+        el.innerHTML = originalHTML.replace(/\d+/, current);
         
         if (progress < 1) {
           requestAnimationFrame(animate);
@@ -250,11 +251,11 @@ function calcularTransformacao() {
   // Atualização visual das barras
   const barGordura = document.getElementById('bar-gordura');
   const barMassa = document.getElementById('bar-massa');
-  barGordura.style.width = Math.min((gorduraPerda / 10) * 100, 100) + '%';
-  barMassa.style.width = Math.min((massaGanho / 4) * 100, 100) + '%';
+  if (barGordura) barGordura.style.width = Math.min((gorduraPerda / 10) * 100, 100) + '%';
+  if (barMassa) barMassa.style.width = Math.min((massaGanho / 4) * 100, 100) + '%';
 
   const badge = document.getElementById('calc-profile-badge');
-  badge.innerText = `Perfil: ${calcState.sexo === 'M' ? 'Masculino' : 'Feminino'} · ${calcState.nivel.toUpperCase()}`;
+  if (badge) badge.innerText = `Perfil: ${calcState.sexo === 'M' ? 'Masculino' : 'Feminino'} · ${calcState.nivel.toUpperCase()}`;
 
   const motivation = document.getElementById('calc-motivation');
   motivation.innerText = `Você tem um potencial genético excelente para ${calcState.objetivo}. Em 12 semanas, seu físico será outro.`;
@@ -279,7 +280,10 @@ const modalOverlay = document.getElementById('modalOverlay');
 const step1 = document.getElementById('modal-step-1');
 const step2 = document.getElementById('modal-step-2');
 
-function openModal() {
+function openModal(planName = 'Projeto 8 EM 12', price = 497) {
+  // Salva o plano selecionado para o tracking
+  window.selectedPlan = { name: planName, price: price };
+
   // Sincroniza inputs numéricos
   document.getElementById('m-idade').value = document.getElementById('idade').value;
   document.getElementById('m-altura').value = document.getElementById('altura').value;
@@ -295,6 +299,14 @@ function openModal() {
 
   modalOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  // Garante que o modal sempre resete para o Passo 1
+  const s1 = document.getElementById('modal-step-1');
+  const s2 = document.getElementById('modal-step-2');
+  const s3 = document.getElementById('modal-step-3');
+  if (s1) s1.style.display = 'block';
+  if (s2) s2.style.display = 'none';
+  if (s3) s3.style.display = 'none';
 
   // GA4: view_item | Meta: ViewContent
   pushEvent('modal_open', { content_name: 'Projeto 8 EM 12', content_category: 'fitness' });
@@ -435,8 +447,12 @@ function voltarModal() {
 
 function submitModal(e) {
   e.preventDefault();
-  const nome = document.getElementById('modal-nome').value;
-  const fone = document.getElementById('modal-fone').value;
+  const nomeEl = document.getElementById('modal-nome');
+  const foneEl = document.getElementById('modal-fone');
+  if (!nomeEl || !foneEl) return;
+
+  const nome = nomeEl.value;
+  const fone = foneEl.value;
   const email = ''; // coletado no checkout
 
   const resultDiv = document.getElementById('modal-result');
