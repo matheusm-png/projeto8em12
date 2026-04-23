@@ -956,6 +956,13 @@
       <div class="column-content" id="col-Desistiu"></div>
     </div>
 
+    <div class="column" data-status="Teste" ondragover="allowDrop(event)" ondrop="drop(event, 'Teste')">
+      <div class="column-header" style="border-top: 3px solid #94a3b8;">
+        Teste 🧪 <span class="col-count" id="count-Teste">0</span>
+      </div>
+      <div class="column-content" id="col-Teste"></div>
+    </div>
+
   </div>
 
   <!-- TABLE VIEW -->
@@ -1148,7 +1155,7 @@
     }
 
     function renderBoard(leads) {
-      const columns = ["Lead", "Contato Feito", "Pagou", "Ativo", "Concluido", "Desistiu"];
+      const columns = ["Lead", "Contato Feito", "Pagou", "Ativo", "Concluido", "Desistiu", "Teste"];
       
       columns.forEach(col => {
         document.getElementById(`col-${col}`).innerHTML = '';
@@ -1390,6 +1397,7 @@
       { key: 'Ativo',        label: 'Ativo' },
       { key: 'Concluido',    label: 'Concluído' },
       { key: 'Desistiu',     label: 'Desistiu' },
+      { key: 'Teste',        label: 'Teste' },
     ];
 
     const TL_ICONS = {
@@ -1601,7 +1609,6 @@
     function buildDashboard() {
       if (!globalLeads || globalLeads.length === 0) return;
       const leads = globalLeads;
-      const total = leads.length;
 
       // Contagem por status
       const sc = {};
@@ -1617,7 +1624,11 @@
       const contato    = sc['Contato Feito']  || 0;
       const emDuvida   = sc['Em dúvida']      || 0;
       const desistiu   = sc['Desistiu']       || 0;
+      const teste      = sc['Teste']          || 0;
       const entrada    = sc['Lead']           || 0;
+
+      // Para métricas de performance, ignoramos os leads de "Teste"
+      const total      = leads.filter(l => l.status !== 'Teste').length;
 
       const alunos      = pagou + ativo + concluido;
       const faturamento = alunos * TICKET;
@@ -1681,7 +1692,7 @@
       const leadCards = [
         { label: 'Total de Leads',     value: total,        cls: '' },
         { label: 'Leads Hoje',         value: leadsHoje,    cls: leadsHoje > 0 ? 'green' : '' },
-        { label: 'Últimos 7 dias',     value: leadsSemana,  cls: '' },
+        { label: 'Teste (Ignorado)',   value: teste,        cls: 'gray' },
         { label: 'Média diária',       value: mediaDiaria,  sub: 'leads/dia', cls: '' },
         { label: 'Taxa de Conversão',  value: convPct + '%', cls: parseFloat(convPct) >= 5 ? 'green' : parseFloat(convPct) >= 2 ? 'yellow' : 'red' },
         { label: 'Desistência',        value: desistPct + '%', cls: parseFloat(desistPct) > 20 ? 'red' : '' },
@@ -1724,6 +1735,7 @@
         { label: 'Ativo',          count: ativo,      color: '#22c55e' },
         { label: 'Concluído',      count: concluido,  color: '#a855f7' },
         { label: 'Desistiu',       count: desistiu,   color: '#ef4444' },
+        { label: 'Teste',          count: teste,      color: '#94a3b8' },
       ];
       const maxCount = Math.max(...funnelSteps.map(s => s.count), 1);
 
