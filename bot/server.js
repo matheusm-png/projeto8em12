@@ -39,29 +39,63 @@ app.post('/trigger', async (req, res) => {
   }
 
   const phone = normalizePhone(whatsapp);
+  const existing = state.get(phone);
 
-  // Evita reprocessar leads que já estão em conversa ativa (comentado para testes conforme sua solicitação)
-  /*
-  if (state.get(phone)) {
-    console.log(`[Trigger] Lead ${phone} já em conversa — ignorando`);
-    return res.json({ ok: true, msg: 'já em andamento' });
-  }
-  */
-
+  // Atualiza dados do lead (pode ter preenchido campos novos) mas preserva status
   state.set(phone, {
     nome, whatsapp: phone, sexo, objetivo, nivel,
     idade, peso, altura, gordura, massa, utm_source,
     timestamp: new Date().toISOString(),
-    status: 'waiting_response' // Sempre reseta para garantir que o bot responda em novos cadastros
+    ...(existing ? { status: existing.status } : { status: 'waiting_response' })
   });
 
-  console.log(`[Trigger] Novo lead: ${nome} | ${phone}`);
   res.json({ ok: true });
 
   try {
+    if (!existing) {
+      console.log(`[Trigger] Novo lead: ${nome} | ${phone}`);
+      await iniciarFluxo(phone);
+      return;
+    }
+
+    const status = existing.status;
+    console.log(`[Trigger] Lead recorrente: ${nome} | ${phone} | status: ${status}`);
+
+    if (status === 'waiting_response' || status === 'waiting_subresponse') {
+      // Está no meio de uma conversa — não interrompe
+      return;
+    }
+
+    if (status === 'confirmed') {
+      await sendText(phone,
+        `Oi, ${nome}! 👋 Você já é aluno do Projeto 8 EM 12. Qualquer dúvida é só falar diretamente com o Dionatan!`
+      );
+      return;
+    }
+
+    if (status === 'interested') {
+      // Tinha interesse mas não pagou — relembra os links
+      await sendText(phone,
+        `Oi, ${nome}! Vi que você voltou ao site. 🔥 As vagas ainda estão abertas!\n\nAqui estão seus links de pagamento:\n\n💰 *1x R$ 497,00:*\n${LINK_1X}\n\n💳 *Até 12x no cartão:*\n${LINK_PARCELADO}\n\nQualquer dúvida é só me chamar!`
+      );
+      return;
+    }
+
+    if (status === 'no') {
+      // Disse não antes — reengajamento suave
+      state.updateStatus(phone, 'waiting_response');
+      await sendText(phone,
+        `Oi, ${nome}! Vi que você voltou ao site. 👀\n\nAs vagas do Projeto 8 EM 12 ainda estão abertas — mudou de ideia?\n\n1️⃣ Sim, quero garantir minha vaga!\n2️⃣ Só estava dando uma olhada`
+      );
+      return;
+    }
+
+    // Qualquer outro status desconhecido — reinicia fluxo normalmente
+    state.updateStatus(phone, 'waiting_response');
     await iniciarFluxo(phone);
+
   } catch (err) {
-    console.error('[Trigger] Erro ao iniciar fluxo:', err.message);
+    console.error('[Trigger] Erro ao processar lead:', err.message);
   }
 });
 
@@ -113,6 +147,7 @@ app.post('/confirm-payment', async (req, res) => {
 
   try {
     await sendSequence(phone, msgs);
+    state.updateStatus(phone, 'confirmed');
     res.json({ ok: true });
   } catch (err) {
     console.error('[Payment] Erro ao enviar confirmação:', err.message);
