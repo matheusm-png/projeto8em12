@@ -514,18 +514,6 @@ function submitModal(e) {
   const step3 = document.getElementById('modal-step-3');
   step3.style.display = 'block';
   document.getElementById('modal-thanks-nome').innerText = nome;
-
-  // Gera QR code PIX no step 3
-  const qrContainer = document.getElementById('modal-qr-code');
-  qrContainer.innerHTML = '';
-  new QRCode(qrContainer, {
-    text: '00020101021226820014BR.GOV.BCB.PIX0136e6b6ed8f-0af2-414a-ba0c-3d4564136a060220Pagamento diou-alves5204000053039865406497.005802BR5925DIONATAN DE AZEVEDO ALVES6008CAMBORIU62290525QRCCQun3EcEKtEHsGrn2bovE563043E90',
-    width: 144,
-    height: 144,
-    colorDark: '#000000',
-    colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.M
-  });
 }
 
 const PIX_CODE = '00020101021226820014BR.GOV.BCB.PIX0136e6b6ed8f-0af2-414a-ba0c-3d4564136a060220Pagamento diou-alves5204000053039865406497.005802BR5925DIONATAN DE AZEVEDO ALVES6008CAMBORIU62290525QRCCQun3EcEKtEHsGrn2bovE563043E90';
@@ -534,10 +522,20 @@ function copyPix() {
   navigator.clipboard.writeText(PIX_CODE).then(() => {
     const btn = document.getElementById('btnCopyPix');
     btn.textContent = '✅ Copiado!';
-    setTimeout(() => { btn.textContent = '📋 Copiar código PIX'; }, 2500);
+    setTimeout(() => goObrigado('pix'), 800);
   }).catch(() => {
     prompt('Copie o código PIX abaixo:', PIX_CODE);
+    setTimeout(() => goObrigado('pix'), 500);
   });
+}
+
+function goObrigado(metodo) {
+  const nome = encodeURIComponent(
+    document.getElementById('modal-thanks-nome')?.innerText || ''
+  );
+  setTimeout(() => {
+    window.location.href = `obrigado.html?metodo=${metodo}&nome=${nome}`;
+  }, 400);
 }
 
 // =============================================================
@@ -664,18 +662,21 @@ function finishWbot() {
   triggerBot(dadosLead);
 
   wbotTyping(900, () => {
-    wbotAddMsg('bot', 'Tudo certo! 🎯 Preparei sua mensagem com seus dados:');
-    const msg = `Oi Dionatan! Me chamo ${wbotData.nome}, vim pelo site do Projeto 8 EM 12. Meu objetivo é ${wbotData.objetivo} e quero saber como garantir minha vaga!`;
-    
-    pushEvent('whatsapp_lead', {
-      lead_name: wbotData.nome,
-      lead_phone: wbotData.whatsapp,
-      objetivo: wbotData.objetivo,
-      content_name: 'Projeto 8 EM 12'
+    wbotAddMsg('bot', `Obrigado, <strong>${wbotData.nome}</strong>! 🙌 Seus dados foram recebidos com sucesso.`);
+    wbotTyping(1000, () => {
+      wbotAddMsg('bot', 'Tudo certo! 🎯 Preparei sua mensagem com seus dados:');
+      const msg = `Oi Dionatan! Me chamo ${wbotData.nome}, vim pelo site do Projeto 8 EM 12. Meu objetivo é ${wbotData.objetivo} e quero saber como garantir minha vaga!`;
+
+      pushEvent('whatsapp_lead', {
+        lead_name: wbotData.nome,
+        lead_phone: wbotData.whatsapp,
+        objetivo: wbotData.objetivo,
+        content_name: 'Projeto 8 EM 12'
+      });
+
+      const area = document.getElementById('wbotInputArea');
+      area.innerHTML = `<a class="wbot-cta-btn" href="https://wa.me/${WBOT_PHONE}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" onclick="setTimeout(()=>{wbotClose();wbotStep=0;},300)">💬 Falar com o Dionatan</a>`;
     });
-    
-    const area = document.getElementById('wbotInputArea');
-    area.innerHTML = `<a class="wbot-cta-btn" href="https://wa.me/${WBOT_PHONE}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" onclick="setTimeout(()=>{wbotClose();wbotStep=0;},300)">💬 Falar com o Dionatan</a>`;
   });
 }
 

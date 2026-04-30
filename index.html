@@ -4370,15 +4370,14 @@ footer {
           <!-- PIX -->
           <div class="payment-block">
             <div class="payment-block-label">⚡ PIX — R$ 497,00 <span style="color:var(--orange);font-weight:700;">à vista</span></div>
-            <div id="modal-qr-code" style="margin:12px auto;width:160px;height:160px;background:#fff;border-radius:8px;padding:8px;display:flex;align-items:center;justify-content:center;"></div>
-            <button class="btn-copy-pix" id="btnCopyPix" onclick="copyPix()">📋 Copiar código PIX</button>
+            <button class="btn-copy-pix" onclick="goObrigado('pix')">⚡ Pagar via PIX</button>
           </div>
 
           <!-- Cartão -->
           <div class="payment-block" style="margin-top:12px;">
             <div class="payment-block-label">💳 Cartão de Crédito</div>
-            <a href="https://link.infinitepay.io/diou-alves/VC1DLTEtSQ-7h2V4HWsbB-497,00" target="_blank" class="btn-card-option btn-card-1x">1x R$ 497,00 <small>sem juros</small></a>
-            <a href="https://link.infinitepay.io/diou-alves/VC1D-ToX69ICrJ-497,00" target="_blank" class="btn-card-option btn-card-inst">2x a 12x <small>com juros</small></a>
+            <a href="https://link.infinitepay.io/diou-alves/VC1DLTEtSQ-7h2V4HWsbB-497,00" target="_blank" class="btn-card-option btn-card-1x" onclick="goObrigado('cartao')">1x R$ 497,00 <small>sem juros</small></a>
+            <a href="https://link.infinitepay.io/diou-alves/VC1D-ToX69ICrJ-497,00" target="_blank" class="btn-card-option btn-card-inst" onclick="goObrigado('cartao')">2x a 12x <small>com juros</small></a>
           </div>
 
           <p class="modal-privacy" style="margin-top:16px;">🔒 Pagamento 100% seguro via InfinitePay</p>
